@@ -4,12 +4,10 @@ import { invalidInput, notFound } from "@/lib/errors";
 import { clock } from "@/lib/clock";
 import { toDto } from "./render";
 import type { DemoUser, Id } from "@/lib/groups-types";
-import type { NotificationDto, NotificationKind, NotificationPage, NotifyInput, NotifyResult } from "./types";
+import type { NotificationDto, NotificationPage } from "./types";
 
-export function notify<K extends NotificationKind>(input: NotifyInput<K>): NotifyResult {
-  void input;
-  throw new Error("not implemented");
-}
+// notify の本体は publish.ts(P-2-13)。join・lifecycle が本ファイルから import するため再エクスポートする。
+export { notify } from "./publish";
 
 const num = (id: string) => Number(id.slice(id.lastIndexOf("-") + 1));
 
