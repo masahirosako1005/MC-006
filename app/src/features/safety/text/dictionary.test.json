@@ -1,0 +1,19 @@
+{
+  "positive": [
+    { "text": "テスト禁止語を含む旅", "ruleId": "test.banned" },
+    { "text": "て.す.と.禁.止.語", "ruleId": "test.banned" },
+    { "text": "090-1234-5678", "ruleId": "contact.phone" },
+    { "text": "０９０－１２３４－５６７８", "ruleId": "contact.phone" },
+    { "text": "〇九〇-一二三四-五六七八", "ruleId": "contact.phone" },
+    { "text": "test@example.com", "ruleId": "contact.email" },
+    { "text": "連絡先を教えて", "ruleId": "contact.exchange" },
+    { "text": "https://example.com", "ruleId": "contact.url" },
+    { "text": "男性限定です", "ruleId": "gender.filter" },
+    { "text": "20代限定", "ruleId": "age.filter" }
+  ],
+  "negative": [
+    "2026-11-09 10:30 集合、予算 3000円、費用は割り勘",
+    "温泉と紅葉をゆっくり楽しみたいです",
+    "駅前の改札に10時集合"
+  ]
+}
