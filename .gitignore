@@ -13,6 +13,9 @@ Thumbs.db
 .claude/worktrees/
 .claude/settings.local.json
 
+# Local work notes (review records, scratch memos)
+.work/
+
 # Local DB and generated data
 *.sqlite
 *.sqlite3
