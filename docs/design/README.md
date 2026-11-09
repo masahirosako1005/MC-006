@@ -21,7 +21,7 @@
 | 章 | ファイル | 内容 | 状況 |
 |---|---|---|---|
 | 01 | [01-overview.md](./01-overview.md) | システム概要・目的、スコープ、段階案、用語 | 骨子 |
-| 02 | [02-requirements.md](./02-requirements.md) | 機能一覧(17の柱)、要件、ユーザーストーリー対応 | 骨子 |
+| 02 | [02-requirements.md](./02-requirements.md) | 機能一覧(18の柱)、要件、ユーザーストーリー対応 | 骨子 |
 | 03 | [03-architecture.md](./03-architecture.md) | システム構成、使用技術と選定理由、ディレクトリ構成、既存との関係 | 骨子 |
 | 04 | [04-screens-flow.md](./04-screens-flow.md) | 画面一覧・画面設計、画面遷移 | 骨子 |
 | 05 | [05-data.md](./05-data.md) | データ設計(ダミーデータ、追加データ) | 骨子 |
