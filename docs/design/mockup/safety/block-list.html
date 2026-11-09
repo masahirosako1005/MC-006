@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ブロック一覧 | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    /* SAF-03 固有: ブロックの効果の箇条書き */
+    .saf03-effects { margin: 0; padding-left: 1.2em; font-size: var(--fz-sm); }
+    .saf03-effects li + li { margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="../traveler/group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option selected>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="profile-visibility.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>ブロック一覧</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="../traveler/group-list.html">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="notifications.html" aria-label="グループの通知(未読 4 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ミ</span>ミサキ</span>
+      </div>
+    </header>
+
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>SAF-03</dd>
+        <dt>画面名</dt><dd>ブロック一覧(<code>BlockListPage</code>)。ブロックの確認ダイアログ(<code>BlockMenuItem</code>)の見本を含む</dd>
+        <dt>対象ロール</dt><dd>旅行者(全ロール共通)</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/mypage/blocks</code>(案。09 §12.1)。一覧は <code>GET /api/me/blocks</code>、解除は <code>DELETE /api/me/blocks/[userId]</code></dd>
+        <dt>参照設計書</dt><dd>docs/feature/09-safety.md §7.2(SAF-RULE-20〜27)、§12.2 SAF-UI-03。docs/feature/_unified-contracts.md §6.3(ブロックの方向)</dd>
+        <dt>遷移先</dt><dd><a href="profile-visibility.html">公開範囲設定(SAF-04)</a>、<a href="report-dialog.html">通報ダイアログ(SAF-02)</a>、<a href="../traveler/group-members.html">メンバー一覧(TRV-18)</a>、<a href="../index.html">画面モック一覧</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="#">マイページ</a></li>
+            <li><span aria-current="page">ブロック一覧</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">ブロック一覧</p>
+
+        <div class="grid grid--side">
+          <!-- ブロックの効果 -->
+          <section class="card card--muted" aria-labelledby="sec-effects">
+            <h2 id="sec-effects" class="title-section">ブロックするとどうなるか</h2>
+            <ul class="saf03-effects" style="margin-top:8px">
+              <li>お互いに、相手が幹事またはメンバーのグループは、一覧・検索に表示されません。</li>
+              <li>お互いに、相手のグループへ参加を申請できません。</li>
+              <li>チャットでは、あなたの画面で相手の投稿を表示しません(相手の画面は変わりません)。</li>
+              <li>お互いに、相手のプロフィールを開けません。</li>
+              <li>すでに同じグループにいる場合は、そのまま参加を続けられます。</li>
+              <li>ブロックしたこと・解除したことは、相手に通知されません。</li>
+            </ul>
+          </section>
+
+          <!-- 一覧 -->
+          <section class="stack" aria-labelledby="sec-list">
+            <h2 id="sec-list" class="title-section">ブロック中のユーザー(1 人)</h2>
+
+            <div class="alert alert--success" role="status">
+              <span class="alert__icon" aria-hidden="true">✔</span>
+              <div>(解除後の表示の見本)ハルトさんのブロックを解除しました。</div>
+            </div>
+
+            <ul class="list" aria-label="ブロック中のユーザー">
+              <li class="list__item">
+                <span class="avatar" aria-hidden="true">ソ</span>
+                <div class="list__main">
+                  <p class="text-bold">ソウタ</p>
+                  <p class="text-xs text-dimmed">2026-11-02 にブロック / きっかけ: 雫森谷 紅葉ハイク</p>
+                </div>
+                <a class="btn btn--outline btn--sm" href="#unblock" aria-label="ソウタさんのブロックを解除">解除</a>
+              </li>
+            </ul>
+            <p class="text-xs text-dimmed">新しくブロックするときは、メンバー一覧・承認画面・チャットのメニューから行います。解除すると、上の効果はなくなり、相手のグループに再び申請できます。</p>
+
+            <h3 class="text-sm" style="margin-top:8px">ブロックしている人がいないとき</h3>
+            <div class="empty">
+              <p class="empty__title">ブロックしている人はいません</p>
+              <p>メンバー一覧やチャットのメニューからブロックできます。</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- ブロックの確認ダイアログ(他の画面のメニューから開く) -->
+        <section class="stack" aria-labelledby="sec-confirm">
+          <h2 id="sec-confirm" class="title-section">ブロックの確認(メンバー一覧などのメニューから開く)</h2>
+          <div class="modal-preview">
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dlg-block-title">
+              <div class="modal__header">
+                <h3 class="modal__title" id="dlg-block-title">ソウタさんをブロックしますか</h3>
+                <a class="modal__close" href="#sec-list" aria-label="閉じる">×</a>
+              </div>
+              <div class="modal__body">
+                <p>ブロックすると、あなたの画面でこの人の投稿を隠し、この人のグループは一覧に出なくなります。相手には通知されません。</p>
+                <p class="text-xs text-dimmed">ブロックはこの画面(ブロック一覧)からいつでも解除できます。</p>
+              </div>
+              <div class="modal__footer">
+                <a class="btn btn--ghost" href="#sec-list">やめる</a>
+                <a class="btn btn--danger" href="#sec-list">ブロックする</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a>
+    </footer>
+
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="../traveler/group-list.html">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+
+  <!-- 解除の確認(:target で開く) -->
+  <div id="unblock" class="modal-overlay modal-overlay--target">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dlg-unblock-title">
+      <div class="modal__header">
+        <h2 class="modal__title" id="dlg-unblock-title">ソウタさんのブロックを解除しますか</h2>
+        <a class="modal__close" href="#sec-list" aria-label="閉じる">×</a>
+      </div>
+      <div class="modal__body">
+        <p>解除すると、この人のグループが一覧に表示され、お互いに参加を申請できるようになります。チャットの投稿も表示されます。相手には通知されません。</p>
+      </div>
+      <div class="modal__footer">
+        <a class="btn btn--ghost" href="#sec-list">やめる</a>
+        <a class="btn btn--primary" href="#sec-list">解除する</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

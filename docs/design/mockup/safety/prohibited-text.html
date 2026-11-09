@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>禁止表現の表示 | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    /* SAF-06 固有: 入力欄の直下に置く通知(alert を詰めて表示) */
+    .saf06-notice { margin-top: 6px; padding: 8px 12px; }
+    .saf06-notice .btn-row { margin-top: 8px; }  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="../traveler/group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option selected>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="../traveler/group-form.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>禁止表現の表示</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="../traveler/group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="notifications.html" aria-label="グループの通知(未読 4 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ミ</span>ミサキ</span>
+      </div>
+    </header>
+
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>SAF-06</dd>
+        <dt>画面名</dt><dd>禁止表現の拒否・要確認メッセージ(入力画面での表示例。<code>TextRejectNotice</code>、<code>useTextCheck</code>)</dd>
+        <dt>対象ロール</dt><dd>旅行者(全ロール共通。自由入力のあるすべての欄)</dd>
+        <dt>実装パス</dt><dd>各入力画面の入力欄の直下(単独の画面は持たない)</dd>
+        <dt>参照設計書</dt><dd>docs/feature/09-safety.md §8.1〜8.6、§12.2 SAF-UI-05、§12.3、§14。docs/feature/_unified-contracts.md §6.2(<code>text_denied</code>・<code>text_review_required</code>・<code>ackReview</code>)、§17.10 09-3・09-7。docs/design/07-safety-security.md 柱8</dd>
+        <dt>遷移先</dt><dd>表示する画面: <a href="../traveler/group-form.html">グループ作成(TRV-05)</a>、<a href="../traveler/join-request-dialog.html">参加申請(TRV-03)</a>、<a href="../traveler/group-chat.html">チャット(TRV-14)</a>、<a href="profile-visibility.html">プロフィール(SAF-04)</a>、<a href="../index.html">画面モック一覧</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="../traveler/group-form.html">入力画面</a></li>
+            <li><span aria-current="page">禁止表現の表示</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">禁止表現の表示</p>
+
+        <p class="text-sm">入力した文に使えない表現が含まれるときの表示です。理由は一般的な文言で示し、使えない語そのものは表示しません。</p>
+        <p class="mock-note">入力値の「〈該当する表現〉」はモックの伏せ字。実際の画面では利用者が入力した文がそのまま入力欄に残る。</p>
+
+        <div class="grid grid--2">
+          <!-- ===== 1. 拒否 ===== -->
+          <section class="card stack" aria-labelledby="sec-deny">
+            <h2 id="sec-deny" class="title-section"><span class="badge badge--danger">✕ 拒否</span> 保存・送信できない場合</h2>
+            <p class="text-xs text-dimmed">例: グループ作成の「グループ名」と、参加申請の「ひとこと」</p>
+
+            <form class="stack" action="#sec-deny">
+              <div class="field">
+                <label class="field__label" for="d-name">グループ名<span class="field__required" aria-hidden="true">*</span></label>
+                <input class="input" id="d-name" type="text" value="鈴風高原のんびり歩き〈該当する表現〉" maxlength="30" required aria-invalid="true" aria-describedby="d-name-help d-name-err">
+                <p class="field__help" id="d-name-help">30 文字以内。</p>
+                <div class="alert alert--error saf06-notice" role="alert" id="d-name-err">
+                  <span class="alert__icon" aria-hidden="true">✕</span>
+                  <div>
+                    <p class="alert__title">この表現は使えません</p>
+                    <p>グループ名に、連絡先の交換や外部のサービスへの誘導にあたる表現が含まれています。該当する部分を削除してください。</p>
+                    <p class="text-xs">連絡は参加成立後に、グループ内のチャットを使ってください。</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="d-note">ひとこと(任意)</label>
+                <textarea class="textarea" id="d-note" rows="3" maxlength="200" aria-invalid="true" aria-describedby="d-note-help d-note-err">はじめまして。〈該当する表現〉の方と行きたいです。</textarea>
+                <p class="field__help" id="d-note-help">200 文字以内・3 行まで。</p>
+                <div class="alert alert--error saf06-notice" role="alert" id="d-note-err">
+                  <span class="alert__icon" aria-hidden="true">✕</span>
+                  <div>
+                    <p class="alert__title">この表現は使えません</p>
+                    <p>ひとことに、条件で人を選ぶ表現が含まれています。旅の内容や日程を書いてください。</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button class="btn btn--ghost" type="button">やめる</button>
+                <button class="btn btn--primary" type="submit">保存する</button>
+              </div>
+            </form>
+            <p class="mock-note">サーバーの応答: <code>400 invalid_input</code> + <code>reason: "text_denied"</code> + <code>fields[欄]</code>。入力値は保持し、該当の欄にフォーカスを移す。</p>
+          </section>
+
+          <!-- ===== 2. 要確認 ===== -->
+          <section class="card stack" aria-labelledby="sec-review">
+            <h2 id="sec-review" class="title-section"><span class="badge badge--warning">! 要確認</span> 確認して送信する場合</h2>
+            <p class="text-xs text-dimmed">例: グループのチャット(誤検知の可能性がある表現)</p>
+
+            <ol class="chat" aria-label="メッセージ">
+              <li class="chat__msg"><span class="chat__meta">ユイ 10:02</span><span class="chat__bubble">集合は港の案内所前でよいですか。</span></li>
+              <li class="chat__msg chat__msg--me"><span class="chat__meta">自分 10:05</span><span class="chat__bubble">了解しました。</span></li>
+            </ol>
+
+            <form action="#sec-review">
+              <div class="chat__composer">
+                <label class="visually-hidden" for="r-msg">メッセージ</label>
+                <textarea class="textarea" id="r-msg" rows="2" maxlength="500" aria-describedby="r-msg-review">集合場所の地図は〈該当する表現〉に載っています。</textarea>
+                <button class="btn btn--primary" type="submit" disabled>送信</button>
+              </div>
+              <div class="alert alert--warning saf06-notice" aria-live="polite" id="r-msg-review">
+                <span class="alert__icon" aria-hidden="true">!</span>
+                <div>
+                  <p class="alert__title">送信する前に確認してください</p>
+                  <p>外部のサイトやサービスへの誘導と受け取られる可能性がある表現が含まれています。問題がなければ、このまま送信できます。</p>
+                  <div class="btn-row">
+                    <button class="btn btn--ghost btn--sm" type="button">修正する</button>
+                    <button class="btn btn--secondary btn--sm" type="submit">このまま送信する</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <p class="mock-note">サーバーの応答: <code>400 invalid_input</code> + <code>reason: "text_review_required"</code> + <code>detail.reviewRequired: true</code>。「このまま送信する」で本文の最上位に <code>ackReview: true</code> を付けて再送する。</p>
+
+            <h3 class="text-sm">入力中の表示(送信前の確認)</h3>
+            <div class="field">
+              <label class="field__label" for="r-live">旅程の項目名</label>
+              <input class="input" id="r-live" type="text" value="港で〈該当する表現〉" maxlength="60" aria-describedby="r-live-help">
+              <p class="field__help" id="r-live-help" aria-live="polite"><span aria-hidden="true">!</span> 確認が必要な表現が含まれている可能性があります。保存するときに確認します。</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- ===== 3. 対象のカテゴリ ===== -->
+        <section class="stack" aria-labelledby="sec-categories">
+          <h2 id="sec-categories" class="title-section">対象とする表現と、画面の説明文</h2>
+          <div class="table-wrap">
+            <table class="table">
+              <caption class="visually-hidden">禁止表現のカテゴリと画面に出す説明</caption>
+              <thead>
+                <tr><th scope="col">カテゴリ</th><th scope="col">画面に出す説明</th><th scope="col">扱い</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>恋愛・異性交際を連想させる表現</td><td>旅の内容に関する表現にしてください。</td><td><span class="badge badge--danger">✕ 拒否</span></td></tr>
+                <tr><td>連絡先の交換・外部への誘導</td><td>連絡は参加成立後に、グループ内のチャットを使ってください。</td><td><span class="badge badge--danger">✕ 拒否</span><br><span class="text-xs text-dimmed">旅程は要確認</span></td></tr>
+                <tr><td>連絡先らしき文字列(メールアドレス・電話番号・URL など)</td><td>同上</td><td><span class="badge badge--danger">✕ 拒否</span><br><span class="text-xs text-dimmed">URL などはチャット・旅程・費用メモ・振り返りで要確認</span></td></tr>
+                <tr><td>金銭の勧誘</td><td>金銭の勧誘はできません。</td><td><span class="badge badge--danger">✕ 拒否</span></td></tr>
+                <tr><td>性別・年齢での選別</td><td>条件で人を選ぶ表現は使えません。旅の内容や日程を書いてください。</td><td><span class="badge badge--danger">✕ 拒否</span><br><span class="text-xs text-dimmed">チャット・旅程・費用メモ・振り返りは要確認</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ul class="text-xs text-dimmed" style="margin:0;padding-left:1.2em">
+            <li>使えない語そのもの、辞書の内容、ルールの番号は画面に出しません。</li>
+            <li>通報の補足欄は検査しません(相手の発言を引用できるようにするため)。</li>
+            <li>誤検知の報告の導線は置きません(統一仕様 §6.3)。</li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a>
+    </footer>
+
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="../traveler/group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

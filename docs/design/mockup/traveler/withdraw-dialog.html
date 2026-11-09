@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>辞退の確認 | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    /* 開いた状態で表示し、「閉じる」(#trv20-closed)で隠す。JavaScript なし */
+    #trv20-closed:target ~ .trv20-overlay { display: none; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option selected>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option>ユイ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>ナナミ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="group-members.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>グループ詳細</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 3 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ミ</span>ミサキ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用。実装では作らない) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>TRV-20</dd>
+        <dt>画面名</dt><dd>辞退ダイアログ(確定後は退会)</dd>
+        <dt>対象ロール</dt><dd>旅行者(参加者。幹事は対象外)</dd>
+        <dt>実装パス</dt><dd>TRV-12・TRV-18 上のダイアログ(04 LCY-UI-05 <code>WithdrawButton</code>。<code>POST /api/groups/[groupId]/withdraw</code>)</dd>
+        <dt>参照設計書</dt><dd>docs/feature/04-group-lifecycle.md §3(LCY-UI-05)、§9、_unified-contracts.md §4.4(<code>canWithdraw</code>)、§4.5、docs/design/04-screens-flow.md「辞退の操作」</dd>
+        <dt>見本データ</dt><dd>g-004 雫森谷 紅葉ハイク(辞退期間。辞退できるのは 11-11 まで。定員 4・最少 3・現在 3。幹事: ナナミ。ソウタは辞退済みの元メンバー)。閲覧者: ミサキ(参加者)。辞退すると 2 人になり最少人数を下回るため中止になる例</dd>
+        <dt>遷移先</dt><dd><a href="group-members.html">メンバー(TRV-18)</a>、<a href="group-cancelled.html">中止の表示(TRV-21)</a>、<a href="group-expenses.html">費用メモ(TRV-15)</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="group-list.html">グループ一覧</a></li>
+            <li><a href="group-hub.html">雫森谷 紅葉ハイク</a></li>
+            <li><span aria-current="page">辞退の確認</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">グループ詳細</p>
+
+        <div class="card card--sm">
+          <div class="group group--between group--nowrap group--top">
+            <div>
+              <p class="card__title">雫森谷 紅葉ハイク</p>
+              <p class="card__meta">水琴地方 雫森谷 / 2026-11-29〜11-30 / 幹事: ナナミ</p>
+            </div>
+            <span class="status status--withdrawal">辞退期間</span>
+          </div>
+        </div>
+
+        <nav aria-label="グループ内のメニュー">
+        <ul class="tabs">
+          <li><a class="tabs__tab" href="group-hub.html" aria-current="page">概要</a></li>
+          <li><a class="tabs__tab" href="group-plan.html">旅程・集合場所</a></li>
+          <li><a class="tabs__tab" href="group-chat.html">チャット</a></li>
+          <li><a class="tabs__tab" href="group-expenses.html">費用メモ <span class="badge badge--gray">閲覧のみ</span></a></li>
+          <li><a class="tabs__tab" href="group-rally.html">スタンプラリー <span class="badge badge--gray">閲覧のみ</span></a></li>
+          <li><a class="tabs__tab" href="group-members.html">メンバー</a></li>
+        </ul>
+        </nav>
+
+        <div class="alert alert--warning">
+          <span class="alert__icon" aria-hidden="true">!</span>
+          <div>
+            <p class="alert__title">辞退期間中です(11-11 まで)</p>
+            <p>辞退する場合は期間内に操作してください。ペナルティはありません。期間が終わると、最少人数(3 人)以上が残っていれば実行が確定します。</p>
+            <div class="btn-row" style="margin-top:8px"><a class="btn btn--danger" href="withdraw-dialog.html">辞退する</a></div>
+          </div>
+        </div>
+
+        <section class="stack" aria-labelledby="var-title">
+          <h2 id="var-title" class="title-section">ダイアログの表示の違い</h2>
+          <div class="grid grid--2">
+            <div class="modal-preview">
+              <div class="modal" role="dialog" aria-modal="false" aria-labelledby="v1-title">
+                <div class="modal__header"><h3 class="modal__title" id="v1-title">辞退しますか(人数に余裕がある場合)</h3></div>
+                <div class="modal__body">
+                  <p>辞退してもペナルティはありません。理由の入力は不要です。</p>
+                  <p>辞退期間は 11-11 までです。辞退すると、このグループのチャットや旅程は見られなくなります。</p>
+                </div>
+                <div class="modal__footer"><button class="btn btn--ghost" type="button">やめる</button><button class="btn btn--danger" type="button">辞退する</button></div>
+              </div>
+            </div>
+            <div class="modal-preview">
+              <div class="modal" role="dialog" aria-modal="false" aria-labelledby="v2-title">
+                <div class="modal__header"><h3 class="modal__title" id="v2-title">退会しますか(実行確定の後)</h3></div>
+                <div class="modal__body">
+                  <p>実行確定の後の退会です。ペナルティはありません。理由の入力は不要です。</p>
+                  <div class="alert alert--warning"><span class="alert__icon" aria-hidden="true">!</span><div>費用メモに、あなたの差額(-400 円の目安)が残っています。退会する前にメンバーと確認してください。</div></div>
+                </div>
+                <div class="modal__footer"><button class="btn btn--ghost" type="button">やめる</button><button class="btn btn--danger" type="button">退会する</button></div>
+              </div>
+            </div>
+          </div>
+          <p><a class="btn btn--secondary btn--sm" href="#trv20-open">確認ダイアログをもう一度開く</a></p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a> / <a href="../components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+
+  <!-- ===== 辞退の確認ダイアログ(開いた状態。閉じるリンクで隠す) ===== -->
+  <span id="trv20-open"></span><span id="trv20-closed"></span>
+  <div class="modal-overlay trv20-overlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="wd-title">
+      <div class="modal__header">
+        <h2 class="modal__title" id="wd-title">辞退しますか</h2>
+        <a class="modal__close" href="#trv20-closed" aria-label="閉じる">×</a>
+      </div>
+      <div class="modal__body">
+        <p>辞退してもペナルティはありません。理由の入力は不要です。</p>
+        <p>辞退期間は 11-11 までです。辞退すると、このグループのチャットや旅程は見られなくなります。</p>
+        <div class="alert alert--warning">
+          <span class="alert__icon" aria-hidden="true">!</span>
+          <div>辞退すると現在人数(3 人)が最少人数(3 人)を下回り、グループが中止になります。</div>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <a class="btn btn--ghost" href="#trv20-closed">やめる</a>
+        <a class="btn btn--danger" href="group-cancelled.html">辞退する</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
