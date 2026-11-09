@@ -1,0 +1,15 @@
+# OS / editor
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/
+
+# Local env and secrets (never commit)
+.env
+.env.*
+!.env.example
+
+# Local DB and generated data
+*.sqlite
+*.sqlite3
+*.db
