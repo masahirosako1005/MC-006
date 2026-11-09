@@ -82,3 +82,35 @@ const seed = {
 };
 fs.writeFileSync(path.join(root, "app", "src", "data", "seed.json"), JSON.stringify(seed, null, 2));
 console.log(`seed: spots=${spots.length} rewards=${rewards.length} history=${history.length} rewardHistory=${rewardHistory.length}`);
+
+// --- 13 観光事業オーナー向けの集計(INS-BLD-01) ---
+// 出力の追加のみ。CSV の行は標準出力に出さない。
+{
+  const { readCsv } = await import("./lib/csv.mjs");
+  const { buildInsightAggregates, checkInsightOutput } = await import("./lib/insight-aggregate.mjs");
+  const sd = (f) => path.join(root, "sample-data", f);
+  const SPOT_REGION = {
+    雪雫の音楽堂: { spotId: 1, regionId: "r-suzukaze" },
+    星綾の潮見台: { spotId: 2, regionId: "r-hoshinagi" },
+    虹灯りの夜市: { spotId: 3, regionId: "r-nijiho" },
+    灯雲の石畳通り: { spotId: 4, regionId: "r-hoshinagi" },
+    月花の風車丘: { spotId: 5, regionId: "r-mizukoto" },
+    瑠璃凪の水鏡湖: { spotId: 6, regionId: "r-mizukoto" },
+    風詠みの灯台: { spotId: 7, regionId: "r-hoshinagi" },
+  };
+  try {
+    const iUsers = readCsv(sd("13_ユーザー一覧.csv"), { id: "ユーザーID", age: "年代" });
+    const iStamps = readCsv(sd("12_スタンプ獲得履歴.csv"), { userId: "ユーザID", lap: "周回", stampName: "スタンプ名", at: "獲得日時" }).map((r) => ({ ...r, lap: Number(r.lap) }));
+    const iSurveys = readCsv(sd("08_アンケート回答_参加後.csv"), {
+      userId: "user_id", satisfaction: { prefix: "アンケート①" }, good: { prefix: "アンケート②" }, request: { prefix: "アンケート③" },
+    });
+    const out = buildInsightAggregates({ users: iUsers, stamps: iStamps, surveys: iSurveys }, { spotRegion: SPOT_REGION, truncatedFrom: "2026-10-16", k: 5 });
+    checkInsightOutput(out, ["user_id", "ユーザーID", "ユーザID", "ユーザ名", "ユーザー名", "メールアドレス"], 5);
+    fs.writeFileSync(path.join(root, "app", "src", "data", "insight-aggregates.json"), JSON.stringify(out, null, 2));
+    const counts = Object.entries(out).filter(([, v]) => Array.isArray(v)).map(([n, v]) => `${n}=${v.length}`);
+    console.log(`insight-aggregates: ${counts.join(" ")}`);
+  } catch (e) {
+    console.error(`insight-aggregates: 失敗 (${e.message})`);
+    process.exit(1);
+  }
+}
