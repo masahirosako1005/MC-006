@@ -1,0 +1,2340 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "source": "sample-data",
+    "campaign": "nttw-demo",
+    "periodFrom": "2026-10-01",
+    "periodTo": "2026-10-20",
+    "truncatedFrom": "2026-10-16",
+    "weeks": [
+      {
+        "key": "W1",
+        "from": "2026-10-01",
+        "to": "2026-10-07",
+        "days": 7,
+        "useForBaseline": true
+      },
+      {
+        "key": "W2",
+        "from": "2026-10-08",
+        "to": "2026-10-14",
+        "days": 7,
+        "useForBaseline": true
+      },
+      {
+        "key": "W3",
+        "from": "2026-10-15",
+        "to": "2026-10-20",
+        "days": 6,
+        "useForBaseline": false
+      }
+    ],
+    "minCellCount": 5,
+    "areas": [
+      {
+        "regionId": "r-suzukaze",
+        "spotIds": [
+          1
+        ]
+      },
+      {
+        "regionId": "r-hoshinagi",
+        "spotIds": [
+          2,
+          4,
+          7
+        ]
+      },
+      {
+        "regionId": "r-nijiho",
+        "spotIds": [
+          3
+        ]
+      },
+      {
+        "regionId": "r-mizukoto",
+        "spotIds": [
+          5,
+          6
+        ]
+      }
+    ]
+  },
+  "visitVolume": [
+    {
+      "week": "W1",
+      "area": "r-suzukaze",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 34
+      },
+      "visits": {
+        "few": false,
+        "value": 34
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-suzukaze",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 49
+      },
+      "visits": {
+        "few": false,
+        "value": 49
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-suzukaze",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 40
+      },
+      "visits": {
+        "few": false,
+        "value": 41
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-suzukaze",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 123
+      },
+      "visits": {
+        "few": false,
+        "value": 124
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-hoshinagi",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 50
+      },
+      "visits": {
+        "few": false,
+        "value": 65
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-hoshinagi",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 64
+      },
+      "visits": {
+        "few": false,
+        "value": 76
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-hoshinagi",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 54
+      },
+      "visits": {
+        "few": false,
+        "value": 70
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-hoshinagi",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 168
+      },
+      "visits": {
+        "few": false,
+        "value": 211
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-nijiho",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 33
+      },
+      "visits": {
+        "few": false,
+        "value": 33
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-nijiho",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 50
+      },
+      "visits": {
+        "few": false,
+        "value": 54
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-nijiho",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 39
+      },
+      "visits": {
+        "few": false,
+        "value": 40
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-nijiho",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 122
+      },
+      "visits": {
+        "few": false,
+        "value": 127
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-mizukoto",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 45
+      },
+      "visits": {
+        "few": false,
+        "value": 51
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-mizukoto",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 67
+      },
+      "visits": {
+        "few": false,
+        "value": 77
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-mizukoto",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 47
+      },
+      "visits": {
+        "few": false,
+        "value": 60
+      }
+    },
+    {
+      "week": "W1",
+      "area": "r-mizukoto",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 159
+      },
+      "visits": {
+        "few": false,
+        "value": 188
+      }
+    },
+    {
+      "week": "W1",
+      "area": "all",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 54
+      },
+      "visits": {
+        "few": false,
+        "value": 78
+      }
+    },
+    {
+      "week": "W1",
+      "area": "all",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 74
+      },
+      "visits": {
+        "few": false,
+        "value": 114
+      }
+    },
+    {
+      "week": "W1",
+      "area": "all",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 57
+      },
+      "visits": {
+        "few": false,
+        "value": 87
+      }
+    },
+    {
+      "week": "W1",
+      "area": "all",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 185
+      },
+      "visits": {
+        "few": false,
+        "value": 279
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-suzukaze",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 45
+      },
+      "visits": {
+        "few": false,
+        "value": 46
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-suzukaze",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 70
+      },
+      "visits": {
+        "few": false,
+        "value": 72
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-suzukaze",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 47
+      },
+      "visits": {
+        "few": false,
+        "value": 50
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-suzukaze",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 162
+      },
+      "visits": {
+        "few": false,
+        "value": 168
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-hoshinagi",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 59
+      },
+      "visits": {
+        "few": false,
+        "value": 86
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-hoshinagi",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 92
+      },
+      "visits": {
+        "few": false,
+        "value": 115
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-hoshinagi",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 58
+      },
+      "visits": {
+        "few": false,
+        "value": 77
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-hoshinagi",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 209
+      },
+      "visits": {
+        "few": false,
+        "value": 278
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-nijiho",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 45
+      },
+      "visits": {
+        "few": false,
+        "value": 48
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-nijiho",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 74
+      },
+      "visits": {
+        "few": false,
+        "value": 76
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-nijiho",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 50
+      },
+      "visits": {
+        "few": false,
+        "value": 53
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-nijiho",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 169
+      },
+      "visits": {
+        "few": false,
+        "value": 177
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-mizukoto",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 54
+      },
+      "visits": {
+        "few": false,
+        "value": 68
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-mizukoto",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 83
+      },
+      "visits": {
+        "few": false,
+        "value": 92
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-mizukoto",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 56
+      },
+      "visits": {
+        "few": false,
+        "value": 69
+      }
+    },
+    {
+      "week": "W2",
+      "area": "r-mizukoto",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 193
+      },
+      "visits": {
+        "few": false,
+        "value": 229
+      }
+    },
+    {
+      "week": "W2",
+      "area": "all",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 70
+      },
+      "visits": {
+        "few": false,
+        "value": 119
+      }
+    },
+    {
+      "week": "W2",
+      "area": "all",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 99
+      },
+      "visits": {
+        "few": false,
+        "value": 143
+      }
+    },
+    {
+      "week": "W2",
+      "area": "all",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 67
+      },
+      "visits": {
+        "few": false,
+        "value": 100
+      }
+    },
+    {
+      "week": "W2",
+      "area": "all",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 236
+      },
+      "visits": {
+        "few": false,
+        "value": 362
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-suzukaze",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 17
+      },
+      "visits": {
+        "few": false,
+        "value": 18
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-suzukaze",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 28
+      },
+      "visits": {
+        "few": false,
+        "value": 28
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-suzukaze",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 10
+      },
+      "visits": {
+        "few": false,
+        "value": 10
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-suzukaze",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 55
+      },
+      "visits": {
+        "few": false,
+        "value": 56
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-hoshinagi",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 27
+      },
+      "visits": {
+        "few": false,
+        "value": 34
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-hoshinagi",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 42
+      },
+      "visits": {
+        "few": false,
+        "value": 52
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-hoshinagi",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 16
+      },
+      "visits": {
+        "few": false,
+        "value": 19
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-hoshinagi",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 85
+      },
+      "visits": {
+        "few": false,
+        "value": 105
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-nijiho",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 16
+      },
+      "visits": {
+        "few": false,
+        "value": 16
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-nijiho",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 24
+      },
+      "visits": {
+        "few": false,
+        "value": 24
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-nijiho",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 9
+      },
+      "visits": {
+        "few": false,
+        "value": 9
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-nijiho",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 49
+      },
+      "visits": {
+        "few": false,
+        "value": 49
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-mizukoto",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 21
+      },
+      "visits": {
+        "few": false,
+        "value": 25
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-mizukoto",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 32
+      },
+      "visits": {
+        "few": false,
+        "value": 36
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-mizukoto",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 13
+      },
+      "visits": {
+        "few": false,
+        "value": 16
+      }
+    },
+    {
+      "week": "W3",
+      "area": "r-mizukoto",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 66
+      },
+      "visits": {
+        "few": false,
+        "value": 77
+      }
+    },
+    {
+      "week": "W3",
+      "area": "all",
+      "age": "under30",
+      "visitors": {
+        "few": false,
+        "value": 30
+      },
+      "visits": {
+        "few": false,
+        "value": 43
+      }
+    },
+    {
+      "week": "W3",
+      "area": "all",
+      "age": "30to49",
+      "visitors": {
+        "few": false,
+        "value": 46
+      },
+      "visits": {
+        "few": false,
+        "value": 69
+      }
+    },
+    {
+      "week": "W3",
+      "area": "all",
+      "age": "50plus",
+      "visitors": {
+        "few": false,
+        "value": 16
+      },
+      "visits": {
+        "few": false,
+        "value": 24
+      }
+    },
+    {
+      "week": "W3",
+      "area": "all",
+      "age": "all",
+      "visitors": {
+        "few": false,
+        "value": 92
+      },
+      "visits": {
+        "few": false,
+        "value": 136
+      }
+    }
+  ],
+  "weekdayProfile": [
+    {
+      "weekday": 0,
+      "age": "under30",
+      "visits": {
+        "few": false,
+        "value": 33
+      },
+      "days": 2
+    },
+    {
+      "weekday": 0,
+      "age": "30to49",
+      "visits": {
+        "few": false,
+        "value": 39
+      },
+      "days": 2
+    },
+    {
+      "weekday": 0,
+      "age": "50plus",
+      "visits": {
+        "few": false,
+        "value": 25
+      },
+      "days": 2
+    },
+    {
+      "weekday": 0,
+      "age": "all",
+      "visits": {
+        "few": false,
+        "value": 97
+      },
+      "days": 2
+    },
+    {
+      "weekday": 1,
+      "age": "under30",
+      "visits": {
+        "few": false,
+        "value": 32
+      },
+      "days": 2
+    },
+    {
+      "weekday": 1,
+      "age": "30to49",
+      "visits": {
+        "few": false,
+        "value": 27
+      },
+      "days": 2
+    },
+    {
+      "weekday": 1,
+      "age": "50plus",
+      "visits": {
+        "few": false,
+        "value": 27
+      },
+      "days": 2
+    },
+    {
+      "weekday": 1,
+      "age": "all",
+      "visits": {
+        "few": false,
+        "value": 86
+      },
+      "days": 2
+    },
+    {
+      "weekday": 2,
+      "age": "under30",
+      "visits": {
+        "few": false,
+        "value": 20
+      },
+      "days": 2
+    },
+    {
+      "weekday": 2,
+      "age": "30to49",
+      "visits": {
+        "few": false,
+        "value": 33
+      },
+      "days": 2
+    },
+    {
+      "weekday": 2,
+      "age": "50plus",
+      "visits": {
+        "few": false,
+        "value": 24
+      },
+      "days": 2
+    },
+    {
+      "weekday": 2,
+      "age": "all",
+      "visits": {
+        "few": false,
+        "value": 77
+      },
+      "days": 2
+    },
+    {
+      "weekday": 3,
+      "age": "under30",
+      "visits": {
+        "few": false,
+        "value": 26
+      },
+      "days": 2
+    },
+    {
+      "weekday": 3,
+      "age": "30to49",
+      "visits": {
+        "few": false,
+        "value": 39
+      },
+      "days": 2
+    },
+    {
+      "weekday": 3,
+      "age": "50plus",
+      "visits": {
+        "few": false,
+        "value": 30
+      },
+      "days": 2
+    },
+    {
+      "weekday": 3,
+      "age": "all",
+      "visits": {
+        "few": false,
+        "value": 95
+      },
+      "days": 2
+    },
+    {
+      "weekday": 4,
+      "age": "under30",
+      "visits": {
+        "few": false,
+        "value": 34
+      },
+      "days": 3
+    },
+    {
+      "weekday": 4,
+      "age": "30to49",
+      "visits": {
+        "few": false,
+        "value": 57
+      },
+      "days": 3
+    },
+    {
+      "weekday": 4,
+      "age": "50plus",
+      "visits": {
+        "few": false,
+        "value": 34
+      },
+      "days": 3
+    },
+    {
+      "weekday": 4,
+      "age": "all",
+      "visits": {
+        "few": false,
+        "value": 125
+      },
+      "days": 3
+    },
+    {
+      "weekday": 5,
+      "age": "under30",
+      "visits": {
+        "few": false,
+        "value": 32
+      },
+      "days": 2
+    },
+    {
+      "weekday": 5,
+      "age": "30to49",
+      "visits": {
+        "few": false,
+        "value": 42
+      },
+      "days": 2
+    },
+    {
+      "weekday": 5,
+      "age": "50plus",
+      "visits": {
+        "few": false,
+        "value": 27
+      },
+      "days": 2
+    },
+    {
+      "weekday": 5,
+      "age": "all",
+      "visits": {
+        "few": false,
+        "value": 101
+      },
+      "days": 2
+    },
+    {
+      "weekday": 6,
+      "age": "under30",
+      "visits": {
+        "few": false,
+        "value": 31
+      },
+      "days": 2
+    },
+    {
+      "weekday": 6,
+      "age": "30to49",
+      "visits": {
+        "few": false,
+        "value": 42
+      },
+      "days": 2
+    },
+    {
+      "weekday": 6,
+      "age": "50plus",
+      "visits": {
+        "few": false,
+        "value": 27
+      },
+      "days": 2
+    },
+    {
+      "weekday": 6,
+      "age": "all",
+      "visits": {
+        "few": false,
+        "value": 100
+      },
+      "days": 2
+    }
+  ],
+  "hourProfile": [
+    {
+      "hourBand": "night",
+      "age": "under30",
+      "stamps": {
+        "few": false,
+        "value": 121
+      },
+      "share": {
+        "kind": "value",
+        "percent": 18
+      }
+    },
+    {
+      "hourBand": "night",
+      "age": "30to49",
+      "stamps": {
+        "few": false,
+        "value": 171
+      },
+      "share": {
+        "kind": "value",
+        "percent": 18
+      }
+    },
+    {
+      "hourBand": "night",
+      "age": "50plus",
+      "stamps": {
+        "few": false,
+        "value": 128
+      },
+      "share": {
+        "kind": "value",
+        "percent": 17
+      }
+    },
+    {
+      "hourBand": "night",
+      "age": "all",
+      "stamps": {
+        "few": false,
+        "value": 420
+      },
+      "share": {
+        "kind": "value",
+        "percent": 18
+      }
+    },
+    {
+      "hourBand": "morning",
+      "age": "under30",
+      "stamps": {
+        "few": false,
+        "value": 69
+      },
+      "share": {
+        "kind": "value",
+        "percent": 10
+      }
+    },
+    {
+      "hourBand": "morning",
+      "age": "30to49",
+      "stamps": {
+        "few": false,
+        "value": 90
+      },
+      "share": {
+        "kind": "value",
+        "percent": 9
+      }
+    },
+    {
+      "hourBand": "morning",
+      "age": "50plus",
+      "stamps": {
+        "few": false,
+        "value": 71
+      },
+      "share": {
+        "kind": "value",
+        "percent": 10
+      }
+    },
+    {
+      "hourBand": "morning",
+      "age": "all",
+      "stamps": {
+        "few": false,
+        "value": 230
+      },
+      "share": {
+        "kind": "value",
+        "percent": 10
+      }
+    },
+    {
+      "hourBand": "daytime",
+      "age": "under30",
+      "stamps": {
+        "few": false,
+        "value": 205
+      },
+      "share": {
+        "kind": "value",
+        "percent": 30
+      }
+    },
+    {
+      "hourBand": "daytime",
+      "age": "30to49",
+      "stamps": {
+        "few": false,
+        "value": 300
+      },
+      "share": {
+        "kind": "value",
+        "percent": 31
+      }
+    },
+    {
+      "hourBand": "daytime",
+      "age": "50plus",
+      "stamps": {
+        "few": false,
+        "value": 217
+      },
+      "share": {
+        "kind": "value",
+        "percent": 30
+      }
+    },
+    {
+      "hourBand": "daytime",
+      "age": "all",
+      "stamps": {
+        "few": false,
+        "value": 722
+      },
+      "share": {
+        "kind": "value",
+        "percent": 30
+      }
+    },
+    {
+      "hourBand": "evening",
+      "age": "under30",
+      "stamps": {
+        "few": false,
+        "value": 286
+      },
+      "share": {
+        "kind": "value",
+        "percent": 42
+      }
+    },
+    {
+      "hourBand": "evening",
+      "age": "30to49",
+      "stamps": {
+        "few": false,
+        "value": 416
+      },
+      "share": {
+        "kind": "value",
+        "percent": 43
+      }
+    },
+    {
+      "hourBand": "evening",
+      "age": "50plus",
+      "stamps": {
+        "few": false,
+        "value": 317
+      },
+      "share": {
+        "kind": "value",
+        "percent": 43
+      }
+    },
+    {
+      "hourBand": "evening",
+      "age": "all",
+      "stamps": {
+        "few": false,
+        "value": 1019
+      },
+      "share": {
+        "kind": "value",
+        "percent": 43
+      }
+    }
+  ],
+  "participation": [
+    {
+      "age": "under30",
+      "registered": {
+        "few": false,
+        "value": 149
+      },
+      "stamp3plus": {
+        "few": false,
+        "value": 116
+      },
+      "stamp7plus": {
+        "few": false,
+        "value": 47
+      },
+      "lap2": {
+        "few": false,
+        "value": 33
+      },
+      "completeRate": {
+        "kind": "value",
+        "percent": 32
+      }
+    },
+    {
+      "age": "30to49",
+      "registered": {
+        "few": false,
+        "value": 215
+      },
+      "stamp3plus": {
+        "few": false,
+        "value": 173
+      },
+      "stamp7plus": {
+        "few": false,
+        "value": 67
+      },
+      "lap2": {
+        "few": false,
+        "value": 44
+      },
+      "completeRate": {
+        "kind": "value",
+        "percent": 31
+      }
+    },
+    {
+      "age": "50plus",
+      "registered": {
+        "few": false,
+        "value": 136
+      },
+      "stamp3plus": {
+        "few": false,
+        "value": 113
+      },
+      "stamp7plus": {
+        "few": false,
+        "value": 64
+      },
+      "lap2": {
+        "few": false,
+        "value": 44
+      },
+      "completeRate": {
+        "kind": "value",
+        "percent": 47
+      }
+    },
+    {
+      "age": "all",
+      "registered": {
+        "few": false,
+        "value": 500
+      },
+      "stamp3plus": {
+        "few": false,
+        "value": 402
+      },
+      "stamp7plus": {
+        "few": false,
+        "value": 178
+      },
+      "lap2": {
+        "few": false,
+        "value": 121
+      },
+      "completeRate": {
+        "kind": "value",
+        "percent": 36
+      }
+    }
+  ],
+  "satisfaction": [
+    {
+      "age": "under30",
+      "respondents": {
+        "few": false,
+        "value": 80
+      },
+      "distribution": {
+        "1": {
+          "few": true
+        },
+        "2": {
+          "few": true
+        },
+        "3": {
+          "few": false,
+          "value": 21
+        },
+        "4": {
+          "few": false,
+          "value": 22
+        },
+        "5": {
+          "few": false,
+          "value": 17
+        }
+      },
+      "satisfiedRate": {
+        "kind": "value",
+        "percent": 49
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 25
+      }
+    },
+    {
+      "age": "30to49",
+      "respondents": {
+        "few": false,
+        "value": 128
+      },
+      "distribution": {
+        "1": {
+          "few": false,
+          "value": 8
+        },
+        "2": {
+          "few": false,
+          "value": 11
+        },
+        "3": {
+          "few": false,
+          "value": 20
+        },
+        "4": {
+          "few": false,
+          "value": 51
+        },
+        "5": {
+          "few": false,
+          "value": 38
+        }
+      },
+      "satisfiedRate": {
+        "kind": "value",
+        "percent": 70
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 15
+      }
+    },
+    {
+      "age": "50plus",
+      "respondents": {
+        "few": false,
+        "value": 79
+      },
+      "distribution": {
+        "1": {
+          "few": true
+        },
+        "2": {
+          "few": true
+        },
+        "3": {
+          "few": false,
+          "value": 13
+        },
+        "4": {
+          "few": false,
+          "value": 31
+        },
+        "5": {
+          "few": false,
+          "value": 19
+        }
+      },
+      "satisfiedRate": {
+        "kind": "value",
+        "percent": 63
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 20
+      }
+    },
+    {
+      "age": "all",
+      "respondents": {
+        "few": false,
+        "value": 287
+      },
+      "distribution": {
+        "1": {
+          "few": false,
+          "value": 16
+        },
+        "2": {
+          "few": false,
+          "value": 39
+        },
+        "3": {
+          "few": false,
+          "value": 54
+        },
+        "4": {
+          "few": false,
+          "value": 104
+        },
+        "5": {
+          "few": false,
+          "value": 74
+        }
+      },
+      "satisfiedRate": {
+        "kind": "value",
+        "percent": 62
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 19
+      }
+    }
+  ],
+  "goodPoints": [
+    {
+      "age": "under30",
+      "option": "interaction",
+      "respondents": {
+        "few": false,
+        "value": 18
+      },
+      "share": {
+        "kind": "value",
+        "percent": 23
+      }
+    },
+    {
+      "age": "under30",
+      "option": "scenery",
+      "respondents": {
+        "few": false,
+        "value": 16
+      },
+      "share": {
+        "kind": "value",
+        "percent": 20
+      }
+    },
+    {
+      "age": "under30",
+      "option": "stamps",
+      "respondents": {
+        "few": false,
+        "value": 15
+      },
+      "share": {
+        "kind": "value",
+        "percent": 19
+      }
+    },
+    {
+      "age": "under30",
+      "option": "rewards",
+      "respondents": {
+        "few": false,
+        "value": 14
+      },
+      "share": {
+        "kind": "value",
+        "percent": 18
+      }
+    },
+    {
+      "age": "under30",
+      "option": "none",
+      "respondents": {
+        "few": false,
+        "value": 17
+      },
+      "share": {
+        "kind": "value",
+        "percent": 21
+      }
+    },
+    {
+      "age": "30to49",
+      "option": "interaction",
+      "respondents": {
+        "few": false,
+        "value": 36
+      },
+      "share": {
+        "kind": "value",
+        "percent": 28
+      }
+    },
+    {
+      "age": "30to49",
+      "option": "scenery",
+      "respondents": {
+        "few": false,
+        "value": 34
+      },
+      "share": {
+        "kind": "value",
+        "percent": 27
+      }
+    },
+    {
+      "age": "30to49",
+      "option": "stamps",
+      "respondents": {
+        "few": false,
+        "value": 17
+      },
+      "share": {
+        "kind": "value",
+        "percent": 13
+      }
+    },
+    {
+      "age": "30to49",
+      "option": "rewards",
+      "respondents": {
+        "few": false,
+        "value": 22
+      },
+      "share": {
+        "kind": "value",
+        "percent": 17
+      }
+    },
+    {
+      "age": "30to49",
+      "option": "none",
+      "respondents": {
+        "few": false,
+        "value": 19
+      },
+      "share": {
+        "kind": "value",
+        "percent": 15
+      }
+    },
+    {
+      "age": "50plus",
+      "option": "interaction",
+      "respondents": {
+        "few": false,
+        "value": 15
+      },
+      "share": {
+        "kind": "value",
+        "percent": 19
+      }
+    },
+    {
+      "age": "50plus",
+      "option": "scenery",
+      "respondents": {
+        "few": false,
+        "value": 15
+      },
+      "share": {
+        "kind": "value",
+        "percent": 19
+      }
+    },
+    {
+      "age": "50plus",
+      "option": "stamps",
+      "respondents": {
+        "few": false,
+        "value": 23
+      },
+      "share": {
+        "kind": "value",
+        "percent": 29
+      }
+    },
+    {
+      "age": "50plus",
+      "option": "rewards",
+      "respondents": {
+        "few": false,
+        "value": 12
+      },
+      "share": {
+        "kind": "value",
+        "percent": 15
+      }
+    },
+    {
+      "age": "50plus",
+      "option": "none",
+      "respondents": {
+        "few": false,
+        "value": 14
+      },
+      "share": {
+        "kind": "value",
+        "percent": 18
+      }
+    },
+    {
+      "age": "all",
+      "option": "interaction",
+      "respondents": {
+        "few": false,
+        "value": 69
+      },
+      "share": {
+        "kind": "value",
+        "percent": 24
+      }
+    },
+    {
+      "age": "all",
+      "option": "scenery",
+      "respondents": {
+        "few": false,
+        "value": 65
+      },
+      "share": {
+        "kind": "value",
+        "percent": 23
+      }
+    },
+    {
+      "age": "all",
+      "option": "stamps",
+      "respondents": {
+        "few": false,
+        "value": 55
+      },
+      "share": {
+        "kind": "value",
+        "percent": 19
+      }
+    },
+    {
+      "age": "all",
+      "option": "rewards",
+      "respondents": {
+        "few": false,
+        "value": 48
+      },
+      "share": {
+        "kind": "value",
+        "percent": 17
+      }
+    },
+    {
+      "age": "all",
+      "option": "none",
+      "respondents": {
+        "few": false,
+        "value": 50
+      },
+      "share": {
+        "kind": "value",
+        "percent": 17
+      }
+    }
+  ],
+  "requestThemes": [
+    {
+      "age": "under30",
+      "theme": "guidance",
+      "respondents": {
+        "few": false,
+        "value": 20
+      },
+      "share": {
+        "kind": "value",
+        "percent": 25
+      },
+      "dissatisfiedRate": {
+        "kind": "below",
+        "percent": 25
+      }
+    },
+    {
+      "age": "under30",
+      "theme": "transport",
+      "respondents": {
+        "few": false,
+        "value": 8
+      },
+      "share": {
+        "kind": "value",
+        "percent": 10
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 63
+      }
+    },
+    {
+      "age": "under30",
+      "theme": "rest",
+      "respondents": {
+        "few": false,
+        "value": 7
+      },
+      "share": {
+        "kind": "value",
+        "percent": 9
+      },
+      "dissatisfiedRate": {
+        "kind": "below",
+        "percent": 72
+      }
+    },
+    {
+      "age": "under30",
+      "theme": "reward",
+      "respondents": {
+        "few": false,
+        "value": 21
+      },
+      "share": {
+        "kind": "value",
+        "percent": 26
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 38
+      }
+    },
+    {
+      "age": "under30",
+      "theme": "app",
+      "respondents": {
+        "few": true
+      },
+      "share": {
+        "kind": "below",
+        "percent": 7
+      },
+      "dissatisfiedRate": {
+        "kind": "few"
+      }
+    },
+    {
+      "age": "under30",
+      "theme": "spot_info",
+      "respondents": {
+        "few": false,
+        "value": 7
+      },
+      "share": {
+        "kind": "value",
+        "percent": 9
+      },
+      "dissatisfiedRate": {
+        "kind": "below",
+        "percent": 72
+      }
+    },
+    {
+      "age": "under30",
+      "theme": "shops",
+      "respondents": {
+        "few": true
+      },
+      "share": {
+        "kind": "below",
+        "percent": 7
+      },
+      "dissatisfiedRate": {
+        "kind": "few"
+      }
+    },
+    {
+      "age": "under30",
+      "theme": "crowd",
+      "respondents": {
+        "few": true
+      },
+      "share": {
+        "kind": "below",
+        "percent": 7
+      },
+      "dissatisfiedRate": {
+        "kind": "few"
+      }
+    },
+    {
+      "age": "under30",
+      "theme": "none",
+      "respondents": {
+        "few": false,
+        "value": 21
+      },
+      "share": {
+        "kind": "value",
+        "percent": 26
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 0
+      }
+    },
+    {
+      "age": "30to49",
+      "theme": "guidance",
+      "respondents": {
+        "few": false,
+        "value": 24
+      },
+      "share": {
+        "kind": "value",
+        "percent": 19
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 21
+      }
+    },
+    {
+      "age": "30to49",
+      "theme": "transport",
+      "respondents": {
+        "few": false,
+        "value": 17
+      },
+      "share": {
+        "kind": "value",
+        "percent": 13
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 47
+      }
+    },
+    {
+      "age": "30to49",
+      "theme": "rest",
+      "respondents": {
+        "few": false,
+        "value": 7
+      },
+      "share": {
+        "kind": "value",
+        "percent": 5
+      },
+      "dissatisfiedRate": {
+        "kind": "below",
+        "percent": 72
+      }
+    },
+    {
+      "age": "30to49",
+      "theme": "reward",
+      "respondents": {
+        "few": false,
+        "value": 24
+      },
+      "share": {
+        "kind": "value",
+        "percent": 19
+      },
+      "dissatisfiedRate": {
+        "kind": "below",
+        "percent": 21
+      }
+    },
+    {
+      "age": "30to49",
+      "theme": "app",
+      "respondents": {
+        "few": true
+      },
+      "share": {
+        "kind": "below",
+        "percent": 4
+      },
+      "dissatisfiedRate": {
+        "kind": "few"
+      }
+    },
+    {
+      "age": "30to49",
+      "theme": "spot_info",
+      "respondents": {
+        "few": false,
+        "value": 15
+      },
+      "share": {
+        "kind": "value",
+        "percent": 12
+      },
+      "dissatisfiedRate": {
+        "kind": "below",
+        "percent": 34
+      }
+    },
+    {
+      "age": "30to49",
+      "theme": "shops",
+      "respondents": {
+        "few": false,
+        "value": 13
+      },
+      "share": {
+        "kind": "value",
+        "percent": 10
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 0
+      }
+    },
+    {
+      "age": "30to49",
+      "theme": "crowd",
+      "respondents": {
+        "few": false,
+        "value": 0
+      },
+      "share": {
+        "kind": "value",
+        "percent": 0
+      },
+      "dissatisfiedRate": {
+        "kind": "none"
+      }
+    },
+    {
+      "age": "30to49",
+      "theme": "none",
+      "respondents": {
+        "few": false,
+        "value": 45
+      },
+      "share": {
+        "kind": "value",
+        "percent": 35
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 0
+      }
+    },
+    {
+      "age": "50plus",
+      "theme": "guidance",
+      "respondents": {
+        "few": false,
+        "value": 14
+      },
+      "share": {
+        "kind": "value",
+        "percent": 18
+      },
+      "dissatisfiedRate": {
+        "kind": "below",
+        "percent": 36
+      }
+    },
+    {
+      "age": "50plus",
+      "theme": "transport",
+      "respondents": {
+        "few": false,
+        "value": 14
+      },
+      "share": {
+        "kind": "value",
+        "percent": 18
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 43
+      }
+    },
+    {
+      "age": "50plus",
+      "theme": "rest",
+      "respondents": {
+        "few": false,
+        "value": 5
+      },
+      "share": {
+        "kind": "value",
+        "percent": 6
+      },
+      "dissatisfiedRate": {
+        "kind": "below",
+        "percent": 100
+      }
+    },
+    {
+      "age": "50plus",
+      "theme": "reward",
+      "respondents": {
+        "few": false,
+        "value": 13
+      },
+      "share": {
+        "kind": "value",
+        "percent": 16
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 38
+      }
+    },
+    {
+      "age": "50plus",
+      "theme": "app",
+      "respondents": {
+        "few": true
+      },
+      "share": {
+        "kind": "below",
+        "percent": 7
+      },
+      "dissatisfiedRate": {
+        "kind": "few"
+      }
+    },
+    {
+      "age": "50plus",
+      "theme": "spot_info",
+      "respondents": {
+        "few": false,
+        "value": 11
+      },
+      "share": {
+        "kind": "value",
+        "percent": 14
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 0
+      }
+    },
+    {
+      "age": "50plus",
+      "theme": "shops",
+      "respondents": {
+        "few": false,
+        "value": 5
+      },
+      "share": {
+        "kind": "value",
+        "percent": 6
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 0
+      }
+    },
+    {
+      "age": "50plus",
+      "theme": "crowd",
+      "respondents": {
+        "few": true
+      },
+      "share": {
+        "kind": "below",
+        "percent": 7
+      },
+      "dissatisfiedRate": {
+        "kind": "few"
+      }
+    },
+    {
+      "age": "50plus",
+      "theme": "none",
+      "respondents": {
+        "few": false,
+        "value": 30
+      },
+      "share": {
+        "kind": "value",
+        "percent": 38
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 0
+      }
+    },
+    {
+      "age": "all",
+      "theme": "guidance",
+      "respondents": {
+        "few": false,
+        "value": 58
+      },
+      "share": {
+        "kind": "value",
+        "percent": 20
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 21
+      }
+    },
+    {
+      "age": "all",
+      "theme": "transport",
+      "respondents": {
+        "few": false,
+        "value": 39
+      },
+      "share": {
+        "kind": "value",
+        "percent": 14
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 49
+      }
+    },
+    {
+      "age": "all",
+      "theme": "rest",
+      "respondents": {
+        "few": false,
+        "value": 19
+      },
+      "share": {
+        "kind": "value",
+        "percent": 7
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 26
+      }
+    },
+    {
+      "age": "all",
+      "theme": "reward",
+      "respondents": {
+        "few": false,
+        "value": 58
+      },
+      "share": {
+        "kind": "value",
+        "percent": 20
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 28
+      }
+    },
+    {
+      "age": "all",
+      "theme": "app",
+      "respondents": {
+        "few": false,
+        "value": 10
+      },
+      "share": {
+        "kind": "value",
+        "percent": 3
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 100
+      }
+    },
+    {
+      "age": "all",
+      "theme": "spot_info",
+      "respondents": {
+        "few": false,
+        "value": 33
+      },
+      "share": {
+        "kind": "value",
+        "percent": 11
+      },
+      "dissatisfiedRate": {
+        "kind": "below",
+        "percent": 16
+      }
+    },
+    {
+      "age": "all",
+      "theme": "shops",
+      "respondents": {
+        "few": false,
+        "value": 20
+      },
+      "share": {
+        "kind": "value",
+        "percent": 7
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 0
+      }
+    },
+    {
+      "age": "all",
+      "theme": "crowd",
+      "respondents": {
+        "few": false,
+        "value": 5
+      },
+      "share": {
+        "kind": "value",
+        "percent": 2
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 100
+      }
+    },
+    {
+      "age": "all",
+      "theme": "none",
+      "respondents": {
+        "few": false,
+        "value": 96
+      },
+      "share": {
+        "kind": "value",
+        "percent": 33
+      },
+      "dissatisfiedRate": {
+        "kind": "value",
+        "percent": 0
+      }
+    }
+  ]
+}
