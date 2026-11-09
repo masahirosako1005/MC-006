@@ -1,0 +1,12 @@
+[
+  { "id": "test.banned", "category": "romance_hint", "severity": "deny", "pattern": "テスト禁止語", "target": "squeezed", "suggestion": "別の表現にしてください。" },
+  { "id": "romance.partner", "category": "romance_hint", "severity": "deny", "pattern": "恋人募集|彼氏募集|彼女募集|出会い(を|が)?(求|探|目的)|婚活|パートナー募集", "target": "squeezed", "suggestion": "旅の目的や行き先を中心に書いてください。" },
+  { "id": "contact.exchange", "category": "contact_exchange", "severity": "deny", "pattern": "連絡先(を)?(教え|交換|ください)|(line|ライン)(を)?(交換|教え)|個別(に)?連絡|dm(を)?(ください|して)", "target": "squeezed", "suggestion": "連絡はアプリ内のチャットで行ってください。" },
+  { "id": "contact.phone", "category": "contact_pattern", "severity": "deny", "pattern": "(?<!\\d)(0[789]0[-\\s]?\\d{4}[-\\s]?\\d{4}|0\\d{1,4}[-\\s]\\d{1,4}[-\\s]\\d{3,4})(?!\\d)", "target": "plain", "suggestion": "電話番号は書かないでください。" },
+  { "id": "contact.email", "category": "contact_pattern", "severity": "deny", "pattern": "[a-z0-9._%+-]+@[a-z0-9-]+(\\.[a-z0-9-]+)*\\.[a-z]{2,}", "target": "plain", "suggestion": "メールアドレスは書かないでください。" },
+  { "id": "contact.url", "category": "contact_pattern", "severity": "deny", "pattern": "https?:\\/\\/|www\\.|(?<![a-z0-9])[a-z0-9-]+\\.(com|jp|net|org|io)(?![a-z0-9])", "target": "plain", "suggestion": "外部リンクは書かないでください。" },
+  { "id": "contact.snsid", "category": "contact_pattern", "severity": "deny", "pattern": "(?<![a-z0-9._%+-])@[a-z0-9_]{3,}|(line|ライン|instagram|インスタ|twitter|x)\\s*(id|アカウント)", "target": "plain", "suggestion": "SNS の ID は書かないでください。" },
+  { "id": "money.solicit", "category": "money_solicit", "severity": "deny", "pattern": "投資(話|案内|勧誘)|儲かる|副業(紹介|募集)|ネットワークビジネス|送金してください|振り込んでください", "target": "squeezed", "suggestion": "金銭に関する勧誘は書かないでください。" },
+  { "id": "gender.filter", "category": "gender_filter", "severity": "deny", "pattern": "(男性|女性|男|女)(限定|のみ|だけ|歓迎)", "target": "squeezed", "suggestion": "参加条件に性別は使えません。" },
+  { "id": "age.filter", "category": "age_filter", "severity": "deny", "pattern": "\\d{2}代(限定|のみ|だけ|まで)|\\d{2}歳(以下|以上|まで|限定)|未成年", "target": "squeezed", "suggestion": "参加条件に細かい年齢は使えません。" }
+]
