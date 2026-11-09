@@ -9,6 +9,10 @@ Thumbs.db
 .env.*
 !.env.example
 
+# Claude Code (worktrees and personal settings are local only)
+.claude/worktrees/
+.claude/settings.local.json
+
 # Local DB and generated data
 *.sqlite
 *.sqlite3
