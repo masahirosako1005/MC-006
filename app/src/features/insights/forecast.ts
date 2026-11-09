@@ -1,7 +1,7 @@
 // 13 見込みの計算(INS-FN-06・07、13 §6)。純粋関数。
-// 12 の privacy.ts は別タスクで未実装のため、少数判定はここで自前に行う(FollowUp 参照)。
 import type { DateStr, Id } from "@/lib/groups-types";
 import type { CoarseAgeBand, CountCell, RateCell } from "@/features/stats/types";
+import { suppressBreakdown, toCountCell } from "@/features/stats/privacy";
 import { INSIGHT_THRESHOLDS } from "./config";
 import { AGE_LABELS, AGE_ORDER, THEME_LABELS } from "./messages";
 import type {
@@ -13,22 +13,7 @@ import { weekLabel } from "./weeks";
 const FEW: CountCell = { few: true };
 const val = (n: number): CountCell => ({ few: false, value: n });
 
-function toCell(n: number, k: number): CountCell {
-  return n > 0 && n < k ? FEW : val(n);
-}
 
-/** 内訳(成分)の少数判定と補完秘匿。成分のうち少数が 1 つだけなら、次に小さい非ゼロ成分も少数にする。 */
-function suppress(counts: number[], k: number): boolean[] {
-  const flags = counts.map((n) => n > 0 && n < k);
-  if (flags.filter(Boolean).length === 1) {
-    let best = -1;
-    counts.forEach((n, i) => {
-      if (!flags[i] && n > 0 && (best < 0 || n < counts[best])) best = i;
-    });
-    if (best >= 0) flags[best] = true;
-  }
-  return flags;
-}
 
 function baselineWeekKeys(agg: InsightAggregates): Set<string> {
   return new Set(agg.meta.weeks.filter((w) => w.useForBaseline).map((w) => w.key));
@@ -101,21 +86,21 @@ export function computeForecast(input: {
     const conf = ov.filter((f) => f.certainty === "confirmed").reduce((s, f) => s + f.ages.length, 0);
     const tent = totalReal - conf;
 
-    const ageFlags = suppress(ageReal, k);
+    const ageFlags = suppressBreakdown(ageReal, k);
     const byAge = AGE_ORDER.map((age, i) => ({
       age, label: AGE_LABELS[age],
       cell: makeCell(baseAge.get(age)!, ageFlags[i] ? FEW : val(ageReal[i])),
     }));
-    const certFlags = suppress([conf, tent], k);
+    const certFlags = suppressBreakdown([conf, tent], k);
     return {
       weekStart: w.weekStart, weekEnd: w.weekEnd, label: weekLabel(w.weekStart, w.weekEnd),
-      total: makeCell(baseTotal, toCell(totalReal, k)),
+      total: makeCell(baseTotal, toCountCell(totalReal, k)),
       byAge,
       plannedByCertainty: {
         confirmed: certFlags[0] ? FEW : val(conf),
         tentative: certFlags[1] ? FEW : val(tent),
       },
-      groups: toCell(ov.length, k),
+      groups: toCountCell(ov.length, k),
     };
   });
 
@@ -128,7 +113,7 @@ export function computeForecast(input: {
     regionId: r.id, regionName: r.name, weeks: [],
   }));
   input.weeks.forEach((w, wi) => {
-    const flags = suppress(regions.map((_, ri) => perRegionReal[ri][wi]), k);
+    const flags = suppressBreakdown(regions.map((_, ri) => perRegionReal[ri][wi]), k);
     regions.forEach((r, ri) => {
       const base = baselineSum(agg, [r.id], "all", keys);
       const planned = flags[ri] ? FEW : val(perRegionReal[ri][wi]);
