@@ -44,6 +44,8 @@
 | 30 | 禁止表現の新カテゴリ `official_hint` は採用しない | 6.2 |
 | 方針 | メインルートの動作に集中し、エッジケースの作り込みは見送ってよい(`.work/review.md` 第 12 章) | 第 16 章 |
 
+- 13 追補 [INS-C-17、13 §22]: undefined
+
 ## 2. ルーティング
 
 ### 2.1 方式 [統一]
@@ -93,6 +95,8 @@ export { getPlanHandler as GET } from "@/features/groups/plan/handlers";
 - `/api/groups` 直下の子は `[groupId]` だけ、`G` 直下の子は静的セグメントだけ、`G/join-requests` の子は `[requestId]` だけ、`G/plan/items` の子は `[itemId]` だけ、`G/expenses` の子は `[expenseId]` だけにした(R-2)。
 - 画面のパス [決定 26/統一]: 一覧 `/[campaign]/groups`、詳細 `/[campaign]/groups/[groupId]`、作成 `/[campaign]/new-group`、招待コード入力 `/[campaign]/invite`(照合・プレビュー・申請を同じ画面で行う。7.2)、通知 `/[campaign]/notifications`、入口B `/[campaign]/entry`、ダミー外部リンク集 `/[campaign]/external-links`、集計 `/[campaign]/admin/stats`。`groups/new` は R-2 に反するため使わない。グループ詳細の子画面は `/[campaign]/groups/[groupId]/edit`、`/members`、`/review`、`/replan` など静的セグメントだけとし、タブは `?tab=` で切り替える。
 
+- 13 追補 [INS-C-04、13 §22]: undefined
+
 ### 2.3 メソッドと応答 [統一]
 
 - 取得は GET、作成は POST(201)、全置換は PUT、部分更新は PATCH、削除は DELETE(本文なし)。状態遷移の操作は POST の動詞サブパス(`approve`、`withdraw`、`cancel` など)。
@@ -130,6 +134,8 @@ export { getPlanHandler as GET } from "@/features/groups/plan/handlers";
 - Store に置かないもの: レート制限の計数(09 の `checkRate` が globalThis の Map に持つ)、06 の `chatSeq`(廃止)、03 の `inviteAttempts` と 01 の `inviteIndex`・`inviteAttempts`(廃止。7.2)、12 の `entryEvents`(作らない。7.12)。
 - 型の定義場所: エンティティの形は所有モジュールの `features/<m>/types.ts` に置く。00 の `lib/groups-types.ts` は基本型(`Id`、`DateStr`、`IsoDateTime`)、`DemoUser`、`UserRole`、共通 DTO(`Page<T>`、`CursorPage<T>` ほか)だけを持ち、それ以外は各モジュールの型を再エクスポートする。
 
+- 13 追補 [INS-C-03、13 §22]: undefined
+
 ### 3.2 ID [統一]
 
 - 採番する ID は 00 の形式 `<接頭辞>-<3〜8 桁の連番>`、`newId(prefix)` で作る。
@@ -146,6 +152,8 @@ export const ID_PREFIXES = [
 - 形式不正の扱い: パスの ID は `not_found`(404)、本文・クエリの ID は `invalid_input`(400)。
 - 06 のメッセージ ID は `newId("msg")` とし、`sinceId`・`before` の比較は 00 の `idSeq(id)`(連番部分の数値)で行う。`seq` 項目は連番部分から導出する(保存しない)。
 - 試験だけで使うデータの ID も同じ形式にする(例: `g-901`、`u-901`)。`g-t06`、`u-new`、`u-minor`、`g-pub` のような形式外の ID は使わない(11.3)。
+
+- 13 追補 [INS-C-02、13 §22]: undefined
 
 ### 3.3 エラー [統一]
 
@@ -175,6 +183,8 @@ export class AppError extends Error {
 - `fields` の値は文字列。
 - モジュール固有のコードは作らない。08 の `invalid_code` は `invalid_input` + `reason: "invalid_code"`、`already_acquired` は `conflict` + `reason: "already_acquired"`。
 - 複数モジュールにまたがる `reason` の値は本書で決める: 受付終了(4.3)、本人確認(7.10)、禁止表現(6.2)、楽観ロック `version_mismatch`(2.3)、件数上限 `limit_exceeded`(10.3)。それ以外は各モジュールのエラー表に書く。
+
+- 13 追補 [INS-C-05、13 §22]: undefined
 
 ### 3.4 入力の規則 [統一]
 
@@ -212,6 +222,9 @@ export interface DemoUser {
 - 年代帯・ひとこと・旅の目的・公開設定は 09 の `Profile` に置く。本人確認は 09 の `Verification`。
 - 表示名: 画面に出す利用者の表示名は 09 の `Profile.displayName` を正とし、`visibleProfile` の結果から得る。`DemoUser.displayName` はデモの視点切替(DemoBar、`/api/demo/users`)だけで使う。09 の `PUT /api/me/profile` は同じ `tx` で `Profile.displayName` と `DemoUser.displayName` の両方を更新し、2 つの値を常に一致させる。seed も同じ値にする。
 
+- 13 追補 [INS-C-01、13 §22]: undefined
+- 13 追補 [INS-C-13、13 §22]: undefined
+
 ### 3.7 00 が公開する補助関数・型 [統一]
 
 各モジュールが自前で作らず、00 のものを使う。
@@ -227,6 +240,8 @@ export interface DemoUser {
 | `c.query(schema)` | クエリを strict に検証する。schema に無いキー(`limit`・`offset`・`sort` を除く)は `invalid_input`(`fields.<key>`)。本文用の `v.object`(未知キーを捨てる)とは扱いを分ける(3.4)。02 の lenient は `c.url.searchParams` を自前で解釈する | 全モジュールの GET |
 | `insertGroup`・`insertMember`・`insertBlock`(試験用) | 試験専用データを入れる。ID を引数で受け取り(省略時は `newId`)、900 番台の固定 ID(`g-901` など)を使う。seed の採番(`g-014` 以降)と重ならない。入れた後も `counters` は変えない | 全モジュールの試験 |
 | `fixtures.ts` | 試験の ID 定数(11.3) | 全モジュールの試験 |
+
+- 13 追補 [INS-C-07、13 §22]: 内容は 11.4 の同 ID の追補を参照。
 
 ## 4. グループの形と状態(01・04)
 
@@ -422,6 +437,8 @@ export function on<T extends DomainEvent["type"]>(
 - 01 は 02・04 を実行時に import しない。作成と詳細の合成は合成層が行う(5.1、5.5)。
 - 画面からの API 利用は import の依存に数えない。04 の退会確認ダイアログは 07 の `GET G/expense-summary` を取得する(4.5)。
 
+- 13 追補 [INS-C-10、13 §22]: undefined
+
 ## 5. 主要な処理の流れ
 
 ### 5.1 グループの作成 [統一]
@@ -478,6 +495,8 @@ export function on<T extends DomainEvent["type"]>(
 - 資源の所属確認は 09 `assertInGroup(item, groupId)`。
 - 09 の `GroupRecord` は本書の `Group` を読む。
 - 公開判定は 09 `isGroupVisibleTo(viewerId: Id, group: GroupRecord, opts?: { inviteVerified?: boolean }): boolean`。公開グループはブロック関係がなければ真。非公開グループは関係者、または `inviteVerified: true` のときだけ真(ブロック関係があれば偽)。招待コードの照合は 01 が行い、照合済みのときだけ呼び出し側(02 の `POST /api/invites/lookup`)が `inviteVerified: true` を渡す(09 は 01 を import しない)。
+
+- 13 追補 [INS-C-11、13 §22]: undefined
 
 ### 6.2 禁止表現 [統一/決定 30]
 
@@ -566,6 +585,8 @@ assertInviteCode(groupId: Id, rawCode: string): void;                           
 - 一覧の `limit` の既定は 12(`parsePage(q, { defaultLimit: 12 })`)、並び順は `?sort=<キー>:<asc|desc>`(2.3)。
 - `evaluateAll` は呼ばない(3.5)。
 
+- 13 追補 [INS-C-06、13 §22]: 内容は 11.4 の同 ID の追補を参照。
+
 ### 7.4 03 参加申請・承認
 
 - `JoinRequest` は 03 の形を正とし、`reentryOfGroupId: Id | null` を持つ。状態は `pending | approved | rejected | withdrawn | expired` の 5 値。
@@ -648,6 +669,8 @@ export interface RallyRewardGrant { id: Id; userId: Id; rewardId: number; groupI
 - `sanitizeText`・`isId` は 00 を使う。
 - seed に全デモユーザーの Profile と Verification を置く(00 が統合)。
 
+- 13 追補 [INS-C-11、13 §22]: 内容は 6.1 の同 ID の追補を参照。
+
 ### 7.11 11 入口B・公式枠
 
 - `Municipality`・`LocalHost` は 11 が所有し、12 はそれを読む。担当者は `DemoUser.municipalityId`/`hostId` から引く。
@@ -679,6 +702,8 @@ export interface LocalHost { id: string; campaign: string; displayName: string; 
 - 年代の集計区分(3 区分)は 09 の `AgeBand` から変換する(`18-19`・`20s` → `under30`、`30s`・`40s` → `30to49`、`50s`・`60s`・`70s+` → `50plus`)。
 - アンケートの指標(満足度・再訪意向・地元との交流・滞在中の回遊)は `completed` のグループの回答だけを対象にし、余力の扱いとする(12 の時系列・ファネルと同じ優先度)。
 - 自治体と担当地方は `db().municipalities` から読む(`features/stats/municipalities.ts` は廃止)。
+
+- 13 追補 [INS-C-12、13 §22]: undefined
 
 ## 8. 01・04 の lifecycle 書き込みの規則
 
@@ -787,6 +812,8 @@ export interface LocalHost { id: string; campaign: string; displayName: string; 
 - 件数上限の超過は `conflict` + `reason: "limit_exceeded"`(07・08)。05 の項目数の超過は 05 の既存の扱い(`invalid_input`、`fields.items`)のままでよい。
 - 業務上の数(03 の申請総数 3 件、01 の作成上限 5 件、06 の保持件数 500、カーソル一覧の既定・最大、ポーリング間隔)は各モジュールの定数に残す。
 
+- 13 追補 [INS-C-09、13 §22]: undefined
+
 ### 10.4 レート制限(09 の `RATE_LIMITS`)
 
 - `chat_post` は 10 件/60 秒 [決定 4]。他(`join_request`、`report`、`block`、`profile_update`、`group_create`)は 09 の値のまま。招待コードの照合は数えない [決定 8]。
@@ -797,6 +824,8 @@ export interface LocalHost { id: string; campaign: string; displayName: string; 
 - 集計(12)の最小セル K = 5。12 の `MIN_CELL_COUNT`・`toCountCell`・`toRateCell`・`suppressBreakdown` に一本化する。内訳の補完秘匿(`suppressBreakdown`。合計から 1 セルを逆算できないようにする)は残す。第 16 章で見送るのは、期間や条件を変えた複数回の照会の差分による推測への対策だけ。
 - 09 の `suppressSmallCell` と 08 の集計関数は作らない。
 - グループ内のメンバー概要(09 の `memberSummary`、4 人未満は年代を出さない)は別の規則として残す。
+
+- 13 追補 [INS-C-10、13 §22]: 内容は 4.6 の同 ID の追補を参照。
 
 ### 10.6 退会者の表示 [決定 18]
 
@@ -849,6 +878,8 @@ async headers() {
 - 状態以外の見本: 非公開グループは `PRIVATE_GROUP`(g-008。招待コードは seed のダミー値)、ブロック関係は `BLOCK_SAMPLE`(u-001 が u-006 をブロック)、元メンバーは `LEFT_MEMBER_SAMPLE`(g-011 の u-006、wd-002)、未確認の成人は `UNVERIFIED_USER`(u-010)、18 歳未満は `UNDERAGE_USER`(u-008)。
 - 試験の中だけで作るデータは 00 の `insertGroup`・`insertMember`・`insertBlock` を使い、ID は 3.2 の形式で 900 番台(`g-901`、`u-901` など)とする(3.7)。
 
+- 13 追補 [INS-C-14、13 §22]: undefined
+
 ### 11.4 seed
 
 - 本人確認: u-004 は確認済み。u-010 は未確認の成人。u-008 は 18 歳未満(`underage`、`Profile.ageBand: "18-19"`)。自治体担当者 u-009(`mun-demo-a`)・u-011(`mun-demo-b`)と地元の担い手 u-012(`host-demo-a`)は確認済み。
@@ -856,6 +887,10 @@ async headers() {
 - 辞退と退会の見本: g-004 の u-006 は辞退(wd-001、`phase: withdrawal_period`。メンバー行は `left`)。g-011 に、実行確定のときに退会した元メンバー(u-006、wd-002、`phase: confirmed`、メンバー行は `left`)を置き、u-006 が退会前に記録した費用メモ 1 件を含める(07 の「元メンバー」表示の見本)。
 - 通知の seed は必須 12 種から選ぶ。
 - 各モジュールの seed 断片は 00 の `group-seed.json` に統合する。
+
+- 13 追補 [INS-C-06、13 §22]: undefined
+- 13 追補 [INS-C-07、13 §22]: undefined
+- 13 追補 [INS-C-08、13 §22]: undefined
 
 ## 12. docs/design の更新
 
@@ -871,6 +906,8 @@ async headers() {
 | 12 | 判断済み事項の反映(第 1 章) |
 
 - docs/feature の README: 依存図(4.6。合成層を含む)、ルーティング方式(2.1)、`features/entry`・`features/official`・`features/groups/compose` の追加、「写真投稿・アンケートは既存流用」の訂正(app/ に実装がない)、柱番号(04 は 18)。
+
+- 13 追補 [INS-C-15、13 §22]: undefined
 
 ## 13. 各モジュールの改訂項目(第 1 回。反映済み)
 
@@ -1042,6 +1079,8 @@ async headers() {
 | 余力の機能 | `chat_new`・`deadline_near` の通知、`read-all`、通知の保持期間、`status-log` API、変更履歴(05)、地図表示、ページネーションの UI | - |
 | 性能・網羅試験 | 性能の目安(02 DSC-T-73)、ランダム操作による不変条件の試験(01 GRP-T-42) | - |
 | 方針の切替 | 09 の `minorPolicy: "deny_all"`、`sameGroupOnBlock: "leave"`、03 の `INVITE_POLICY`・`CONSENT_POLICY` の別案 | 既定値での動作 |
+
+- 13 追補 [INS-C-16、13 §22]: undefined
 
 ## 17. 追補修正表
 
