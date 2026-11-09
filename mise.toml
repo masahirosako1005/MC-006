@@ -1,0 +1,32 @@
+[tools]
+node = "24.21.0"
+
+[tasks.install]
+description = "Install app dependencies (npm ci)"
+dir = "app"
+run = "npm ci"
+
+[tasks.dev]
+description = "Start Next.js dev server"
+dir = "app"
+run = "npm run dev"
+
+[tasks.build]
+description = "Build the app"
+dir = "app"
+run = "npm run build"
+
+[tasks.lint]
+description = "Run ESLint"
+dir = "app"
+run = "npm run lint"
+
+[tasks.seed]
+description = "Generate app/src/data/seed.json from sample-data CSVs"
+dir = "app"
+run = "npm run seed"
+
+[tasks.test]
+description = "Run tests (Vitest not yet introduced)"
+dir = "app"
+run = "echo 'test: Vitest is not installed yet'"
