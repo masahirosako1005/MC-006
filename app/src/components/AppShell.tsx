@@ -2,8 +2,10 @@
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { ActionIcon, Indicator } from "@mantine/core";
-import { IconArrowLeft, IconBell, IconGift, IconHome, IconMap2 } from "@tabler/icons-react";
+import { IconArrowLeft, IconBell, IconChartBar, IconGift, IconHome, IconMap2 } from "@tabler/icons-react";
 import { useApi } from "@/lib/api";
+import { useCurrentUser } from "@/lib/groups-api";
+import { DemoBar } from "@/components/groups/common/DemoBar";
 
 const TITLES: Record<string, string> = {
   "": "ホーム", spots: "スポット", "spots/detail": "スポット詳細", rewards: "特典", "rewards/detail": "特典詳細",
@@ -23,6 +25,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     { href: `${base}/spots`, rel: "spots", label: "スポット", icon: <IconMap2 size={22} aria-hidden /> },
     { href: `${base}/pointHistory`, rel: "pointHistory", label: "GET特典履歴", icon: <IconGift size={22} aria-hidden /> },
   ];
+  const { user } = useCurrentUser();
+  if (user?.role === "municipal") nav.push({ href: `${base}/admin/stats`, rel: "admin/stats", label: "集計", icon: <IconChartBar size={22} aria-hidden /> });
+  if (user?.role === "business_owner") nav.push({ href: `${base}/business/insights`, rel: "business/insights", label: "インサイト", icon: <IconChartBar size={22} aria-hidden /> });
   return (
     <div className="app-shell">
       <header className="app-header">
@@ -34,6 +39,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <ActionIcon component={Link} href={`${base}/news`} variant="subtle" color="white" aria-label="通知"><IconBell /></ActionIcon>
         </Indicator>
       </header>
+      <DemoBar />
       <main className="app-main">{children}</main>
       <nav className="app-nav" aria-label="メインメニュー">
         {nav.map((n) => (
