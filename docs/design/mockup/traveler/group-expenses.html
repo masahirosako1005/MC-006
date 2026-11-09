@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>費用メモ | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    .trv15-cards { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .trv15-table { display: none; }
+    @media (min-width: 768px) { .trv15-cards { display: none; } .trv15-table { display: block; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option>ミサキ(旅行者)</option>
+        <option selected>ケンタ(旅行者)</option>
+        <option>ユイ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>ナナミ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="group-hub.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>費用メモ</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 3 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ケ</span>ケンタ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用。実装では作らない) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>TRV-15</dd>
+        <dt>画面名</dt><dd>ハブ: 費用メモ</dd>
+        <dt>対象ロール</dt><dd>旅行者(参加中のメンバー。実行確定から記録できる。完了後も編集可)</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/groups/[groupId]?tab=expense</code>(07 §3。index.html は <code>?tab=expenses</code>)</dd>
+        <dt>参照設計書</dt><dd>docs/feature/07-expense-notes.md §3・§3.1(EXP-UI-01〜06)・§3.2、§7.3(注意書きの文言)、_unified-contracts.md §4.4(<code>canEditExpenses</code>)、§7.9、§10.3(<code>EXPENSE_TITLE</code>、<code>AMOUNT</code>、<code>EXPENSE_MEMO</code>)、§10.6</dd>
+        <dt>見本データ</dt><dd>g-011 虹帆町 夜明けの港(実施中。11-08〜11-10。メンバー: ユイ(幹事)、ダイスケ、ケンタ。ソウタは実行確定時に退会した元メンバー)。閲覧者: ケンタ</dd>
+        <dt>遷移先</dt><dd><a href="group-hub.html">概要(TRV-12)</a>、<a href="#add-expense">追加フォーム</a>、<a href="withdraw-dialog.html">退会の確認(差額の表示。TRV-20)</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="group-list.html">グループ一覧</a></li>
+            <li><a href="group-hub.html">虹帆町 夜明けの港</a></li>
+            <li><span aria-current="page">費用メモ</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">費用メモ</p>
+
+        <div class="card card--sm">
+          <div class="group group--between group--nowrap group--top">
+            <div>
+              <p class="card__title">虹帆町 夜明けの港</p>
+              <p class="card__meta">虹帆町 / 2026-11-08〜11-10 / 幹事: ユイ / メンバー 3 人</p>
+            </div>
+            <span class="status status--in-progress">実施中</span>
+          </div>
+        </div>
+
+        <nav aria-label="グループ内のメニュー">
+        <ul class="tabs">
+          <li><a class="tabs__tab" href="group-hub.html">概要</a></li>
+          <li><a class="tabs__tab" href="group-plan.html">旅程・集合場所</a></li>
+          <li><a class="tabs__tab" href="group-chat.html">チャット</a></li>
+          <li><a class="tabs__tab" href="group-expenses.html" aria-current="page">費用メモ</a></li>
+          <li><a class="tabs__tab" href="group-rally.html">スタンプラリー</a></li>
+          <li><a class="tabs__tab" href="group-review.html">振り返り</a></li>
+          <li><a class="tabs__tab" href="group-members.html">メンバー</a></li>
+        </ul>
+        </nav>
+
+        <div class="alert alert--warning" role="note">
+          <span class="alert__icon" aria-hidden="true">!</span>
+          <div><p class="alert__title">記録のみ。決済・送金はしません</p><p>この画面は費用の記録用メモです。アプリは送金・決済・請求を行いません。お金のやりとりは、メンバー同士で直接ご相談のうえ、各自の責任で行ってください。</p></div>
+        </div>
+
+        <section class="stack" aria-labelledby="list-title">
+          <div class="group group--between">
+            <h2 id="list-title" class="title-section">費用(3 件・合計 5,700 円)</h2>
+            <a class="btn btn--primary btn--sm" href="#add-expense">費用を追加</a>
+          </div>
+          <ul class="trv15-cards" aria-label="費用の一覧">
+          <li class="card card--sm">
+            <div class="group group--between group--nowrap">
+              <h3 class="card__title">灯台の入館料</h3>
+              <span class="text-bold">1,500 円</span>
+            </div>
+            <dl class="kv" style="margin-top:4px">
+              <dt>日付</dt><dd>2026-11-09</dd>
+              <dt>立て替えた人</dt><dd>ケンタ</dd>
+              <dt>対象</dt><dd>ユイ、ダイスケ、ケンタ(3 人)</dd>
+              <dt>更新</dt><dd>ケンタ 11-09 10:40</dd>
+            </dl>
+            <div class="btn-row" style="margin-top:6px"><a class="btn btn--ghost btn--sm" href="#add-expense">編集<span class="visually-hidden">: 灯台の入館料</span></a><button class="btn btn--ghost btn--sm" type="button">削除<span class="visually-hidden">: 灯台の入館料</span></button></div>
+          </li>
+          <li class="card card--sm">
+            <div class="group group--between group--nowrap">
+              <h3 class="card__title">朝市の軽食</h3>
+              <span class="text-bold">2,400 円</span>
+            </div>
+            <dl class="kv" style="margin-top:4px">
+              <dt>日付</dt><dd>2026-11-08</dd>
+              <dt>立て替えた人</dt><dd>ユイ</dd>
+              <dt>対象</dt><dd>ユイ、ダイスケ、ケンタ(3 人)</dd>
+              <dt>更新</dt><dd>ユイ 11-08 12:05</dd>
+            </dl>
+            <div class="btn-row" style="margin-top:6px"><a class="btn btn--ghost btn--sm" href="#add-expense">編集<span class="visually-hidden">: 朝市の軽食</span></a><button class="btn btn--ghost btn--sm" type="button">削除<span class="visually-hidden">: 朝市の軽食</span></button></div>
+          </li>
+          <li class="card card--sm">
+            <div class="group group--between group--nowrap">
+              <h3 class="card__title">渡し船の予約</h3>
+              <span class="text-bold">1,800 円</span>
+            </div>
+            <dl class="kv" style="margin-top:4px">
+              <dt>日付</dt><dd>2026-11-02</dd>
+              <dt>立て替えた人</dt><dd>ユイ</dd>
+              <dt>対象</dt><dd>ユイ、ダイスケ、ケンタ(3 人)</dd>
+              <dt>更新</dt><dd>元メンバー 11-02 21:20</dd>
+            </dl>
+            <div class="btn-row" style="margin-top:6px"><a class="btn btn--ghost btn--sm" href="#add-expense">編集<span class="visually-hidden">: 渡し船の予約</span></a><button class="btn btn--ghost btn--sm" type="button">削除<span class="visually-hidden">: 渡し船の予約</span></button></div>
+          </li>
+          </ul>
+          <div class="table-wrap trv15-table">
+            <table class="table table--striped">
+              <caption>費用の一覧(日付の新しい順)</caption>
+              <thead><tr><th scope="col">日付</th><th scope="col">項目</th><th scope="col" class="num">金額</th><th scope="col">立て替えた人</th><th scope="col">対象</th><th scope="col">更新</th><th scope="col">操作</th></tr></thead>
+              <tbody>
+              <tr><td>11-09</td><td>灯台の入館料</td><td class="num">1,500 円</td><td>ケンタ</td><td>ユイ、ダイスケ、ケンタ(3 人)</td><td class="text-xs">ケンタ 11-09 10:40</td><td><div class="btn-row"><a class="btn btn--ghost btn--sm" href="#add-expense">編集<span class="visually-hidden">: 灯台の入館料</span></a><button class="btn btn--ghost btn--sm" type="button">削除<span class="visually-hidden">: 灯台の入館料</span></button></div></td></tr>
+              <tr><td>11-08</td><td>朝市の軽食</td><td class="num">2,400 円</td><td>ユイ</td><td>ユイ、ダイスケ、ケンタ(3 人)</td><td class="text-xs">ユイ 11-08 12:05</td><td><div class="btn-row"><a class="btn btn--ghost btn--sm" href="#add-expense">編集<span class="visually-hidden">: 朝市の軽食</span></a><button class="btn btn--ghost btn--sm" type="button">削除<span class="visually-hidden">: 朝市の軽食</span></button></div></td></tr>
+              <tr><td>11-02</td><td>渡し船の予約</td><td class="num">1,800 円</td><td>ユイ</td><td>ユイ、ダイスケ、ケンタ(3 人)</td><td class="text-xs">元メンバー 11-02 21:20</td><td><div class="btn-row"><a class="btn btn--ghost btn--sm" href="#add-expense">編集<span class="visually-hidden">: 渡し船の予約</span></a><button class="btn btn--ghost btn--sm" type="button">削除<span class="visually-hidden">: 渡し船の予約</span></button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="mock-note">モック注記: 退会したメンバーの記録は残し、表示名を「元メンバー」とする。</p>
+        </section>
+
+        <section class="card stack" aria-labelledby="sum-title">
+          <h2 id="sum-title" class="title-section">分担の目安</h2>
+          <p class="text-xs text-dimmed">これは記録をもとにした目安の計算です。支払いの義務や金額を決めるものではありません。端数は 1 円単位で調整しています。</p>
+          <div class="stat-grid" aria-live="polite">
+            <div class="stat"><span class="stat__label">合計</span><span class="stat__value">5,700 円</span><span class="stat__note">3 件</span></div>
+            <div class="stat"><span class="stat__label">一人あたりの目安</span><span class="stat__value">1,900 円</span><span class="stat__note">対象 3 人</span></div>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <caption>メンバー別の目安</caption>
+              <thead><tr><th scope="col">メンバー</th><th scope="col" class="num">立て替え</th><th scope="col" class="num">負担の目安</th><th scope="col" class="num">差額</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">ユイ</th><td class="num">4,200 円</td><td class="num">1,900 円</td><td class="num">+2,300 円(受け取る側)</td></tr>
+                <tr><th scope="row">ダイスケ</th><td class="num">0 円</td><td class="num">1,900 円</td><td class="num">-1,900 円(支払う側)</td></tr>
+                <tr><th scope="row">ケンタ(あなた)</th><td class="num">1,500 円</td><td class="num">1,900 円</td><td class="num">-400 円(支払う側)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <details>
+            <summary class="text-sm text-bold">精算の目安を見る</summary>
+            <ul class="text-sm" style="margin:6px 0 0;padding-left:20px">
+              <li>ダイスケさんはユイさんに 1,900円(目安)</li>
+              <li>ケンタさんはユイさんに 400円(目安)</li>
+            </ul>
+          </details>
+        </section>
+
+        <div class="alert alert--info" role="status">
+          <span class="alert__icon" aria-hidden="true">i</span>
+          <div>(閲覧のみの例)費用メモは、旅行の実行が確定してから記録できます。</div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a> / <a href="../components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+
+  <!-- ===== 追加・編集フォーム(EXP-UI-04。:target で開く) ===== -->
+  <div id="add-expense" class="modal-overlay modal-overlay--target">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="ex-title">
+      <div class="modal__header">
+        <h2 class="modal__title" id="ex-title">費用を追加</h2>
+        <a class="modal__close" href="#main" aria-label="閉じる">×</a>
+      </div>
+      <form class="modal__body" action="#main">
+        <p class="field__help">金額は円の整数で入力します。連絡先や支払い方法は書かないでください。</p>
+        <div class="field">
+          <label class="field__label" for="ex-name">項目名<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+          <input class="input" id="ex-name" type="text" required aria-describedby="ex-name-help">
+          <p class="field__help" id="ex-name-help">40 文字以内。</p>
+        </div>
+        <div class="grid grid--2">
+          <div class="field">
+            <label class="field__label" for="ex-amount">金額(円)<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+            <input class="input" id="ex-amount" type="number" inputmode="numeric" min="1" max="1000000" step="1" required aria-describedby="ex-amount-help">
+            <p class="field__help" id="ex-amount-help">1〜1,000,000 円。</p>
+          </div>
+          <div class="field">
+            <label class="field__label" for="ex-date">日付<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+            <input class="input" id="ex-date" type="date" value="2026-11-09" required>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field__label" for="ex-payer">立て替えた人<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+          <select class="select" id="ex-payer" required>
+            <option>ユイ</option><option>ダイスケ</option><option selected>ケンタ(あなた)</option>
+          </select>
+        </div>
+        <fieldset class="fieldset">
+          <legend>対象メンバー(1 人以上)</legend>
+          <button class="btn btn--ghost btn--sm" type="button">全員を選ぶ</button>
+          <label class="check"><input type="checkbox" checked> <span class="check__text">ユイ</span></label>
+          <label class="check"><input type="checkbox" checked> <span class="check__text">ダイスケ</span></label>
+          <label class="check"><input type="checkbox" checked> <span class="check__text">ケンタ(あなた)</span></label>
+        </fieldset>
+        <div class="field">
+          <label class="field__label" for="ex-memo">メモ(任意)</label>
+          <textarea class="textarea" id="ex-memo" aria-describedby="ex-memo-help"></textarea>
+          <p class="field__help" id="ex-memo-help">200 文字・3 行以内。</p>
+        </div>
+        <div class="modal__footer" style="padding:0">
+          <a class="btn btn--ghost" href="#main">やめる</a>
+          <button class="btn btn--primary" type="submit">保存する</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

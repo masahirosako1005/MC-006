@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<!--
+  TRV-02 グループ詳細(参加前)(docs/design/mockup/traveler/group-detail-public.html)
+  _template.html から作成。決まりは docs/design/mockup/README.md を参照。
+  主な表示: g-002 虹帆町 夜市めぐり(公式。募集中)。視点: ダイスケ(u-004。関係者ではない)。基準日 2026-11-09。
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>グループ詳細(参加前) | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    /* TRV-02 固有。デスクトップ幅は本文+右の申請欄の 2 列(base の .grid--side は左が狭い列のため、逆向きを画面内で定義) */
+    .trv02-layout { display: grid; gap: var(--sp-md); grid-template-columns: minmax(0, 1fr); }
+    @media (min-width: 768px) {
+      .trv02-layout { grid-template-columns: minmax(0, 1fr) 320px; align-items: start; }
+      .trv02-aside { position: sticky; top: calc(var(--demo-bar-h) + 8px); }
+    }
+    .trv02-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+    .trv02-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0; list-style: none; }
+    .trv02-variant { scroll-margin-top: calc(var(--demo-bar-h) + 8px); }
+    .trv02-variant:target { outline: 2px solid var(--blue-6); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー(00 CMN-UI-01) ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option selected>ダイスケ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="group-list.html" aria-label="一覧へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>グループ詳細</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 2 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ダ</span>ダイスケ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>TRV-02</dd>
+        <dt>画面名</dt><dd>グループ詳細(参加前)</dd>
+        <dt>対象ロール</dt><dd>旅行者(そのグループの幹事・参加中メンバー以外)。表示の視点はダイスケ</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/groups/[groupId]</code>(関係者が開くと TRV-12 の表示になる。API 応答の <code>kind</code> で出し分け)</dd>
+        <dt>参照設計書</dt><dd>docs/feature/02-group-discovery.md §3.4・§3.6、DSC-RULE-05・07・08、docs/feature/03-join-flow.md §7.3・§14.1、docs/feature/09-safety.md SAF-RULE-07〜10、docs/feature/01-group-core.md §3、docs/feature/_unified-contracts.md 5.5・6.3</dd>
+        <dt>遷移先</dt><dd><a href="join-request-dialog.html">参加申請ダイアログ(TRV-03)</a>、<a href="group-list.html">グループ一覧(TRV-01)</a>、<a href="group-hub.html">グループ詳細のハブ(TRV-12)</a>、<a href="../safety/report-dialog.html">通報(SAF-02)</a>、<a href="../safety/verification.html">本人確認(SAF-05)</a>、<a href="../index.html">画面モック一覧</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="group-list.html">グループを探す</a></li>
+            <li><span aria-current="page">虹帆町 夜市めぐり(公式)</span></li>
+          </ol>
+        </nav>
+
+        <!-- ===== 概要の見出し ===== -->
+        <section class="stack stack--xs" aria-labelledby="g-name">
+          <div class="trv02-badges">
+            <span class="status status--recruiting">募集中</span>
+            <span class="badge badge--official">自治体公式</span>
+            <span class="text-xs text-dimmed">提供: 虹帆町(架空の自治体)</span>
+          </div>
+          <h2 id="g-name" class="title-page">虹帆町 夜市めぐり(公式)</h2>
+          <p class="card__meta">中央通りの夜市(虹帆町)/ 12/12(土)〜12/13(日)</p>
+        </section>
+
+        <div class="card card--sm card--accent" role="status">
+          <div class="group group--between">
+            <span class="text-bold">最少4人まであと1人</span>
+            <span class="text-sm">締切 11/25(水)</span>
+          </div>
+          <p class="text-xs" style="margin-top:4px">締切までに最少人数に達すると、辞退期間を経て実行が確定します。達しない場合は自動で中止になります。</p>
+        </div>
+
+        <div class="trv02-layout">
+          <!-- ===== 本文 ===== -->
+          <div class="stack stack--md">
+            <section class="card stack" aria-labelledby="sec-plan">
+              <h2 id="sec-plan" class="title-section">プラン</h2>
+              <dl class="kv">
+                <dt>行き先</dt><dd>中央通りの夜市</dd>
+                <dt>地方</dt><dd>虹帆町</dd>
+                <dt>日程</dt><dd>2026-12-12(土)〜2026-12-13(日)</dd>
+                <dt>日程の幅</dt><dd>前後 1 日は調整可</dd>
+              </dl>
+              <ul class="trv02-tags" aria-label="タグ">
+                <li class="badge badge--gray">食べ歩き</li><li class="badge badge--gray">夜市</li><li class="badge badge--gray">屋台</li><li class="badge badge--gray">写真</li><li class="badge badge--gray">週末</li>
+              </ul>
+              <div>
+                <h3 class="text-sm text-bold">説明</h3>
+                <p class="text-sm" style="margin-top:4px">夜市の屋台を順に回り、港の灯りを見て解散します。2 日目は朝市に寄ります。歩く距離は 1 日 3km ほどです。</p>
+              </div>
+            </section>
+
+            <section class="card stack" aria-labelledby="sec-count">
+              <h2 id="sec-count" class="title-section">人数</h2>
+              <dl class="kv">
+                <dt>最少人数</dt><dd>4 人(幹事を含む)</dd>
+                <dt>定員</dt><dd>6 人</dd>
+                <dt>現在</dt><dd>3 人</dd>
+                <dt>空き</dt><dd>3 人</dd>
+              </dl>
+              <ul class="seats" aria-label="席の状況(定員 6、最少 4、現在 3)">
+                <li class="seat seat--filled">1</li><li class="seat seat--filled">2</li><li class="seat seat--filled">3</li><li class="seat seat--min" title="最少人数の位置">4</li><li class="seat">5</li><li class="seat">6</li>
+              </ul>
+              <p class="text-xs text-dimmed">塗りつぶしは参加中の人数、太枠は最少人数の位置です。</p>
+            </section>
+
+            <section class="card stack" aria-labelledby="sec-members">
+              <h2 id="sec-members" class="title-section">メンバー</h2>
+              <div class="list__item" style="border:0; padding:0">
+                <span class="avatar" aria-hidden="true">タ</span>
+                <div class="list__main">
+                  <p class="text-sm"><span class="text-bold">タナカ</span>(幹事)</p>
+                  <p class="text-xs text-dimmed">40代</p>
+                </div>
+              </div>
+              <p class="text-sm">参加者 3 人(人数が少ないため年代は表示しません)</p>
+              <div class="alert alert--info">
+                <span class="alert__icon" aria-hidden="true">i</span>
+                <div>参加が成立するまで、メンバーの詳細や連絡先は表示されません。</div>
+              </div>
+              <p class="text-xs text-dimmed"><span class="mock-note">公開範囲</span> 幹事の年代は、幹事が公開設定で表示を選んだ場合だけ出します(09 の <code>visibleProfile</code>、<code>kind: "list"</code>)。参加者は人数と年代のまとまりだけで、4 人未満は年代を出しません。</p>
+            </section>
+          </div>
+
+          <!-- ===== 申請欄(03 JOIN-UI-01 JoinRequestPanel) ===== -->
+          <aside class="trv02-aside" aria-labelledby="sec-apply">
+            <section class="card stack">
+              <h2 id="sec-apply" class="title-section">参加の申請</h2>
+              <div class="stack stack--xs">
+                <h3 class="text-sm text-bold">参加の条件</h3>
+                <p class="text-sm">このグループは、最少人数(4人)でも実行されます。申請のときに、4人になっても参加することへの同意をお願いします。</p>
+                <p class="text-xs text-dimmed">実行が確定する前なら、辞退できます(不利益はありません)。幹事が承認すると参加が成立します。</p>
+              </div>
+              <a class="btn btn--primary btn--block" href="join-request-dialog.html">参加を申請する</a>
+              <div class="group group--between">
+                <a class="btn btn--ghost btn--sm" href="group-list.html">一覧へ戻る</a>
+                <a class="btn btn--ghost btn--sm" href="../safety/report-dialog.html">このグループを通報</a>
+              </div>
+            </section>
+          </aside>
+        </div>
+
+        <hr class="divider">
+
+        <!-- ===== 表示の見本 ===== -->
+        <section class="stack" aria-labelledby="sec-variants">
+          <h2 id="sec-variants" class="title-section">表示の見本: 申請欄とメンバー概要</h2>
+          <p class="text-sm text-dimmed">グループの状態と、閲覧者との関係によって、申請欄の表示が変わります(03 §14.1、02 DSC-TY-10)。</p>
+          <div class="grid grid--2">
+            <section id="v-pending" class="card stack trv02-variant" aria-labelledby="v-pending-t">
+              <h3 id="v-pending-t" class="text-sm text-bold">申請中(例: 鈴風高原のんびり歩き)</h3>
+              <div class="trv02-badges"><span class="status status--recruiting">募集中</span><span class="badge badge--info">申請中</span></div>
+              <p class="text-sm" role="status">申請中(11月8日に申請)。幹事の承認を待っています。</p>
+              <p class="text-xs text-dimmed">ひとこと: 高原を歩くのが好きです。よろしくお願いします。<br>最少人数(3人)での実行に同意済み</p>
+              <a class="btn btn--danger-light btn--sm" href="join-request-dialog.html#withdraw">申請を取り下げる</a>
+            </section>
+
+            <section id="v-full" class="card stack trv02-variant" aria-labelledby="v-full-t">
+              <h3 id="v-full-t" class="text-sm text-bold">満員(例: 雫森谷 小さな森歩き)</h3>
+              <div class="trv02-badges"><span class="status status--min-reached">最少人数到達</span><span class="badge badge--warning">満員</span></div>
+              <button class="btn btn--primary btn--block" type="button" disabled aria-describedby="v-full-r">参加を申請する</button>
+              <p class="text-sm" id="v-full-r">満員です。ほかのグループを探してください。</p>
+              <a class="btn btn--secondary btn--sm" href="group-list.html">一覧へ戻る</a>
+            </section>
+
+            <section id="v-closed" class="card stack trv02-variant" aria-labelledby="v-closed-t">
+              <h3 id="v-closed-t" class="text-sm text-bold">受付終了(例: 雫森谷 紅葉ハイク)</h3>
+              <div class="trv02-badges"><span class="status status--withdrawal">辞退期間</span><span class="badge badge--gray">受付終了</span></div>
+              <button class="btn btn--primary btn--block" type="button" disabled aria-describedby="v-closed-r">参加を申請する</button>
+              <p class="text-sm" id="v-closed-r">受付は終了しました(締切 11/7 を過ぎています)。</p>
+              <a class="btn btn--secondary btn--sm" href="group-list.html">一覧へ戻る</a>
+            </section>
+
+            <section id="v-cancelled" class="card stack trv02-variant" aria-labelledby="v-cancelled-t">
+              <h3 id="v-cancelled-t" class="text-sm text-bold">再企画済み(例: 月灯集落 灯りの夕べ)</h3>
+              <div class="trv02-badges"><span class="status status--replanned">再企画済み</span></div>
+              <p class="text-sm">このグループは締切までに最少人数に達しなかったため中止し、新しいグループとして再募集しています。</p>
+              <a class="btn btn--secondary btn--sm" href="group-detail-public.html">新しいグループへ</a>
+              <p class="text-xs text-dimmed">中止(再企画前)のときは「中止されました」と表示し、申請ボタンは出しません。</p>
+            </section>
+
+            <section id="v-member" class="card stack trv02-variant" aria-labelledby="v-member-t">
+              <h3 id="v-member-t" class="text-sm text-bold">参加済み・承認された</h3>
+              <div class="alert alert--success" role="status">
+                <span class="alert__icon" aria-hidden="true">✔</span>
+                <div>承認されました。参加後の詳細で、旅程・チャット・費用メモを使えます。</div>
+              </div>
+              <a class="btn btn--primary btn--sm" href="group-hub.html">参加後の詳細へ</a>
+            </section>
+
+            <section id="v-unverified" class="card stack trv02-variant" aria-labelledby="v-unverified-t">
+              <h3 id="v-unverified-t" class="text-sm text-bold">本人確認の前(例: リクの視点)</h3>
+              <div class="alert alert--warning">
+                <span class="alert__icon" aria-hidden="true">!</span>
+                <div>参加の申請には本人確認(モック)が必要です。</div>
+              </div>
+              <a class="btn btn--secondary btn--sm" href="../safety/verification.html">本人確認の手順へ</a>
+            </section>
+
+            <section id="v-rejected" class="card stack trv02-variant" aria-labelledby="v-rejected-t">
+              <h3 id="v-rejected-t" class="text-sm text-bold">見送り・取り下げ・失効</h3>
+              <ul class="list text-sm">
+                <li class="list__item"><span class="badge badge--gray">見送り</span><span class="list__main">今回は見送りになりました(理由: 日程・集合の都合が合わなかったため)。このグループには再申請できません。<a href="../safety/report-dialog.html">問題を報告する</a></span></li>
+                <li class="list__item"><span class="badge badge--gray">取り下げ</span><span class="list__main">取り下げました。受付中なら、もう一度申請できます。</span></li>
+                <li class="list__item"><span class="badge badge--gray">失効</span><span class="list__main">締切を過ぎたため、申請は受付終了になりました。</span></li>
+              </ul>
+              <a class="btn btn--ghost btn--sm" href="group-list.html">ほかのグループを探す</a>
+            </section>
+
+            <section id="v-notfound" class="card stack trv02-variant" aria-labelledby="v-notfound-t">
+              <h3 id="v-notfound-t" class="text-sm text-bold">見つからない(非公開・存在しない ID など)</h3>
+              <div class="empty">
+                <p class="empty__title">このグループは見つからないか、公開されていません</p>
+                <a class="btn btn--secondary btn--sm" href="group-list.html">一覧へ戻る</a>
+              </div>
+              <p class="text-xs text-dimmed">非公開グループ・ブロック関係・存在しない ID を区別しない同じ表示です(DSC-RULE-08)。非公開グループは<a href="invite-code.html">招待コード入力</a>から参加を申請します。</p>
+            </section>
+
+            <section id="v-summary" class="card stack trv02-variant" aria-labelledby="v-summary-t">
+              <h3 id="v-summary-t" class="text-sm text-bold">メンバー概要: 参加中が 4 人以上</h3>
+              <p class="text-sm">参加者 5 人(20代以下、30〜40代、50〜60代)</p>
+              <p class="text-xs text-dimmed">20 年幅のまとまりを、含まれるものだけ昇順で示します。まとまりごとの人数は出しません。</p>
+              <div class="list__item" style="border:0; padding:0">
+                <span class="avatar" aria-hidden="true">ユ</span>
+                <div class="list__main"><p class="text-sm"><span class="text-bold">ユイ</span>(幹事)</p><p class="text-xs text-dimmed">年代は非公開</p></div>
+              </div>
+              <p class="text-xs text-dimmed">幹事が年代を公開していない場合の表示です。</p>
+            </section>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a> / <a href="../components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>再企画 | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option>ユイ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option selected>ナナミ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="group-cancelled.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>再企画</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 3 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ナ</span>ナナミ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用。実装では作らない) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>TRV-22</dd>
+        <dt>画面名</dt><dd>再企画(幹事)</dd>
+        <dt>対象ロール</dt><dd>旅行者(中止したグループの元の幹事のみ。本人確認済み)</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/groups/[groupId]/replan</code>(04 LCY-UI-07 <code>ReplanPage</code>。01 <code>GroupForm mode="replan"</code> を再利用)</dd>
+        <dt>参照設計書</dt><dd>docs/feature/04-group-lifecycle.md §3(LCY-UI-07)、§4.1(<code>ReplanDraft</code>・<code>ReplanInput</code>)、§9、締切と日程の規則(<code>withdrawalDays</code> 2 日)、docs/feature/01-group-core.md §3・§3.1、_unified-contracts.md §5.4、§10.3</dd>
+        <dt>見本データ</dt><dd>g-013 星凪諸島 夕暮れの浜歩き(中止。前回: 11-23、締切 11-06)。閲覧者: ナナミ(元の幹事)</dd>
+        <dt>遷移先</dt><dd><a href="group-cancelled.html">中止の表示(TRV-21)</a>、送信後は新グループの詳細(<a href="group-hub.html">TRV-12</a>)、<a href="group-form.html">グループ作成・編集(TRV-05)</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="group-list.html">グループ一覧</a></li>
+            <li><a href="group-cancelled.html">星凪諸島 夕暮れの浜歩き</a></li>
+            <li><span aria-current="page">再企画</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">再企画</p>
+
+        <div class="alert alert--info" role="status">
+          <span class="alert__icon" aria-hidden="true">i</span>
+          <div>
+            <p class="alert__title">中止したグループの内容を引き継いで、新しいグループを作ります</p>
+            <p>日程と締切は新しく入力してください。作成すると、前回の参加者 1 人に案内します。旅程・チャット・費用メモは引き継ぎません。</p>
+          </div>
+        </div>
+
+        <form class="grid grid--side" action="group-hub.html">
+          <section class="card card--muted stack" aria-labelledby="orig-title">
+            <h2 id="orig-title" class="title-section">前回の内容(参考)</h2>
+            <dl class="kv">
+              <dt>グループ名</dt><dd>星凪諸島 夕暮れの浜歩き</dd>
+              <dt>日程</dt><dd>2026-11-23</dd>
+              <dt>締切</dt><dd>2026-11-06</dd>
+              <dt>人数</dt><dd>定員 4・最少 3(参加 2 人で中止)</dd>
+              <dt>中止の理由</dt><dd>締切までに最少人数に達しなかった</dd>
+            </dl>
+          </section>
+
+          <div class="stack">
+            <section class="card stack" aria-labelledby="date-title">
+              <h2 id="date-title" class="title-section">日程の見直し(必須)</h2>
+              <div class="grid grid--2">
+                <div class="field">
+                  <label class="field__label" for="rp-start">出発日<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+                  <input class="input" id="rp-start" type="date" min="2026-11-13" required>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="rp-end">帰着日<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+                  <input class="input" id="rp-end" type="date" min="2026-11-13" required>
+                </div>
+              </div>
+              <div class="field">
+                <label class="field__label" for="rp-deadline">締切日<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+                <input class="input" id="rp-deadline" type="date" min="2026-11-09" required aria-describedby="rp-deadline-help">
+                <p class="field__help" id="rp-deadline-help">締切の翌日から 2 日間が辞退期間です。出発日は締切日の 3 日後以降にしてください(例: 締切 12-02 なら出発 12-05 以降)。</p>
+              </div>
+            </section>
+
+            <section class="card stack" aria-labelledby="carry-title">
+              <h2 id="carry-title" class="title-section">引き継ぐ内容(変更できます)</h2>
+              <div class="field">
+                <label class="field__label" for="rp-name">グループ名<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+                <input class="input" id="rp-name" type="text" value="星凪諸島 夕暮れの浜歩き" required aria-describedby="rp-name-help">
+                <p class="field__help" id="rp-name-help">30 文字以内。連絡先・個人名は書かない。</p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="rp-dest">行き先<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+                <input class="input" id="rp-dest" type="text" value="星凪諸島 西の浜" required aria-describedby="rp-dest-help">
+                <p class="field__help" id="rp-dest-help">40 文字以内。地方(星凪諸島)は変更できません。</p>
+              </div>
+              <div class="grid grid--2">
+                <div class="field">
+                  <label class="field__label" for="rp-cap">定員</label>
+                  <input class="input" id="rp-cap" type="number" value="4" disabled aria-describedby="rp-cap-help">
+                  <p class="field__help" id="rp-cap-help">前回と同じ(2〜6 人)。</p>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="rp-min">最少人数<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+                  <input class="input" id="rp-min" type="number" min="2" max="4" value="3" required aria-describedby="rp-min-help">
+                  <p class="field__help" id="rp-min-help">2 人〜定員(幹事を含む)。前回は 3 人。</p>
+                </div>
+              </div>
+              <dl class="kv">
+                <dt>公開範囲</dt><dd>公開(前回と同じ)</dd>
+                <dt>タグ</dt><dd>夕景、散歩</dd>
+              </dl>
+            </section>
+
+            <div class="card card--accent">
+              <p class="text-sm">作成すると、前回の参加者 1 人に「再企画の案内」を通知します。参加するには、各自が改めて申請し、最少人数への同意を確認します。</p>
+            </div>
+            <div class="form-actions">
+              <a class="btn btn--ghost" href="group-cancelled.html">やめる</a>
+              <button class="btn btn--primary" type="submit">再企画して募集を始める</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a> / <a href="../components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

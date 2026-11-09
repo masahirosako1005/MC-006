@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>部品カタログ | 画面モック</title>
+  <link rel="stylesheet" href="assets/base.css">
+  <style>
+    /* カタログ専用の見せ方(画面モックでは使わない) */
+    .catalog { max-width: 960px; margin: 0 auto; padding: 16px; background: var(--surface); }
+    .catalog > h1 { font-size: var(--fz-xl); margin-bottom: 8px; }
+    .catalog-toc { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 0 0 16px; padding: 0; list-style: none; font-size: var(--fz-sm); }
+    .catalog-sec { margin-top: 28px; padding-top: 12px; border-top: 2px solid var(--border); }
+    .catalog-sec > h2 { font-size: var(--fz-lg); }
+    .catalog-meta { margin: 4px 0 12px; font-size: var(--fz-xs); color: var(--text-dimmed); }
+    .catalog-meta code { padding: 0 4px; border-radius: var(--radius-sm); background: var(--gray-1); font-family: var(--font-mono); }
+    .catalog-box { padding: 12px; border: 1px dashed var(--gray-3); border-radius: var(--radius-md); }
+    .catalog-phone { max-width: 360px; border: 1px solid var(--border-shell); }
+    .catalog-phone .app-shell { min-height: 0; }
+    .catalog-phone .app-nav { position: static; transform: none; }
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; font-size: var(--fz-xs); }
+    .swatch { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+    .swatch__chip { height: 40px; }
+    .swatch__text { padding: 4px 8px; }
+  </style>
+</head>
+<body>
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="traveler/group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option selected>ミサキ(旅行者)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <main class="catalog">
+    <h1>部品カタログ</h1>
+    <p class="text-sm text-dimmed">docs/design/mockup/assets/base.css の全部品。各節に、クラス名と対応する Mantine コンポーネントを記載する。<a href="index.html">画面モック一覧へ戻る</a></p>
+    <nav aria-label="目次">
+      <ul class="catalog-toc">
+        <li><a href="#c-tokens">色・文字</a></li>
+        <li><a href="#c-demo">デモバー</a></li>
+        <li><a href="#c-header">ヘッダー・下部ナビ</a></li>
+        <li><a href="#c-layout">レイアウト</a></li>
+        <li><a href="#c-card">カード</a></li>
+        <li><a href="#c-button">ボタン</a></li>
+        <li><a href="#c-badge">バッジ</a></li>
+        <li><a href="#c-status">状態バッジ</a></li>
+        <li><a href="#c-tabs">タブ</a></li>
+        <li><a href="#c-form">フォーム</a></li>
+        <li><a href="#c-table">テーブル</a></li>
+        <li><a href="#c-pagination">ページネーション</a></li>
+        <li><a href="#c-modal">ダイアログ</a></li>
+        <li><a href="#c-alert">アラート</a></li>
+        <li><a href="#c-notice">通知アイテム</a></li>
+        <li><a href="#c-empty">空状態・読み込み</a></li>
+        <li><a href="#c-progress">プログレス・人数</a></li>
+        <li><a href="#c-stamp">スタンプ</a></li>
+        <li><a href="#c-chat">チャット</a></li>
+        <li><a href="#c-chart">簡易グラフ・指標</a></li>
+        <li><a href="#c-list">メンバー一覧</a></li>
+      </ul>
+    </nav>
+
+    <!-- ===== 色・文字 ===== -->
+    <section id="c-tokens" class="catalog-sec" aria-labelledby="h-tokens">
+      <h2 id="h-tokens">色・文字</h2>
+      <p class="catalog-meta">出どころ: app/src/app/globals.css(ブランド色)、@mantine/core/styles.css(パレット・文字サイズ)。値は README の「デザイントークン」を参照。</p>
+      <ul class="swatches">
+        <li class="swatch"><div class="swatch__chip" style="background:var(--main-color)"></div><div class="swatch__text">--main-color #2f6ba3</div></li>
+        <li class="swatch"><div class="swatch__chip" style="background:var(--sub-color)"></div><div class="swatch__text">--sub-color #e1eef8</div></li>
+        <li class="swatch"><div class="swatch__chip" style="background:var(--on-sub-color)"></div><div class="swatch__text">--on-sub-color #193e62</div></li>
+        <li class="swatch"><div class="swatch__chip" style="background:var(--main-color-light)"></div><div class="swatch__text">--main-color-light #63a1dc</div></li>
+        <li class="swatch"><div class="swatch__chip" style="background:var(--success-color)"></div><div class="swatch__text">--success-color #2fa36b</div></li>
+        <li class="swatch"><div class="swatch__chip" style="background:var(--page-bg)"></div><div class="swatch__text">--page-bg #f5f5f5</div></li>
+        <li class="swatch"><div class="swatch__chip" style="background:var(--text-dimmed)"></div><div class="swatch__text">--text-dimmed #495057</div></li>
+        <li class="swatch"><div class="swatch__chip" style="background:var(--red-8)"></div><div class="swatch__text">--red-8 #e03131(エラー)</div></li>
+      </ul>
+      <div class="catalog-box stack" style="margin-top:12px">
+        <p class="text-xl" style="font-size:var(--fz-xl)">xl 20px 見出し(ヒーロー)</p>
+        <p class="text-lg">lg 18px 画面の見出し</p>
+        <p>md 16px 本文</p>
+        <p class="text-sm">sm 14px カードの補足・フォーム</p>
+        <p class="text-xs text-dimmed">xs 12px 日時・ヘルプテキスト(dimmed)</p>
+      </div>
+    </section>
+
+    <!-- ===== デモバー ===== -->
+    <section id="c-demo" class="catalog-sec" aria-labelledby="h-demo">
+      <h2 id="h-demo">デモバー</h2>
+      <p class="catalog-meta">クラス <code>.demo-bar</code>(<code>__roles</code>、<code>__role[aria-current]</code>、<code>__tools</code>)。Mantine: <code>Group</code> + <code>Select</code> + <code>Button</code> + <code>Menu</code>。設計: 00 §3.1 CMN-UI-01。このページの最上部に表示している。ロールは 4 種(旅行者・自治体・観光事業オーナー・地元の担い手)。</p>
+    </section>
+
+    <!-- ===== ヘッダー・下部ナビ ===== -->
+    <section id="c-header" class="catalog-sec" aria-labelledby="h-header">
+      <h2 id="h-header">ヘッダー・下部ナビ</h2>
+      <p class="catalog-meta">クラス <code>.app-shell</code>、<code>.app-header</code>、<code>.app-nav</code>(既存 globals.css と同名)。Mantine: <code>ActionIcon</code>、<code>Indicator</code>。スマートフォン幅は既存どおり「戻る/画面名/通知ベル」+下部ナビ。デスクトップ幅(768px〜)はロゴ・ナビ・通知・ユーザーをヘッダーに並べ、下部ナビを隠す。下の例はスマートフォン幅の見本(幅 360px に固定)。</p>
+      <div class="catalog-phone">
+        <div class="app-shell">
+          <div class="app-header">
+            <a class="icon-btn" href="#c-header" aria-label="前の画面へ戻る"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg></a>
+            <p class="app-header__title">グループ詳細</p>
+            <div class="app-header__actions">
+              <a class="icon-btn" href="#c-header" aria-label="通知(未読 3 件)"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg><span class="icon-btn__count" aria-hidden="true">3</span></a>
+            </div>
+          </div>
+          <div class="hero hero--sm">鈴風高原のんびり歩き</div>
+          <nav class="app-nav" aria-label="下部ナビの見本">
+            <a href="#c-header"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>ホーム</a>
+            <a href="#c-header" aria-current="page"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>グループ</a>
+            <a href="#c-header"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/></svg>スポット</a>
+            <a href="#c-header"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/></svg>GET特典履歴</a>
+          </nav>
+        </div>
+      </div>
+      <p class="text-xs text-dimmed" style="margin-top:8px">グループ詳細のハブ用の下部タブ <code>.hub-tabs</code>(<code>.app-nav</code> と同じ見た目):</p>
+      <nav class="hub-tabs catalog-phone" aria-label="グループ内メニューの見本">
+        <a href="#c-header" aria-current="page">概要</a><a href="#c-header">旅程</a><a href="#c-header">チャット</a><a href="#c-header">費用</a><a href="#c-header">スタンプ</a>
+      </nav>
+    </section>
+
+    <!-- ===== レイアウト ===== -->
+    <section id="c-layout" class="catalog-sec" aria-labelledby="h-layout">
+      <h2 id="h-layout">レイアウト</h2>
+      <p class="catalog-meta">クラス <code>.page</code>(Stack p="md" gap="sm")、<code>.stack</code>、<code>.group</code>(Group)、<code>.grid .grid--2/--3/--side</code>(SimpleGrid。768px 以上で多列)、<code>.breadcrumb</code>(Breadcrumbs)、<code>.divider</code>(Divider)、<code>.kv</code>(定義リスト)。</p>
+      <nav aria-label="パンくずリストの見本">
+        <ol class="breadcrumb"><li><a href="#c-layout">グループ一覧</a></li><li><a href="#c-layout">鈴風高原のんびり歩き</a></li><li><span aria-current="page">メンバー</span></li></ol>
+      </nav>
+      <div class="grid grid--3" style="margin-top:8px">
+        <div class="card card--muted text-sm">列 1</div><div class="card card--muted text-sm">列 2</div><div class="card card--muted text-sm">列 3</div>
+      </div>
+      <hr class="divider">
+      <dl class="kv">
+        <dt>行き先</dt><dd>鈴風高原(架空)</dd>
+        <dt>日程</dt><dd>2026-12-05〜12-06</dd>
+        <dt>締切</dt><dd>2026-11-20</dd>
+      </dl>
+    </section>
+
+    <!-- ===== カード ===== -->
+    <section id="c-card" class="catalog-sec" aria-labelledby="h-card">
+      <h2 id="h-card">カード</h2>
+      <p class="catalog-meta">クラス <code>.card</code>(Card withBorder radius="md")、<code>.card--sm</code>(padding="sm")、<code>.card--link</code>(component={Link})、<code>.card--muted</code>、<code>.card--accent</code>、<code>.card__title</code>、<code>.card__meta</code>、<code>.card__section</code>(Card.Section)。</p>
+      <div class="grid grid--2">
+        <a class="card card--link" href="#c-card">
+          <div class="group group--between group--nowrap group--top">
+            <div>
+              <p class="card__title">鈴風高原のんびり歩き</p>
+              <p class="card__meta line-clamp-2">鈴風高原(架空)/ 12-05〜12-06 / 定員 4・最少 3・現在 2</p>
+            </div>
+            <span class="status status--recruiting">募集中</span>
+          </div>
+          <div class="card__section text-sm">あと 1 人で実行(締切 11-20)</div>
+        </a>
+        <div class="card card--sm">
+          <p class="card__title">card--sm</p>
+          <p class="card__meta">既存のスポット一覧のカード(padding="sm")。</p>
+        </div>
+        <div class="card card--muted"><p class="card__title">card--muted</p><p class="card__meta">補足情報のまとまり。</p></div>
+        <div class="card card--accent"><p class="card__title">card--accent</p><p class="text-sm">自分の申請状況など、強調するまとまり。</p></div>
+      </div>
+    </section>
+
+    <!-- ===== ボタン ===== -->
+    <section id="c-button" class="catalog-sec" aria-labelledby="h-button">
+      <h2 id="h-button">ボタン</h2>
+      <p class="catalog-meta">クラス <code>.btn</code> + <code>--primary</code>(Button color="var(--main-color)")、<code>--secondary</code>(variant="light")、<code>--outline</code>(variant="outline")、<code>--danger</code>(color="red")、<code>--danger-light</code>(variant="light" color="red")、<code>--ghost</code>(variant="subtle")、<code>--sm/--lg</code>(size)、<code>--block</code>(fullWidth)、<code>disabled</code>/<code>aria-disabled="true"</code>(disabled)。</p>
+      <div class="stack">
+        <div class="btn-row">
+          <button class="btn btn--primary" type="button">参加を申請する</button>
+          <button class="btn btn--secondary" type="button">一覧へ戻る</button>
+          <button class="btn btn--outline" type="button">条件を変更</button>
+          <button class="btn btn--danger" type="button">辞退する</button>
+          <button class="btn btn--danger-light" type="button">通報する</button>
+          <button class="btn btn--ghost" type="button">キャンセル</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn--primary btn--sm" type="button">小</button>
+          <button class="btn btn--primary" type="button">標準</button>
+          <button class="btn btn--primary btn--lg" type="button">大</button>
+          <button class="btn btn--primary" type="button" disabled>無効(満員)</button>
+          <a class="btn btn--secondary" href="#c-button" aria-disabled="true">無効のリンク</a>
+        </div>
+        <button class="btn btn--primary btn--block" type="button">幅いっぱい(fullWidth)</button>
+      </div>
+    </section>
+
+    <!-- ===== バッジ ===== -->
+    <section id="c-badge" class="catalog-sec" aria-labelledby="h-badge">
+      <h2 id="h-badge">バッジ</h2>
+      <p class="catalog-meta">クラス <code>.badge</code> + <code>--gray/--success/--info/--warning/--danger/--official/--mock/--lg</code>。Mantine: <code>Badge</code>(状態以外は variant="light")。<code>.badge--green</code> は既存のスポット一覧(filled green)の再現で、白字のコントラストが 2.4:1 のため新画面では <code>.badge--success</code> を使う。</p>
+      <div class="group">
+        <span class="badge badge--green">獲得済み(既存)</span>
+        <span class="badge badge--gray">未獲得</span>
+        <span class="badge badge--success">承認</span>
+        <span class="badge badge--info">申請中</span>
+        <span class="badge badge--warning">要確認</span>
+        <span class="badge badge--danger">満員</span>
+        <span class="badge badge--official">公式</span>
+        <span class="badge badge--mock">モック</span>
+        <span class="badge badge--info badge--lg">大きいバッジ</span>
+      </div>
+    </section>
+
+    <!-- ===== 状態バッジ ===== -->
+    <section id="c-status" class="catalog-sec" aria-labelledby="h-status">
+      <h2 id="h-status">状態バッジ(グループの状態 8 種)</h2>
+      <p class="catalog-meta">クラス <code>.status .status--{recruiting|min-reached|withdrawal|confirmed|in-progress|completed|cancelled|replanned}</code>。Mantine: <code>Badge variant="light"</code>(00 §3.2 CMN-UI-04 StatusBadge。色は 00 の対応表: blue/teal/yellow/green/cyan/gray/red/grape)。色・記号・ラベルの 3 つで示し、色だけで区別しない。文字色は背景に対し 4.5:1 以上。</p>
+      <div class="group">
+        <span class="status status--recruiting">募集中</span>
+        <span class="status status--min-reached">最少人数到達</span>
+        <span class="status status--withdrawal">辞退期間</span>
+        <span class="status status--confirmed">実行確定</span>
+        <span class="status status--in-progress">実施中</span>
+        <span class="status status--completed">完了</span>
+        <span class="status status--cancelled">中止</span>
+        <span class="status status--replanned">再企画</span>
+      </div>
+      <p class="text-xs text-dimmed" style="margin-top:6px">注: 04 の状態名は「再企画済み」(replanned、元グループ側)。画面ではどちらのラベルを出すかを各担当が 04 の <code>statusLabel</code> に合わせる。</p>
+    </section>
+
+    <!-- ===== タブ ===== -->
+    <section id="c-tabs" class="catalog-sec" aria-labelledby="h-tabs">
+      <h2 id="h-tabs">タブ・セグメント</h2>
+      <p class="catalog-meta">クラス <code>.tabs</code> / <code>.tabs__tab[aria-selected]</code>(Tabs。画面間のタブは <code>a[aria-current="page"]</code> で <code>?tab=</code> 相当のリンクにする)、<code>.tabs--grow</code>(Tabs grow)、<code>.segmented</code>(SegmentedControl。既存のスポット一覧「リスト/地図」)。</p>
+      <div class="stack">
+        <div role="tablist" class="tabs" aria-label="タブの見本">
+          <button role="tab" class="tabs__tab" aria-selected="true" type="button">概要</button>
+          <button role="tab" class="tabs__tab" aria-selected="false" type="button">旅程・集合場所</button>
+          <button role="tab" class="tabs__tab" aria-selected="false" type="button">チャット</button>
+          <button role="tab" class="tabs__tab" aria-selected="false" type="button">費用メモ</button>
+          <button role="tab" class="tabs__tab" aria-selected="false" type="button">スタンプ</button>
+          <button role="tab" class="tabs__tab" aria-selected="false" type="button">メンバー</button>
+        </div>
+        <div class="segmented" role="group" aria-label="表示の切り替え">
+          <button class="segmented__item" type="button" aria-pressed="true">リスト</button>
+          <button class="segmented__item" type="button" aria-pressed="false">地図</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== フォーム ===== -->
+    <section id="c-form" class="catalog-sec" aria-labelledby="h-form">
+      <h2 id="h-form">フォーム</h2>
+      <p class="catalog-meta">クラス <code>.field</code>(<code>__label</code>、<code>__required</code>、<code>__help</code>、<code>__error</code>)、<code>.input</code>(TextInput / DateInput は type="date")、<code>.select</code>(Select / NativeSelect)、<code>.textarea</code>(Textarea)、<code>.check</code>(Checkbox / Radio)、<code>.fieldset</code>(Checkbox.Group / Radio.Group)、<code>.switch</code>(Switch)、<code>.form-actions</code>。入力とラベルは <code>for</code>/<code>id</code> で、ヘルプとエラーは <code>aria-describedby</code> で結ぶ。エラー時は <code>aria-invalid="true"</code>。</p>
+      <form class="stack" action="#c-form">
+        <div class="grid grid--2">
+          <div class="field">
+            <label class="field__label" for="f-name">グループ名<span class="field__required" aria-hidden="true">*</span></label>
+            <input class="input" id="f-name" type="text" value="鈴風高原のんびり歩き" required aria-describedby="f-name-help">
+            <p class="field__help" id="f-name-help">40 文字以内。連絡先・個人名は書かない。</p>
+          </div>
+          <div class="field">
+            <label class="field__label" for="f-region">行き先(地方)</label>
+            <select class="select" id="f-region">
+              <option>水琴地方</option><option selected>鈴風高原</option><option>星凪諸島</option><option>虹帆町</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field__label" for="f-date">締切日</label>
+            <input class="input" id="f-date" type="date" value="2026-11-20">
+          </div>
+          <div class="field">
+            <label class="field__label" for="f-min">最少人数<span class="field__required" aria-hidden="true">*</span></label>
+            <input class="input" id="f-min" type="number" value="7" aria-invalid="true" aria-describedby="f-min-err">
+            <p class="field__error" id="f-min-err" role="alert">最少人数は 2〜定員(4)の範囲で入力してください。</p>
+          </div>
+          <div class="field">
+            <label class="field__label" for="f-disabled">招待コード(無効の例)</label>
+            <input class="input" id="f-disabled" type="text" value="公開グループでは不要" disabled>
+          </div>
+          <div class="field">
+            <label class="field__label" for="f-msg">ひとこと</label>
+            <textarea class="textarea" id="f-msg" placeholder="例: 写真を撮りながらゆっくり歩きたいです" aria-describedby="f-msg-help"></textarea>
+            <p class="field__help" id="f-msg-help">200 文字以内。</p>
+          </div>
+        </div>
+        <fieldset class="fieldset">
+          <legend>公開範囲</legend>
+          <label class="check"><input type="radio" name="vis" checked> <span class="check__text">公開(一覧に表示する)</span></label>
+          <label class="check"><input type="radio" name="vis"> <span class="check__text">非公開(招待コードを知る人だけが申請できる)</span></label>
+        </fieldset>
+        <label class="check"><input type="checkbox" checked aria-describedby="f-agree-help"> <span class="check__text">最少人数でも参加してよい<span class="field__help" id="f-agree-help">最少人数に達した時点で実行の対象になります。</span></span></label>
+        <label class="switch"><input type="checkbox" role="switch" checked> 空きのあるグループのみ</label>
+        <div class="form-actions">
+          <button class="btn btn--ghost" type="button">キャンセル</button>
+          <button class="btn btn--primary" type="submit">保存する</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ===== テーブル ===== -->
+    <section id="c-table" class="catalog-sec" aria-labelledby="h-table">
+      <h2 id="h-table">テーブル</h2>
+      <p class="catalog-meta">クラス <code>.table-wrap</code>(Table.ScrollContainer)、<code>.table</code>(Table)、<code>.table--striped</code>(striped)、<code>td.num</code>(数値の右寄せ)。<code>caption</code> と <code>th scope</code> を付ける。</p>
+      <div class="table-wrap">
+        <table class="table table--striped">
+          <caption>費用メモ(送金はできません)</caption>
+          <thead><tr><th scope="col">項目</th><th scope="col">立て替えた人</th><th scope="col" class="num">金額</th><th scope="col">対象</th></tr></thead>
+          <tbody>
+            <tr><td>朝市の軽食</td><td>ユイ</td><td class="num">2,400 円</td><td>3 人</td></tr>
+            <tr><td>港の渡し船</td><td>ケンタ</td><td class="num">1,800 円</td><td>3 人</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== ページネーション ===== -->
+    <section id="c-pagination" class="catalog-sec" aria-labelledby="h-pagination">
+      <h2 id="h-pagination">ページネーション</h2>
+      <p class="catalog-meta">クラス <code>.pagination</code>。Mantine: <code>Pagination</code>。現在ページは <code>aria-current="page"</code>。</p>
+      <nav aria-label="ページ">
+        <ul class="pagination">
+          <li><span aria-disabled="true">前へ</span></li>
+          <li><a href="#c-pagination" aria-current="page">1</a></li>
+          <li><a href="#c-pagination">2</a></li>
+          <li><a href="#c-pagination">3</a></li>
+          <li><a href="#c-pagination">次へ</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <!-- ===== ダイアログ ===== -->
+    <section id="c-modal" class="catalog-sec" aria-labelledby="h-modal">
+      <h2 id="h-modal">ダイアログ</h2>
+      <p class="catalog-meta">クラス <code>.modal</code>(<code>__header</code>、<code>__title</code>、<code>__close</code>、<code>__body</code>、<code>__footer</code>)。Mantine: <code>Modal</code>(size md 440px、overlay rgba(0,0,0,.6))。静的表示は <code>.modal-preview</code> の中に置く。開閉を見せたいときは <code>.modal-overlay.modal-overlay--target</code> と <code>&lt;a href="#id"&gt;</code>(CSS の <code>:target</code>。JavaScript 不要)。<code>role="dialog"</code>、<code>aria-modal="true"</code>、<code>aria-labelledby</code> を付ける。</p>
+      <div class="modal-preview">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
+          <div class="modal__header">
+            <h3 class="modal__title" id="dlg-title">辞退しますか</h3>
+            <a class="modal__close" href="#c-modal" aria-label="閉じる">×</a>
+          </div>
+          <div class="modal__body">
+            <p>辞退期間中の辞退にペナルティはありません。辞退すると、このグループのチャットと旅程は見られなくなります。</p>
+            <div class="alert alert--warning"><span class="alert__icon" aria-hidden="true">!</span><div>辞退すると現在人数が最少人数を下回り、グループが中止になります。</div></div>
+          </div>
+          <div class="modal__footer">
+            <button class="btn btn--ghost" type="button">やめる</button>
+            <button class="btn btn--danger" type="button">辞退する</button>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:8px"><a class="btn btn--secondary btn--sm" href="#dlg-target">:target で開く見本</a></p>
+      <div id="dlg-target" class="modal-overlay modal-overlay--target">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dlg2-title">
+          <div class="modal__header"><h3 class="modal__title" id="dlg2-title">見本のダイアログ</h3><a class="modal__close" href="#c-modal" aria-label="閉じる">×</a></div>
+          <div class="modal__body"><p>CSS の :target で表示している。閉じるボタンはページ内のリンク。</p></div>
+          <div class="modal__footer"><a class="btn btn--primary" href="#c-modal">閉じる</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== アラート ===== -->
+    <section id="c-alert" class="catalog-sec" aria-labelledby="h-alert">
+      <h2 id="h-alert">アラート</h2>
+      <p class="catalog-meta">クラス <code>.alert--info/--success/--warning/--error</code>(<code>__icon</code>、<code>__title</code>)。Mantine: <code>Alert</code>(variant="light")。成功・情報は <code>role="status"</code>、エラーは <code>role="alert"</code>(既存の inquiries・qr 画面と同じ)。見出し=原因、本文=次の行動(00 CMN-UI-02 ErrorNotice)。</p>
+      <div class="stack">
+        <div class="alert alert--info" role="status"><span class="alert__icon" aria-hidden="true">i</span><div><p class="alert__title">最少人数に達しました</p><p>まだ実行は確定していません。締切(11-20)の後に辞退期間があります。</p></div></div>
+        <div class="alert alert--success" role="status"><span class="alert__icon" aria-hidden="true">✔</span><div><p class="alert__title">申請を送りました</p><p>幹事が承認すると通知が届きます。</p></div></div>
+        <div class="alert alert--warning"><span class="alert__icon" aria-hidden="true">!</span><div><p class="alert__title">辞退期間中です(11-11 まで)</p><p>辞退する場合は期間内に操作してください。ペナルティはありません。</p></div></div>
+        <div class="alert alert--error" role="alert"><span class="alert__icon" aria-hidden="true">✕</span><div><p class="alert__title">この表現は使えません</p><p>連絡先や外部サービスへの誘導にあたる表現が含まれています。該当部分を削除してから送信してください。</p></div></div>
+      </div>
+    </section>
+
+    <!-- ===== 通知アイテム ===== -->
+    <section id="c-notice" class="catalog-sec" aria-labelledby="h-notice">
+      <h2 id="h-notice">通知アイテム</h2>
+      <p class="catalog-meta">クラス <code>.notice-list</code> / <code>.notice-item</code>(<code>--unread</code>、<code>__icon</code>、<code>__time</code>、<code>__title</code>、<code>__text</code>)。Mantine: <code>Card</code> または <code>NavLink</code> の並び。既存の news 画面(日時 xs dimmed → 題名 bold → 本文 sm)の順を継承。未読は背景色と「未読」ラベルの両方で示す。</p>
+      <ul class="notice-list">
+        <li><a class="notice-item notice-item--unread" href="#c-notice"><span class="notice-item__icon" aria-hidden="true">▲</span><span class="notice-item__body"><span class="notice-item__time">2026-11-09 10:12</span><br><span class="notice-item__title">星綴港 朝市さんぽ が最少人数に達しました</span><br><span class="notice-item__text">締切 11-14 の後、辞退期間を経て実行が確定します。</span></span></a></li>
+        <li><a class="notice-item" href="#c-notice"><span class="notice-item__icon" aria-hidden="true">✔</span><span class="notice-item__body"><span class="notice-item__time">2026-11-02 09:00</span><br><span class="notice-item__title">星凪諸島 島時間 の実行が確定しました</span><br><span class="notice-item__text">参加者 5 人(20代 1、30代 2、40代 1、60代 1)。</span></span></a></li>
+      </ul>
+    </section>
+
+    <!-- ===== 空状態 ===== -->
+    <section id="c-empty" class="catalog-sec" aria-labelledby="h-empty">
+      <h2 id="h-empty">空状態・読み込み</h2>
+      <p class="catalog-meta">クラス <code>.empty</code>(<code>__title</code>)、<code>.skeleton</code>(Skeleton。00 CMN-UI-03 LoadingBlock、<code>aria-busy="true"</code>)。</p>
+      <div class="grid grid--2">
+        <div class="empty"><p class="empty__title">該当するグループがありません</p><p>条件を減らすか、グループを作成してください。</p><a class="btn btn--secondary btn--sm" href="#c-empty">条件をクリア</a></div>
+        <div class="card" aria-busy="true" aria-label="読み込み中"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton skeleton--short"></div></div>
+      </div>
+    </section>
+
+    <!-- ===== プログレス ===== -->
+    <section id="c-progress" class="catalog-sec" aria-labelledby="h-progress">
+      <h2 id="h-progress">プログレス・人数</h2>
+      <p class="catalog-meta">クラス <code>.progress</code>(<code>__bar</code>、<code>__marker</code>=最少人数の位置)、<code>.progress-label</code>、<code>.seats</code> / <code>.seat--filled/--min</code>(.stamp の延長)。Mantine: <code>Progress</code>(既存ホームのスタンプ進捗)。<code>role="progressbar"</code> と <code>aria-valuenow</code> 等を付ける。</p>
+      <div class="stack">
+        <div class="progress-label"><span>現在 2 人 / 定員 4 人(最少 3 人)</span><span>あと 1 人で実行</span></div>
+        <div class="progress" role="progressbar" aria-label="参加人数" aria-valuemin="0" aria-valuemax="4" aria-valuenow="2" aria-valuetext="定員 4 人中 2 人。最少人数 3 人">
+          <div class="progress__bar" style="width:50%"></div>
+          <div class="progress__marker" style="left:75%" aria-hidden="true"></div>
+        </div>
+        <ul class="seats" aria-label="席の状況(定員 4、最少 3、現在 2)">
+          <li class="seat seat--filled">ミ</li><li class="seat seat--filled">ケ</li><li class="seat seat--min" title="最少人数の位置">3</li><li class="seat">4</li>
+        </ul>
+        <div class="progress progress--success" role="progressbar" aria-label="スタンプ" aria-valuemin="0" aria-valuemax="7" aria-valuenow="5"><div class="progress__bar" style="width:71%"></div></div>
+      </div>
+    </section>
+
+    <!-- ===== スタンプ ===== -->
+    <section id="c-stamp" class="catalog-sec" aria-labelledby="h-stamp">
+      <h2 id="h-stamp">スタンプ(既存)</h2>
+      <p class="catalog-meta">クラス <code>.stamp-grid</code> / <code>.stamp[data-on]</code>(globals.css と同じ)。グループ・スタンプラリーでも同じ見た目を使う。獲得済みは「✔」の文字も付ける(既存と同じ)。</p>
+      <div class="stamp-grid" style="max-width:360px">
+        <a class="stamp" data-on="true" href="#c-stamp">✔ 朝市</a><a class="stamp" data-on="true" href="#c-stamp">✔ 灯台</a><a class="stamp" href="#c-stamp">音楽堂</a><a class="stamp" href="#c-stamp">夜市</a>
+      </div>
+    </section>
+
+    <!-- ===== チャット ===== -->
+    <section id="c-chat" class="catalog-sec" aria-labelledby="h-chat">
+      <h2 id="h-chat">チャットの吹き出し</h2>
+      <p class="catalog-meta">クラス <code>.chat</code> / <code>.chat__msg</code>(<code>--me</code>、<code>--system</code>)、<code>__meta</code>、<code>__bubble</code>、<code>.chat__composer</code>、<code>.chip-row</code> / <code>.chip[aria-pressed]</code>(定型文。Mantine Chip)。Mantine には吹き出し部品がないため、<code>Paper</code> + <code>Text</code> で組む。</p>
+      <div class="card" style="max-width:420px">
+        <ol class="chat" aria-label="メッセージ">
+          <li class="chat__msg chat__msg--system"><span class="chat__bubble">ナナミ さんが参加しました</span></li>
+          <li class="chat__msg"><span class="chat__meta">ユイ 10:02</span><span class="chat__bubble">集合は港の案内所前でよいですか。</span></li>
+          <li class="chat__msg chat__msg--me"><span class="chat__meta">自分 10:05</span><span class="chat__bubble">了解しました。</span></li>
+        </ol>
+        <ul class="chip-row" aria-label="定型文">
+          <li><button class="chip" type="button">了解しました</button></li>
+          <li><button class="chip" type="button">少し遅れます</button></li>
+          <li><button class="chip" type="button" aria-pressed="true">集合場所に着きました</button></li>
+        </ul>
+        <div class="chat__composer">
+          <label class="visually-hidden" for="chat-in">メッセージ</label>
+          <textarea class="textarea" id="chat-in" rows="1" placeholder="メッセージを入力"></textarea>
+          <button class="btn btn--primary" type="button">送信</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 簡易グラフ ===== -->
+    <section id="c-chart" class="catalog-sec" aria-labelledby="h-chart">
+      <h2 id="h-chart">簡易グラフ・指標(CSS のみ)</h2>
+      <p class="catalog-meta">クラス <code>.stat-grid</code> / <code>.stat</code>(指標タイル)、<code>.bar-chart</code>(横棒。<code>__bar--forecast</code>=見込み)、<code>.col-chart</code>(縦棒)、<code>.legend</code>。棒の長さは <code>style="width:NN%"</code>/<code>height:NN%</code> で指定する。実装時は Mantine Charts(@mantine/charts、未導入)または同等の自作部品に置き換える。グラフには同じ値の表(<code>.table</code>)か数値ラベルを併記する。実績と見込みは色に加えて斜線で区別する。</p>
+      <div class="stack">
+        <div class="stat-grid">
+          <div class="stat"><span class="stat__label">グループ数</span><span class="stat__value">13</span><span class="stat__note">公開 12 / 非公開 1</span></div>
+          <div class="stat"><span class="stat__label">実行確定率</span><span class="stat__value">62%</span><span class="stat__note">締切を迎えた 8 件中 5 件</span></div>
+          <div class="stat"><span class="stat__label">参加人数</span><span class="stat__value">38</span><span class="stat__note">延べ人数</span></div>
+          <div class="stat"><span class="stat__label">外部リンク経由</span><span class="stat__value">21</span><span class="stat__note">入口 B の着地数</span></div>
+        </div>
+        <div class="grid grid--2">
+          <div class="card">
+            <p class="card__title">年代別の参加者</p>
+            <ul class="bar-chart" aria-label="年代別の参加者(人)">
+              <li class="bar-chart__row"><span class="bar-chart__label">20代</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:55%"></span></span><span class="bar-chart__value">11</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">30代</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:80%"></span></span><span class="bar-chart__value">16</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">40代</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:30%"></span></span><span class="bar-chart__value">6</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">50代以上</span><span class="bar-chart__track"><span class="bar-chart__bar bar-chart__bar--forecast" style="display:block;width:25%"></span></span><span class="bar-chart__value">5</span></li>
+            </ul>
+          </div>
+          <div class="card">
+            <p class="card__title">月別の来訪(実績と見込み)</p>
+            <ul class="legend"><li><span class="legend__swatch"></span>実績</li><li><span class="legend__swatch legend__swatch--forecast"></span>見込み</li></ul>
+            <ol class="col-chart" aria-label="月別の来訪人数">
+              <li class="col-chart__col"><span class="col-chart__bar" style="height:40%" title="9月 40人"></span></li>
+              <li class="col-chart__col"><span class="col-chart__bar" style="height:65%" title="10月 65人"></span></li>
+              <li class="col-chart__col"><span class="col-chart__bar" style="height:50%" title="11月 50人"></span></li>
+              <li class="col-chart__col"><span class="col-chart__bar col-chart__bar--forecast" style="height:80%" title="12月 見込み 80人"></span></li>
+              <li class="col-chart__col"><span class="col-chart__bar col-chart__bar--forecast" style="height:35%" title="1月 見込み 35人"></span></li>
+            </ol>
+            <ol class="col-chart__axis" aria-hidden="true"><li>9月</li><li>10月</li><li>11月</li><li>12月</li><li>1月</li></ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== メンバー一覧 ===== -->
+    <section id="c-list" class="catalog-sec" aria-labelledby="h-list">
+      <h2 id="h-list">メンバー一覧・アバター</h2>
+      <p class="catalog-meta">クラス <code>.list</code> / <code>.list__item</code> / <code>.list__main</code>、<code>.avatar</code>(Avatar。画像を使わず表示名の頭文字)。</p>
+      <ul class="list">
+        <li class="list__item"><span class="avatar" aria-hidden="true">ミ</span><div class="list__main"><p class="text-bold">ミサキ <span class="badge badge--info">幹事</span></p><p class="text-xs text-dimmed">30代</p></div></li>
+        <li class="list__item"><span class="avatar" aria-hidden="true">ケ</span><div class="list__main"><p class="text-bold">ケンタ</p><p class="text-xs text-dimmed">20代</p></div><a class="btn btn--ghost btn--sm" href="#c-list">通報・ブロック</a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

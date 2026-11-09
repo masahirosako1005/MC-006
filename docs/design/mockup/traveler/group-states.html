@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>状態ごとの表示 | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    .trv19-steps { display: flex; gap: 4px; margin: 8px 0 0; padding: 0; list-style: none; }
+    .trv19-steps li { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 6px; border-top: 3px solid var(--gray-3); color: var(--text-dimmed); font-size: 11px; line-height: 1.3; text-align: center; overflow-wrap: anywhere; }
+    .trv19-steps li[data-step="done"] { border-top-color: var(--success-color); color: var(--text); }
+    .trv19-steps li[aria-current="step"] { border-top-color: var(--main-color); color: var(--main-color); font-weight: var(--fw-bold); }
+    .trv19-steps__mark { font-size: 12px; }
+
+    .trv19-matrix th[scope="col"] { vertical-align: bottom; }
+    .trv19-matrix th[scope="row"] { white-space: nowrap; font-weight: var(--fw-bold); }
+    .trv19-c { white-space: nowrap; font-size: var(--fz-xs); color: var(--text-dimmed); }
+    .trv19-c--on { color: #1d6a2e; font-weight: var(--fw-bold); }
+    .trv19-c--off { color: var(--gray-6); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option selected>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option>ユイ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>ナナミ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="group-hub.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>状態ごとの表示</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 3 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ミ</span>ミサキ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用。実装では作らない) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>TRV-19</dd>
+        <dt>画面名</dt><dd>状態ごとの表示(募集中〜再企画済みの 8 状態)</dd>
+        <dt>対象ロール</dt><dd>旅行者(参加者・幹事)</dd>
+        <dt>実装パス</dt><dd>TRV-12 の上部(04 LCY-UI-01〜04 <code>GroupStatusBadge</code>・<code>HeadcountMeter</code>・<code>DeadlineCountdown</code>・<code>LifecyclePanel</code>)とタブの出し分け</dd>
+        <dt>参照設計書</dt><dd>_unified-contracts.md §4.1(8 状態)、§4.4(状態ごとの可否)、§10.1(状態のラベル)、§10.2(中止理由)、docs/feature/04-group-lifecycle.md §3・§9、docs/design/04-screens-flow.md「グループの状態遷移」</dd>
+        <dt>見本データ</dt><dd>CMN-D-03 の g-001・g-003・g-004・g-005・g-011・g-010・g-013・g-006(状態ごとに 1 件)</dd>
+        <dt>遷移先</dt><dd><a href="group-hub.html">ハブ(TRV-12)</a>、<a href="withdraw-dialog.html">辞退(TRV-20)</a>、<a href="group-cancelled.html">中止(TRV-21)</a>、<a href="group-replan.html">再企画(TRV-22)</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="group-list.html">グループ一覧</a></li>
+            <li><span aria-current="page">状態ごとの表示</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">状態ごとの表示</p>
+
+        <p class="text-sm">グループの状態は 8 種類です。状態は色・記号・ラベルの 3 つで示します。状態によって、タブで編集できるか、閲覧のみか、表示しないかが変わります。</p>
+
+        <section class="stack" aria-labelledby="mx-title">
+          <h2 id="mx-title" class="title-section">タブと操作の可否</h2>
+          <p class="text-xs text-dimmed">○ 使える / △ 閲覧のみ(タブに「閲覧のみ」の印を付ける) / — 表示しない・操作なし</p>
+          <div class="table-wrap">
+            <table class="table trv19-matrix">
+              <caption>状態ごとの可否(統一仕様 4.4)</caption>
+              <thead><tr><th scope="col">機能</th><th scope="col"><span class="status status--recruiting">募集中</span></th><th scope="col"><span class="status status--min-reached">最少人数到達</span></th><th scope="col"><span class="status status--withdrawal">辞退期間</span></th><th scope="col"><span class="status status--confirmed">実行確定</span></th><th scope="col"><span class="status status--in-progress">実施中</span></th><th scope="col"><span class="status status--completed">完了</span></th><th scope="col"><span class="status status--cancelled">中止</span></th><th scope="col"><span class="status status--replanned">再企画済み</span></th></tr></thead>
+              <tbody>
+              <tr><th scope="row">旅程・集合場所</th><td class="trv19-c trv19-c--on">○ 編集可</td><td class="trv19-c trv19-c--on">○ 編集可</td><td class="trv19-c trv19-c--on">○ 編集可</td><td class="trv19-c trv19-c--on">○ 編集可</td><td class="trv19-c trv19-c--on">○ 編集可</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td></tr>
+              <tr><th scope="row">チャット</th><td class="trv19-c trv19-c--on">○ 投稿可</td><td class="trv19-c trv19-c--on">○ 投稿可</td><td class="trv19-c trv19-c--on">○ 投稿可</td><td class="trv19-c trv19-c--on">○ 投稿可</td><td class="trv19-c trv19-c--on">○ 投稿可</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td></tr>
+              <tr><th scope="row">費用メモ</th><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c trv19-c--on">○ 編集可</td><td class="trv19-c trv19-c--on">○ 編集可</td><td class="trv19-c trv19-c--on">○ 編集可</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td></tr>
+              <tr><th scope="row">スタンプラリー</th><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c trv19-c--on">○ 取得可</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td></tr>
+              <tr><th scope="row">振り返り</th><td class="trv19-c trv19-c--off">— 非表示</td><td class="trv19-c trv19-c--off">— 非表示</td><td class="trv19-c trv19-c--off">— 非表示</td><td class="trv19-c trv19-c--off">— 非表示</td><td class="trv19-c trv19-c--on">○ 編集可</td><td class="trv19-c trv19-c--on">○ 編集可</td><td class="trv19-c trv19-c--off">— 非表示</td><td class="trv19-c trv19-c--off">— 非表示</td></tr>
+              <tr><th scope="row">メンバー</th><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td><td class="trv19-c">△ 閲覧のみ</td></tr>
+              <tr><th scope="row">参加申請の受付(締切前)</th><td class="trv19-c trv19-c--on">○ 可</td><td class="trv19-c trv19-c--on">○ 可</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td></tr>
+              <tr><th scope="row">辞退・退会(幹事以外)</th><td class="trv19-c trv19-c--on">○ 辞退</td><td class="trv19-c trv19-c--on">○ 辞退</td><td class="trv19-c trv19-c--on">○ 辞退</td><td class="trv19-c trv19-c--on">○ 退会</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td></tr>
+              <tr><th scope="row">幹事の中止</th><td class="trv19-c trv19-c--on">○ 可</td><td class="trv19-c trv19-c--on">○ 可</td><td class="trv19-c trv19-c--on">○ 可</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td></tr>
+              <tr><th scope="row">締切・最少人数の変更(幹事)</th><td class="trv19-c trv19-c--on">○ 可</td><td class="trv19-c trv19-c--on">○ 可</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td></tr>
+              <tr><th scope="row">再企画(元の幹事)</th><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--off">— なし</td><td class="trv19-c trv19-c--on">○ 可</td><td class="trv19-c trv19-c--off">— なし</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="stack" aria-labelledby="cards-title">
+          <h2 id="cards-title" class="title-section">グループ詳細の上部の表示(状態別)</h2>
+          <div class="grid grid--2">
+            <section class="card stack" aria-labelledby="st-recruiting">
+              <div class="group group--between group--nowrap group--top">
+                <h3 id="st-recruiting" class="card__title">募集中</h3>
+                <span class="status status--recruiting">募集中</span>
+              </div>
+              <p class="text-xs text-dimmed">見本: g-001 鈴風高原のんびり歩き</p>
+              <div class="progress-label"><span>現在 2 / 定員 4(最少 3)</span><span>締切まであと 11 日(11-20)</span></div>
+              <div class="progress" role="progressbar" aria-label="参加人数" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="現在 2 / 定員 4(最少 3)"><div class="progress__bar" style="width:50%"></div><div class="progress__marker" style="left:75%" aria-hidden="true"></div></div>
+              <ol class="trv19-steps" aria-label="募集中: 実行条件の進み具合">
+                <li aria-current="step"><span class="trv19-steps__mark" aria-hidden="true">●</span>募集中<span class="visually-hidden">(現在)</span></li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>最少人数到達</li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>辞退期間</li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>実行確定</li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>実施中</li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>完了</li>
+              </ol>
+              <p class="text-sm">あと 1 人で実行の条件に達します。申請を受け付けています。</p>
+              <div class="btn-row"><a class="btn btn--primary btn--sm" href="group-hub.html">ハブ(TRV-12)</a></div>
+            </section>
+            <section class="card stack" aria-labelledby="st-min-reached">
+              <div class="group group--between group--nowrap group--top">
+                <h3 id="st-min-reached" class="card__title">最少人数到達</h3>
+                <span class="status status--min-reached">最少人数到達</span>
+              </div>
+              <p class="text-xs text-dimmed">見本: g-003 星綴港 朝市さんぽ</p>
+              <div class="progress-label"><span>現在 3 / 定員 4(最少 3)</span><span>締切まであと 5 日(11-14)</span></div>
+              <div class="progress progress--success" role="progressbar" aria-label="参加人数" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75" aria-valuetext="現在 3 / 定員 4(最少 3)"><div class="progress__bar" style="width:75%"></div><div class="progress__marker" style="left:75%" aria-hidden="true"></div></div>
+              <ol class="trv19-steps" aria-label="最少人数到達: 実行条件の進み具合">
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>募集中<span class="visually-hidden">(済み)</span></li>
+                <li aria-current="step"><span class="trv19-steps__mark" aria-hidden="true">●</span>最少人数到達<span class="visually-hidden">(現在)</span></li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>辞退期間</li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>実行確定</li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>実施中</li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>完了</li>
+              </ol>
+              <p class="text-sm">最少人数に達しました。まだ実行は確定していません。定員まで申請を受け付けます。</p>
+              <div class="btn-row"><button class="btn btn--danger-light btn--sm" type="button">辞退する</button></div>
+            </section>
+            <section class="card stack" aria-labelledby="st-withdrawal">
+              <div class="group group--between group--nowrap group--top">
+                <h3 id="st-withdrawal" class="card__title">辞退期間</h3>
+                <span class="status status--withdrawal">辞退期間</span>
+              </div>
+              <p class="text-xs text-dimmed">見本: g-004 雫森谷 紅葉ハイク</p>
+              <div class="progress-label"><span>現在 3 / 定員 4(最少 3)</span><span>辞退できるのは 11-11 まで</span></div>
+              <div class="progress progress--success" role="progressbar" aria-label="参加人数" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75" aria-valuetext="現在 3 / 定員 4(最少 3)"><div class="progress__bar" style="width:75%"></div><div class="progress__marker" style="left:75%" aria-hidden="true"></div></div>
+              <ol class="trv19-steps" aria-label="辞退期間: 実行条件の進み具合">
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>募集中<span class="visually-hidden">(済み)</span></li>
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>最少人数到達<span class="visually-hidden">(済み)</span></li>
+                <li aria-current="step"><span class="trv19-steps__mark" aria-hidden="true">●</span>辞退期間<span class="visually-hidden">(現在)</span></li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>実行確定</li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>実施中</li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>完了</li>
+              </ol>
+              <p class="text-sm">辞退期間です。辞退にペナルティはありません。期間が終わると実行が確定します。</p>
+              <div class="btn-row"><a class="btn btn--danger btn--sm" href="withdraw-dialog.html">辞退する</a></div>
+            </section>
+            <section class="card stack" aria-labelledby="st-confirmed">
+              <div class="group group--between group--nowrap group--top">
+                <h3 id="st-confirmed" class="card__title">実行確定</h3>
+                <span class="status status--confirmed">実行確定</span>
+              </div>
+              <p class="text-xs text-dimmed">見本: g-005 星凪諸島 島時間</p>
+              <div class="progress-label"><span>参加者 5 人で確定</span><span>旅行開始まであと 19 日(11-28)</span></div>
+              <div class="progress progress--success" role="progressbar" aria-label="参加人数" aria-valuemin="0" aria-valuemax="100" aria-valuenow="83" aria-valuetext="参加者 5 人で確定"><div class="progress__bar" style="width:83%"></div><div class="progress__marker" style="left:66.6%" aria-hidden="true"></div></div>
+              <ol class="trv19-steps" aria-label="実行確定: 実行条件の進み具合">
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>募集中<span class="visually-hidden">(済み)</span></li>
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>最少人数到達<span class="visually-hidden">(済み)</span></li>
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>辞退期間<span class="visually-hidden">(済み)</span></li>
+                <li aria-current="step"><span class="trv19-steps__mark" aria-hidden="true">●</span>実行確定<span class="visually-hidden">(現在)</span></li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>実施中</li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>完了</li>
+              </ol>
+              <p class="text-sm">実行が確定しました。費用メモを記録できます。</p>
+              <div class="btn-row"><button class="btn btn--ghost btn--sm" type="button">退会する</button></div>
+            </section>
+            <section class="card stack" aria-labelledby="st-in-progress">
+              <div class="group group--between group--nowrap group--top">
+                <h3 id="st-in-progress" class="card__title">実施中</h3>
+                <span class="status status--in-progress">実施中</span>
+              </div>
+              <p class="text-xs text-dimmed">見本: g-011 虹帆町 夜明けの港</p>
+              <div class="progress-label"><span>参加者 3 人</span><span>11-08〜11-10</span></div>
+              <div class="progress progress--success" role="progressbar" aria-label="参加人数" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75" aria-valuetext="参加者 3 人"><div class="progress__bar" style="width:75%"></div><div class="progress__marker" style="left:75%" aria-hidden="true"></div></div>
+              <ol class="trv19-steps" aria-label="実施中: 実行条件の進み具合">
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>募集中<span class="visually-hidden">(済み)</span></li>
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>最少人数到達<span class="visually-hidden">(済み)</span></li>
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>辞退期間<span class="visually-hidden">(済み)</span></li>
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>実行確定<span class="visually-hidden">(済み)</span></li>
+                <li aria-current="step"><span class="trv19-steps__mark" aria-hidden="true">●</span>実施中<span class="visually-hidden">(現在)</span></li>
+                <li><span class="trv19-steps__mark" aria-hidden="true">○</span>完了</li>
+              </ol>
+              <p class="text-sm">旅行の期間中です。スタンプラリーと振り返りを使えます。</p>
+              <div class="btn-row"><a class="btn btn--primary btn--sm" href="group-rally.html">スタンプラリー</a></div>
+            </section>
+            <section class="card stack" aria-labelledby="st-completed">
+              <div class="group group--between group--nowrap group--top">
+                <h3 id="st-completed" class="card__title">完了</h3>
+                <span class="status status--completed">完了</span>
+              </div>
+              <p class="text-xs text-dimmed">見本: g-010 鈴風高原 音楽堂の朝</p>
+              <div class="progress-label"><span>参加者 3 人</span><span>10-18〜10-19 に実施</span></div>
+              <div class="progress progress--success" role="progressbar" aria-label="参加人数" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75" aria-valuetext="参加者 3 人"><div class="progress__bar" style="width:75%"></div><div class="progress__marker" style="left:75%" aria-hidden="true"></div></div>
+              <ol class="trv19-steps" aria-label="完了: 実行条件の進み具合">
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>募集中<span class="visually-hidden">(済み)</span></li>
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>最少人数到達<span class="visually-hidden">(済み)</span></li>
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>辞退期間<span class="visually-hidden">(済み)</span></li>
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>実行確定<span class="visually-hidden">(済み)</span></li>
+                <li data-step="done"><span class="trv19-steps__mark" aria-hidden="true">✔</span>実施中<span class="visually-hidden">(済み)</span></li>
+                <li aria-current="step"><span class="trv19-steps__mark" aria-hidden="true">●</span>完了<span class="visually-hidden">(現在)</span></li>
+              </ol>
+              <p class="text-sm">旅行が終わりました。振り返りと費用メモは引き続き書けます。</p>
+              <div class="btn-row"><a class="btn btn--primary btn--sm" href="group-review.html">振り返り</a></div>
+            </section>
+            <section class="card stack" aria-labelledby="st-cancelled">
+              <div class="group group--between group--nowrap group--top">
+                <h3 id="st-cancelled" class="card__title">中止</h3>
+                <span class="status status--cancelled">中止</span>
+              </div>
+              <p class="text-xs text-dimmed">見本: g-013 星凪諸島 夕暮れの浜歩き</p>
+              <div class="progress-label"><span>現在 2 / 定員 4(最少 3)</span><span>11-07 に中止</span></div>
+              <p class="text-sm text-bold">実行条件の進み具合: 対象外(中止)</p>
+              <p class="text-sm">中止になりました。理由: 締切までに最少人数に達しなかった。幹事は再企画できます。</p>
+              <div class="btn-row"><a class="btn btn--secondary btn--sm" href="group-cancelled.html">中止の表示(TRV-21)</a></div>
+            </section>
+            <section class="card stack" aria-labelledby="st-replanned">
+              <div class="group group--between group--nowrap group--top">
+                <h3 id="st-replanned" class="card__title">再企画済み</h3>
+                <span class="status status--replanned">再企画済み</span>
+              </div>
+              <p class="text-xs text-dimmed">見本: g-006 月灯集落 灯りの夕べ</p>
+              <div class="progress-label"><span>現在 2 / 定員 4(最少 4)</span><span>11-05 に中止、再企画済み</span></div>
+              <p class="text-sm text-bold">実行条件の進み具合: 対象外(再企画済み)</p>
+              <p class="text-sm">このグループは再企画されました。新しいグループで申請を受け付けています。</p>
+              <div class="btn-row"><a class="btn btn--primary btn--sm" href="group-cancelled.html#replanned">再企画先を見る</a></div>
+            </section>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a> / <a href="../components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

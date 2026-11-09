@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!--
+  サンプル画面(土台の確認用)。_template.html から作成した例。
+  グループ一覧(TRV-01)の正式なモックではない。正式版は traveler/group-list.html として担当が作成する。
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>グループ一覧(サンプル) | 画面モック</title>
+  <link rel="stylesheet" href="assets/base.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="traveler/group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option selected>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="index.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="index.html">Raund</a>
+      <h1>グループ一覧</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="_sample-page.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="safety/notifications.html" aria-label="通知(未読 3 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ミ</span>ミサキ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>SAMPLE(TRV-01 の例)</dd>
+        <dt>画面名</dt><dd>グループ一覧・絞り込み(サンプル)</dd>
+        <dt>対象ロール</dt><dd>旅行者</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/groups</code></dd>
+        <dt>参照設計書</dt><dd>docs/design/04-screens-flow.md「画面の候補」、docs/feature/02-group-discovery.md</dd>
+        <dt>遷移先</dt><dd>グループ詳細(TRV-02)、参加申請(TRV-03)、招待コード入力(TRV-04)、グループ作成(TRV-05)、<a href="index.html">画面モック一覧</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="index.html">画面モック一覧</a></li>
+            <li><span aria-current="page">グループ一覧(サンプル)</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">グループ一覧</p>
+
+        <div class="alert alert--info" role="status">
+          <span class="alert__icon" aria-hidden="true">i</span>
+          <div>外部リンクから「虹帆町・12 月」の条件を引き継ぎました。条件はいつでも変更できます。</div>
+        </div>
+
+        <div class="grid grid--side">
+          <!-- 絞り込み -->
+          <section class="card" aria-labelledby="filter-title">
+            <h2 id="filter-title" class="title-section">絞り込み</h2>
+            <form class="stack" action="_sample-page.html" style="margin-top:8px">
+              <div class="field">
+                <label class="field__label" for="q-region">地方</label>
+                <select class="select" id="q-region" name="region">
+                  <option value="">すべて</option>
+                  <option>水琴地方</option><option>鈴風高原</option><option>星凪諸島</option><option selected>虹帆町</option>
+                </select>
+              </div>
+              <div class="grid grid--2">
+                <div class="field">
+                  <label class="field__label" for="q-from">出発日(から)</label>
+                  <input class="input" id="q-from" name="dateFrom" type="date" value="2026-12-01">
+                </div>
+                <div class="field">
+                  <label class="field__label" for="q-to">出発日(まで)</label>
+                  <input class="input" id="q-to" name="dateTo" type="date" value="2026-12-31" aria-describedby="q-to-err" aria-invalid="false">
+                </div>
+              </div>
+              <fieldset class="fieldset">
+                <legend>テーマ</legend>
+                <ul class="chip-row">
+                  <li><button class="chip" type="button" aria-pressed="true">食べ歩き</button></li>
+                  <li><button class="chip" type="button" aria-pressed="false">自然</button></li>
+                  <li><button class="chip" type="button" aria-pressed="false">夜景</button></li>
+                </ul>
+              </fieldset>
+              <label class="switch"><input type="checkbox" role="switch" name="vacancy" checked> 空きのあるグループのみ</label>
+              <label class="check"><input type="checkbox" name="official"> <span class="check__text">公式枠のみ</span></label>
+              <div class="form-actions">
+                <a class="btn btn--ghost" href="_sample-page.html">条件をクリア</a>
+                <button class="btn btn--primary" type="submit">この条件で探す</button>
+              </div>
+            </form>
+          </section>
+
+          <!-- 結果 -->
+          <section class="stack" aria-labelledby="result-title">
+            <div class="group group--between">
+              <h2 id="result-title" class="title-section">3 件のグループ</h2>
+              <div class="btn-row">
+                <a class="btn btn--secondary btn--sm" href="#invite">招待コードで参加</a>
+                <a class="btn btn--primary btn--sm" href="#">グループを作る</a>
+              </div>
+            </div>
+            <div class="segmented" role="group" aria-label="表示の切り替え">
+              <button class="segmented__item" type="button" aria-pressed="true">新着順</button>
+              <button class="segmented__item" type="button" aria-pressed="false">締切が近い順</button>
+            </div>
+
+            <a class="card card--link" href="#join">
+              <div class="group group--between group--nowrap group--top">
+                <div>
+                  <p class="card__title">虹帆町 夜市めぐり <span class="badge badge--official">公式</span></p>
+                  <p class="card__meta">虹帆町 / 12-12〜12-13 / 幹事: タナカ</p>
+                </div>
+                <span class="status status--recruiting">募集中</span>
+              </div>
+              <div class="stack stack--xs" style="margin-top:8px">
+                <div class="progress-label"><span>現在 3 人 / 定員 6 人(最少 4 人)</span><span>あと 1 人で実行</span></div>
+                <div class="progress" role="progressbar" aria-label="参加人数" aria-valuemin="0" aria-valuemax="6" aria-valuenow="3" aria-valuetext="定員 6 人中 3 人。最少人数 4 人">
+                  <div class="progress__bar" style="width:50%"></div><div class="progress__marker" style="left:66.6%" aria-hidden="true"></div>
+                </div>
+                <p class="text-xs text-dimmed">締切 2026-11-25 / メンバー: 30代 1、40代 2</p>
+              </div>
+            </a>
+
+            <a class="card card--link" href="#join">
+              <div class="group group--between group--nowrap group--top">
+                <div>
+                  <p class="card__title">虹帆町 港の朝ごはん</p>
+                  <p class="card__meta">虹帆町 / 12-05 / 幹事: ユイ</p>
+                </div>
+                <span class="status status--min-reached">最少人数到達</span>
+              </div>
+              <div class="stack stack--xs" style="margin-top:8px">
+                <div class="progress-label"><span>現在 3 人 / 定員 4 人(最少 3 人)</span><span>実行の見込み</span></div>
+                <div class="progress progress--success" role="progressbar" aria-label="参加人数" aria-valuemin="0" aria-valuemax="4" aria-valuenow="3" aria-valuetext="定員 4 人中 3 人。最少人数 3 人に到達">
+                  <div class="progress__bar" style="width:75%"></div><div class="progress__marker" style="left:75%" aria-hidden="true"></div>
+                </div>
+                <p class="text-xs text-dimmed">締切 2026-11-21 / メンバー: 20代 2、30代 1</p>
+              </div>
+            </a>
+
+            <div class="card card--muted">
+              <div class="group group--between group--nowrap group--top">
+                <div>
+                  <p class="card__title">虹帆町 灯りの小径</p>
+                  <p class="card__meta">虹帆町 / 12-20 / 幹事: ハルカ</p>
+                </div>
+                <span class="status status--withdrawal">辞退期間</span>
+              </div>
+              <p class="text-xs text-dimmed" style="margin-top:8px">締切を過ぎたため、新しい申請は受け付けていません。</p>
+              <button class="btn btn--primary btn--sm" type="button" disabled style="margin-top:8px">申請の受付は終了しました</button>
+            </div>
+
+            <nav aria-label="ページ">
+              <ul class="pagination">
+                <li><span aria-disabled="true">前へ</span></li>
+                <li><a href="_sample-page.html" aria-current="page">1</a></li>
+                <li><span aria-disabled="true">次へ</span></li>
+              </ul>
+            </nav>
+
+            <div class="empty">
+              <p class="empty__title">(空状態の例)該当するグループがありません</p>
+              <p>条件を減らすか、グループを作成してください。</p>
+              <a class="btn btn--secondary btn--sm" href="_sample-page.html">条件をクリア</a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="index.html">画面モック一覧へ</a> / <a href="components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="_sample-page.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+
+  <!-- ===== ダイアログ(:target で開く。JavaScript なし) ===== -->
+  <div id="join" class="modal-overlay modal-overlay--target">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="join-title">
+      <div class="modal__header">
+        <h2 class="modal__title" id="join-title">参加を申請する</h2>
+        <a class="modal__close" href="#main" aria-label="閉じる">×</a>
+      </div>
+      <form class="modal__body" action="#main">
+        <p>虹帆町 夜市めぐり(12-12〜12-13)。幹事が承認すると参加が成立します。</p>
+        <div class="field">
+          <label class="field__label" for="j-msg">ひとこと(任意)</label>
+          <textarea class="textarea" id="j-msg" aria-describedby="j-msg-help j-msg-err" aria-invalid="true">連絡は外部のメッセージアプリでお願いします</textarea>
+          <p class="field__help" id="j-msg-help">200 文字以内。連絡先・外部サービスへの誘導は書けません。</p>
+          <p class="field__error" id="j-msg-err">外部サービスへの誘導にあたる表現が含まれています。該当部分を削除してください。</p>
+        </div>
+        <label class="check"><input type="checkbox" required> <span class="check__text">最少人数(4 人)でも参加してよい<span class="field__help">最少人数に達して締切を迎えると、辞退期間を経て実行が確定します。</span></span></label>
+        <div class="modal__footer" style="padding:0">
+          <a class="btn btn--ghost" href="#main">やめる</a>
+          <button class="btn btn--primary" type="submit">申請する</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="invite" class="modal-overlay modal-overlay--target">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="invite-title">
+      <div class="modal__header">
+        <h2 class="modal__title" id="invite-title">招待コードで参加</h2>
+        <a class="modal__close" href="#main" aria-label="閉じる">×</a>
+      </div>
+      <div class="modal__body">
+        <div class="field">
+          <label class="field__label" for="inv-code">招待コード</label>
+          <input class="input" id="inv-code" type="text" autocomplete="off" aria-describedby="inv-help">
+          <p class="field__help" id="inv-help">幹事から受け取ったコードを入力してください。</p>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <a class="btn btn--ghost" href="#main">やめる</a>
+        <a class="btn btn--primary" href="#main">照合する</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

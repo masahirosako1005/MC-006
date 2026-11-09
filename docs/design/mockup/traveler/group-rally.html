@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>スタンプラリー | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    .trv16-off { background: var(--gray-1); color: var(--text-dimmed); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option>ミサキ(旅行者)</option>
+        <option selected>ケンタ(旅行者)</option>
+        <option>ユイ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>ナナミ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="group-hub.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>スタンプラリー</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 3 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ケ</span>ケンタ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用。実装では作らない) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>TRV-16</dd>
+        <dt>画面名</dt><dd>ハブ: スタンプラリー(グループ単位)</dd>
+        <dt>対象ロール</dt><dd>旅行者(参加中のメンバー。取得は実施中のみ)</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/groups/[groupId]?tab=rally</code></dd>
+        <dt>参照設計書</dt><dd>docs/feature/08-group-rally.md §3.1〜3.3(RallyTab、StampForm、SpotProgressList、RewardProgress、MyRewardList、MemberContribution)、_unified-contracts.md §4.4(<code>canCollectStamps</code>)、§7.8 [決定 6・13〜16・21]</dd>
+        <dt>見本データ</dt><dd>g-011 虹帆町 夜明けの港(実施中。11-08〜11-10。メンバー: ユイ(幹事)、ダイスケ、ケンタ。ソウタは実行確定時に退会した元メンバー)。閲覧者: ケンタ。合言葉で 3 件目(朝市通り)を取得した直後の表示</dd>
+        <dt>遷移先</dt><dd><a href="group-hub.html">概要(TRV-12)</a>、<a href="group-review.html">振り返り(TRV-17)</a>、既存のスポット詳細(<code>href="#"</code>)</dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="group-list.html">グループ一覧</a></li>
+            <li><a href="group-hub.html">虹帆町 夜明けの港</a></li>
+            <li><span aria-current="page">スタンプラリー</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">スタンプラリー</p>
+
+        <div class="card card--sm">
+          <div class="group group--between group--nowrap group--top">
+            <div>
+              <p class="card__title">虹帆町 夜明けの港</p>
+              <p class="card__meta">虹帆町 / 2026-11-08〜11-10 / 幹事: ユイ / メンバー 3 人</p>
+            </div>
+            <span class="status status--in-progress">実施中</span>
+          </div>
+        </div>
+
+        <nav aria-label="グループ内のメニュー">
+        <ul class="tabs">
+          <li><a class="tabs__tab" href="group-hub.html">概要</a></li>
+          <li><a class="tabs__tab" href="group-plan.html">旅程・集合場所</a></li>
+          <li><a class="tabs__tab" href="group-chat.html">チャット</a></li>
+          <li><a class="tabs__tab" href="group-expenses.html">費用メモ</a></li>
+          <li><a class="tabs__tab" href="group-rally.html" aria-current="page">スタンプラリー</a></li>
+          <li><a class="tabs__tab" href="group-review.html">振り返り</a></li>
+          <li><a class="tabs__tab" href="group-members.html">メンバー</a></li>
+        </ul>
+        </nav>
+
+        <section class="card stack" aria-labelledby="sum-title">
+          <h2 id="sum-title" class="title-section">グループの達成率</h2>
+          <div class="progress-label"><span>7 スポット中 3 スポット(43%)</span><span>1 人が押せばグループで取得</span></div>
+          <div class="progress progress--success" role="progressbar" aria-label="グループの取得数" aria-valuemin="0" aria-valuemax="7" aria-valuenow="3" aria-valuetext="7 スポット中 3 スポット(43%)"><div class="progress__bar" style="width:43%"></div></div>
+          <div class="stamp-grid" aria-hidden="true">
+            <span class="stamp" data-on="true">✔ 桟橋</span><span class="stamp" data-on="true">✔ 灯台</span><span class="stamp" data-on="true">✔ 朝市</span><span class="stamp">工房</span>
+            <span class="stamp">潮見坂</span><span class="stamp">音楽堂</span><span class="stamp">星見の丘</span>
+          </div>
+        </section>
+
+        <section class="card stack" aria-labelledby="code-title">
+          <h2 id="code-title" class="title-section">合言葉を入力</h2>
+          <p class="mock-note">デモ用: 合言葉入力のみ(位置・QR は使いません)</p>
+          <form class="stack" action="#main">
+            <div class="field">
+              <label class="field__label" for="kw">スポットの合言葉</label>
+              <div class="group group--nowrap">
+                <input class="input" id="kw" type="text" autocomplete="off" aria-describedby="kw-help">
+                <button class="btn btn--primary" type="submit">押す</button>
+              </div>
+              <p class="field__help" id="kw-help">スポットの案内板に書かれた合言葉を入力します。個人のスタンプとは別に記録されます。</p>
+            </div>
+          </form>
+          <div class="alert alert--success" role="status">
+            <span class="alert__icon" aria-hidden="true">✔</span>
+            <div><p class="alert__title">「朝市通り」のスタンプを取得しました</p><p>グループの取得数が 3 になり、特典「港町の絵はがき」に到達しました。メンバー全員に付与しました。</p></div>
+          </div>
+          <div class="alert alert--error" role="alert">
+            <span class="alert__icon" aria-hidden="true">✕</span>
+            <div>(エラーの例)「虹帆灯台」はグループで取得済みです(ケンタ 11/08 11:05)。</div>
+          </div>
+        </section>
+
+        <section class="card stack" aria-labelledby="spot-title">
+          <h2 id="spot-title" class="title-section">スポット別の取得状況</h2>
+          <ul class="list">
+          <li class="list__item"><span class="avatar" aria-hidden="true">✔</span><div class="list__main"><p class="text-bold">夜明けの桟橋 <span class="badge badge--success">取得済み</span></p><p class="text-xs text-dimmed">港地区 / ユイが取得 <time datetime="2026-11-08T09:20">11/08 09:20</time></p></div><a class="btn btn--ghost btn--sm" href="#">スポット詳細<span class="visually-hidden">: 夜明けの桟橋</span></a></li>
+          <li class="list__item"><span class="avatar" aria-hidden="true">✔</span><div class="list__main"><p class="text-bold">虹帆灯台 <span class="badge badge--success">取得済み</span></p><p class="text-xs text-dimmed">岬地区 / ケンタが取得 <time datetime="2026-11-08T11:05">11/08 11:05</time></p></div><a class="btn btn--ghost btn--sm" href="#">スポット詳細<span class="visually-hidden">: 虹帆灯台</span></a></li>
+          <li class="list__item"><span class="avatar" aria-hidden="true">✔</span><div class="list__main"><p class="text-bold">朝市通り <span class="badge badge--success">取得済み</span></p><p class="text-xs text-dimmed">港地区 / ユイが取得 <time datetime="2026-11-09T07:40">11/09 07:40</time></p></div><a class="btn btn--ghost btn--sm" href="#">スポット詳細<span class="visually-hidden">: 朝市通り</span></a></li>
+          <li class="list__item"><span class="avatar trv16-off" aria-hidden="true">–</span><div class="list__main"><p class="text-bold">帆布工房 <span class="badge badge--gray">未取得</span></p><p class="text-xs text-dimmed">旧市街</p></div><a class="btn btn--ghost btn--sm" href="#">スポット詳細<span class="visually-hidden">: 帆布工房</span></a></li>
+          <li class="list__item"><span class="avatar trv16-off" aria-hidden="true">–</span><div class="list__main"><p class="text-bold">潮見坂 <span class="badge badge--gray">未取得</span></p><p class="text-xs text-dimmed">旧市街</p></div><a class="btn btn--ghost btn--sm" href="#">スポット詳細<span class="visually-hidden">: 潮見坂</span></a></li>
+          <li class="list__item"><span class="avatar trv16-off" aria-hidden="true">–</span><div class="list__main"><p class="text-bold">港の音楽堂 <span class="badge badge--gray">未取得</span></p><p class="text-xs text-dimmed">港地区</p></div><a class="btn btn--ghost btn--sm" href="#">スポット詳細<span class="visually-hidden">: 港の音楽堂</span></a></li>
+          <li class="list__item"><span class="avatar trv16-off" aria-hidden="true">–</span><div class="list__main"><p class="text-bold">星見の丘 <span class="badge badge--gray">未取得</span></p><p class="text-xs text-dimmed">岬地区</p></div><a class="btn btn--ghost btn--sm" href="#">スポット詳細<span class="visually-hidden">: 星見の丘</span></a></li>
+          </ul>
+        </section>
+
+        <div class="grid grid--2">
+          <section class="card stack" aria-labelledby="rw-title">
+            <h2 id="rw-title" class="title-section">グループの特典</h2>
+            <ul class="list">
+              <li class="list__item"><div class="list__main"><p class="text-bold">港町の絵はがき <span class="badge badge--success">到達</span></p><p class="text-xs text-dimmed">必要 3 スポット</p></div></li>
+              <li class="list__item"><div class="list__main"><p class="text-bold">帆布のしおり <span class="badge badge--gray">あと 2 スポット</span></p><p class="text-xs text-dimmed">必要 5 スポット</p></div></li>
+              <li class="list__item"><div class="list__main"><p class="text-bold">灯台の記念缶バッジ <span class="badge badge--gray">あと 4 スポット</span></p><p class="text-xs text-dimmed">必要 7 スポット</p></div></li>
+            </ul>
+          </section>
+
+          <section class="card stack" aria-labelledby="my-title">
+            <h2 id="my-title" class="title-section">あなたが受け取った特典</h2>
+            <ul class="list">
+              <li class="list__item"><span class="avatar" aria-hidden="true">✔</span><div class="list__main"><p class="text-bold">港町の絵はがき</p><p class="text-xs text-dimmed"><time datetime="2026-11-09T07:40">11/09 07:40</time> 付与</p></div></li>
+            </ul>
+            <p class="text-xs text-dimmed">グループの取得数が必要数に達すると、その時点のメンバー全員に付与されます(押印に同行していないメンバーを含む)。</p>
+            <p class="mock-note">デモ用の記録です。既存の特典ページには反映されません。</p>
+          </section>
+        </div>
+
+        <section class="card stack" aria-labelledby="mc-title">
+          <h2 id="mc-title" class="title-section">メンバー別の取得数</h2>
+          <dl class="kv">
+            <dt>ユイ</dt><dd>2 スポット</dd>
+            <dt>ケンタ(あなた)</dt><dd>1 スポット</dd>
+            <dt>ダイスケ</dt><dd>0 スポット</dd>
+          </dl>
+        </section>
+
+        <div class="group group--between card card--accent">
+          <p class="text-sm">旅行中も振り返りを書けます。</p>
+          <a class="btn btn--primary btn--sm" href="group-review.html">振り返りへ</a>
+        </div>
+
+        <div class="alert alert--info" role="status">
+          <span class="alert__icon" aria-hidden="true">i</span>
+          <div>(取得できない状態の例)スタンプは旅行の実施中に押せます。取得済みの進捗は閲覧できます。</div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a> / <a href="../components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

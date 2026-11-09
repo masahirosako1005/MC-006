@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<!--
+  TRV-03 参加申請ダイアログ(docs/design/mockup/traveler/join-request-dialog.html)
+  TRV-02 グループ詳細(参加前)の上に重ねて表示する。決まりは docs/design/mockup/README.md を参照。
+  開いた状態のダイアログを固定表示し、閉じると下の「表示の見本」(入力済み・エラー・条件変更・申請後・取り下げ)が見える。
+  視点: ダイスケ(u-004)。対象: g-002 虹帆町 夜市めぐり(公式)。基準日 2026-11-09。
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>参加申請ダイアログ | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    /* TRV-03 固有。最初はダイアログを開いた状態で表示し、閉じる(#main などへ移動)と隠す */
+    .trv03-auto { display: grid; }
+    body:has(:target) .trv03-auto { display: none; }
+    .trv03-previews { display: grid; gap: var(--sp-md); grid-template-columns: minmax(0, 1fr); }
+    @media (min-width: 768px) { .trv03-previews { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .trv03-previews .modal-preview { place-items: start center; }
+    .trv03-count { font-size: var(--fz-xs); color: var(--text-dimmed); text-align: right; }
+    .trv03-hit { text-decoration: underline wavy var(--red-8); text-underline-offset: 3px; font-weight: var(--fw-bold); }
+    .trv03-consent { padding: var(--sp-sm); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--gray-0); }
+    .trv03-consent[data-invalid="true"] { border-color: var(--red-8); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー(00 CMN-UI-01) ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option selected>ダイスケ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="group-detail-public.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>グループ詳細</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 2 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ダ</span>ダイスケ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>TRV-03</dd>
+        <dt>画面名</dt><dd>参加申請ダイアログ(最少人数への同意、申請状況、取り下げ)</dd>
+        <dt>対象ロール</dt><dd>旅行者(参加希望者)</dd>
+        <dt>実装パス</dt><dd>TRV-02 <code>/[campaign]/groups/[groupId]</code> と TRV-04 <code>/[campaign]/invite</code> の上のダイアログ(<code>Modal</code>)。送信先 <code>POST /api/groups/[groupId]/join-requests</code></dd>
+        <dt>参照設計書</dt><dd>docs/feature/03-join-flow.md §7.1・§7.3・§7.4・§8.3・§11.2・§14.1・§14.2、docs/feature/09-safety.md SAF-UI-05、docs/feature/_unified-contracts.md 6.2・10.3(<code>LIMITS.JOIN_NOTE</code>)</dd>
+        <dt>遷移先</dt><dd><a href="group-detail-public.html">グループ詳細(TRV-02)</a>、<a href="group-list.html">グループ一覧(TRV-01)</a>、<a href="../safety/verification.html">本人確認(SAF-05)</a>、<a href="../safety/notifications.html">通知一覧(SAF-01)</a>、<a href="../index.html">画面モック一覧</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="group-list.html">グループを探す</a></li>
+            <li><a href="group-detail-public.html">虹帆町 夜市めぐり(公式)</a></li>
+            <li><span aria-current="page">参加を申請する</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">参加申請ダイアログ</p>
+
+        <!-- 呼び出し元(TRV-02)の簡略表示 -->
+        <div class="card card--muted card--sm">
+          <p class="text-xs text-dimmed">呼び出し元: グループ詳細(参加前)</p>
+          <p class="card__title">虹帆町 夜市めぐり(公式)</p>
+          <p class="card__meta">12/12(土)〜12/13(日)/ 最少4人・定員6人・現在3人 / 締切 11/25(水)</p>
+          <div class="btn-row" style="margin-top:8px">
+            <a class="btn btn--primary btn--sm" href="join-request-dialog.html">参加を申請する(ダイアログを開く)</a>
+          </div>
+        </div>
+
+        <section class="stack" aria-labelledby="sec-previews">
+          <h2 id="sec-previews" class="title-section">表示の見本</h2>
+          <p class="text-sm text-dimmed">ダイアログの状態ごとの表示です。最初に開いている状態は、同意のチェック前(申請ボタンは無効)です。</p>
+
+          <div class="trv03-previews">
+            <!-- 1. 入力済み -->
+            <section class="stack stack--xs" aria-labelledby="p1-h">
+              <h3 id="p1-h" class="text-sm text-bold">1. 入力済み・同意済み(申請できる)</h3>
+              <div class="modal-preview">
+                <div class="modal" role="dialog" aria-modal="false" aria-labelledby="p1-title">
+                  <div class="modal__header">
+                    <p class="modal__title" id="p1-title">参加を申請する</p>
+                    <a class="modal__close" href="group-detail-public.html" aria-label="閉じる">×</a>
+                  </div>
+                  <form class="modal__body" action="#p6-h">
+                    <div class="field">
+                      <label class="field__label" for="p1-note">ひとこと(任意)</label>
+                      <textarea class="textarea" id="p1-note" aria-describedby="p1-note-help">夜市は初めてです。写真を撮りながら回りたいです。</textarea>
+                      <div class="group group--between"><p class="field__help" id="p1-note-help">200 文字・3 行まで</p><p class="trv03-count">24 / 200</p></div>
+                    </div>
+                    <div class="trv03-consent">
+                      <label class="check"><input type="checkbox" checked> <span class="check__text">このグループは、最少人数(4人)でも実行されます。4人になっても参加します。実行が確定する前なら、辞退できます(不利益はありません)。</span></label>
+                    </div>
+                    <div class="modal__footer" style="padding:0">
+                      <a class="btn btn--ghost" href="group-detail-public.html">やめる</a>
+                      <button class="btn btn--primary" type="submit">申請する</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </section>
+
+            <!-- 2. 禁止表現(deny) -->
+            <section class="stack stack--xs" aria-labelledby="p2-h">
+              <h3 id="p2-h" class="text-sm text-bold">2. 入力エラー: 使えない表現(送信後)</h3>
+              <div class="modal-preview">
+                <div class="modal" role="dialog" aria-modal="false" aria-labelledby="p2-title">
+                  <div class="modal__header">
+                    <p class="modal__title" id="p2-title">参加を申請する</p>
+                    <a class="modal__close" href="group-detail-public.html" aria-label="閉じる">×</a>
+                  </div>
+                  <form class="modal__body" action="#p2-h">
+                    <div class="alert alert--error" role="alert">
+                      <span class="alert__icon" aria-hidden="true">!</span>
+                      <div>入力内容を確認してください(1 件)。</div>
+                    </div>
+                    <div class="field">
+                      <label class="field__label" for="p2-note">ひとこと(任意)</label>
+                      <textarea class="textarea" id="p2-note" aria-invalid="true" aria-describedby="p2-note-err p2-note-help">連絡は sample@example.com にください。</textarea>
+                      <p class="field__error" id="p2-note-err">ひとことに「<span class="trv03-hit">sample@example.com</span>」は入力できません。連絡は参加成立後にグループ内のチャットを使ってください。</p>
+                      <div class="group group--between"><p class="field__help" id="p2-note-help">200 文字・3 行まで</p><p class="trv03-count">29 / 200</p></div>
+                    </div>
+                    <div class="trv03-consent">
+                      <label class="check"><input type="checkbox" checked> <span class="check__text">このグループは、最少人数(4人)でも実行されます。4人になっても参加します。実行が確定する前なら、辞退できます(不利益はありません)。</span></label>
+                    </div>
+                    <div class="modal__footer" style="padding:0">
+                      <a class="btn btn--ghost" href="group-detail-public.html">やめる</a>
+                      <button class="btn btn--primary" type="submit">申請する</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </section>
+
+            <!-- 3. 要確認(review) -->
+            <section class="stack stack--xs" aria-labelledby="p3-h">
+              <h3 id="p3-h" class="text-sm text-bold">3. 要確認の表現(確認すれば送信できる)</h3>
+              <div class="modal-preview">
+                <div class="modal" role="dialog" aria-modal="false" aria-labelledby="p3-title">
+                  <div class="modal__header">
+                    <p class="modal__title" id="p3-title">参加を申請する</p>
+                    <a class="modal__close" href="group-detail-public.html" aria-label="閉じる">×</a>
+                  </div>
+                  <form class="modal__body" action="#p6-h">
+                    <div class="field">
+                      <label class="field__label" for="p3-note">ひとこと(任意)</label>
+                      <textarea class="textarea" id="p3-note" aria-describedby="p3-note-warn">前回の旅の記録は https://example.com にまとめています。</textarea>
+                      <div class="alert alert--warning" id="p3-note-warn" aria-live="polite">
+                        <span class="alert__icon" aria-hidden="true">?</span>
+                        <div class="stack stack--xs">
+                          <p>確認してください。「<span class="trv03-hit">https://example.com</span>」は外部サイトへの誘導と受け取られる場合があります。</p>
+                          <div class="btn-row">
+                            <button class="btn btn--secondary btn--sm" type="submit">このまま使う</button>
+                            <a class="btn btn--ghost btn--sm" href="#p3-note">書き直す</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="trv03-consent">
+                      <label class="check"><input type="checkbox" checked> <span class="check__text">このグループは、最少人数(4人)でも実行されます。4人になっても参加します。実行が確定する前なら、辞退できます(不利益はありません)。</span></label>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </section>
+
+            <!-- 4. 条件の変更(condition_changed) -->
+            <section class="stack stack--xs" aria-labelledby="p4-h">
+              <h3 id="p4-h" class="text-sm text-bold">4. 最少人数が変わった(もう一度同意)</h3>
+              <div class="modal-preview">
+                <div class="modal" role="dialog" aria-modal="false" aria-labelledby="p4-title">
+                  <div class="modal__header">
+                    <p class="modal__title" id="p4-title">参加を申請する</p>
+                    <a class="modal__close" href="group-detail-public.html" aria-label="閉じる">×</a>
+                  </div>
+                  <form class="modal__body" action="#p4-h">
+                    <div class="alert alert--warning" role="alert">
+                      <span class="alert__icon" aria-hidden="true">!</span>
+                      <div>幹事が最少人数を 4 人から 3 人に変更しました。新しい条件を確認して、もう一度同意してください。ひとことは保持しています。</div>
+                    </div>
+                    <div class="trv03-consent" data-invalid="true">
+                      <label class="check"><input type="checkbox" aria-describedby="p4-consent-err"> <span class="check__text">このグループは、最少人数(3人)でも実行されます。3人になっても参加します。実行が確定する前なら、辞退できます(不利益はありません)。</span></label>
+                      <p class="field__error" id="p4-consent-err" style="margin-top:6px">同意すると申請できます。</p>
+                    </div>
+                    <div class="modal__footer" style="padding:0">
+                      <a class="btn btn--ghost" href="group-detail-public.html">やめる</a>
+                      <button class="btn btn--primary" type="submit" disabled>申請する</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </section>
+
+            <!-- 5. 申請できないエラー -->
+            <section class="stack stack--xs" aria-labelledby="p5-h">
+              <h3 id="p5-h" class="text-sm text-bold">5. 申請できなかった(例: 送信の間に満員になった)</h3>
+              <div class="modal-preview">
+                <div class="modal" role="dialog" aria-modal="false" aria-labelledby="p5-title">
+                  <div class="modal__header">
+                    <p class="modal__title" id="p5-title">参加を申請する</p>
+                    <a class="modal__close" href="group-detail-public.html" aria-label="閉じる">×</a>
+                  </div>
+                  <div class="modal__body">
+                    <div class="alert alert--error" role="alert">
+                      <span class="alert__icon" aria-hidden="true">!</span>
+                      <div class="stack stack--xs">
+                        <p class="alert__title">満員のため申請できませんでした</p>
+                        <p>ほかのグループを探すか、自分でグループを作ってください。</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal__footer">
+                    <a class="btn btn--ghost" href="group-detail-public.html">閉じる</a>
+                    <a class="btn btn--primary" href="group-list.html">ほかのグループを探す</a>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 6. 申請後の申請欄 -->
+            <section class="stack stack--xs" aria-labelledby="p6-h">
+              <h3 id="p6-h" class="text-sm text-bold">6. 申請後(グループ詳細の申請欄)</h3>
+              <div class="card stack">
+                <div class="alert alert--success" role="status">
+                  <span class="alert__icon" aria-hidden="true">✔</span>
+                  <div>申請しました。幹事が承認すると、通知でお知らせします。</div>
+                </div>
+                <div class="group"><span class="badge badge--info">申請中</span><span class="text-sm">11月9日に申請</span></div>
+                <dl class="kv">
+                  <dt>ひとこと</dt><dd>夜市は初めてです。写真を撮りながら回りたいです。</dd>
+                  <dt>同意</dt><dd>最少人数(4人)での実行に同意済み</dd>
+                </dl>
+                <a class="btn btn--danger-light btn--sm" href="#withdraw">申請を取り下げる</a>
+                <p class="text-xs text-dimmed">取り下げは申請中のときだけできます。申請の状況は<a href="../safety/notifications.html">通知一覧</a>でも確認できます。</p>
+              </div>
+            </section>
+          </div>
+
+          <!-- その他のエラー表示 -->
+          <div class="table-wrap">
+            <table class="table">
+              <caption>その他の申請エラーの表示(03 §8.3。ダイアログ内のアラートに表示し、入力内容は保持する)</caption>
+              <thead><tr><th scope="col">状況</th><th scope="col">表示</th><th scope="col">次の操作</th></tr></thead>
+              <tbody>
+                <tr><td>受付終了(締切・辞退期間・確定・中止)</td><td>受付は終了しました。</td><td>一覧へ(中止のときは再企画のグループへ)</td></tr>
+                <tr><td>本人確認の前</td><td>参加の申請には本人確認(モック)が必要です。</td><td><a href="../safety/verification.html">本人確認の手順へ</a></td></tr>
+                <tr><td>18 歳未満(モック)</td><td>このサービスは 18 歳以上の方が対象です。</td><td>一覧へ</td></tr>
+                <tr><td>ブロック関係</td><td>このグループには申請できません。</td><td>一覧へ(理由・相手は示さない)</td></tr>
+                <tr><td>すでに申請中</td><td>このグループには申請中です。</td><td>ダイアログを閉じて申請状況を表示</td></tr>
+                <tr><td>見送り済み・申請回数の上限</td><td>このグループには申請できません。ほかのグループを探してください。</td><td>一覧へ</td></tr>
+                <tr><td>同意なし(サーバーの検証)</td><td>最少人数での実行に同意してください。</td><td>同意の欄へフォーカス</td></tr>
+                <tr><td>申請の頻度の上限</td><td>短い時間に申請が続いています。しばらく待ってから送信してください。</td><td>入力を保持して再送</td></tr>
+                <tr><td>通信の失敗</td><td>サーバーに接続できません。</td><td>「もう一度試す」</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a> / <a href="../components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+
+  <!-- ===== ダイアログ(開いた状態。閉じると「表示の見本」が見える) ===== -->
+  <div id="dialog" class="modal-overlay trv03-auto">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="join-title" aria-describedby="join-desc">
+      <div class="modal__header">
+        <h2 class="modal__title" id="join-title">参加を申請する</h2>
+        <a class="modal__close" href="#main" aria-label="閉じる">×</a>
+      </div>
+      <form class="modal__body" action="#p6-h">
+        <p id="join-desc">虹帆町 夜市めぐり(公式)/ 12/12(土)〜12/13(日)<br><span class="text-xs text-dimmed">最少4人・定員6人・現在3人。幹事が承認すると参加が成立します。</span></p>
+        <div class="field">
+          <label class="field__label" for="j-note">ひとこと(任意)</label>
+          <textarea class="textarea" id="j-note" name="note" maxlength="200" placeholder="旅で楽しみにしていることなど" aria-describedby="j-note-help j-note-count"></textarea>
+          <div class="group group--between">
+            <p class="field__help" id="j-note-help">200 文字・3 行まで。連絡先や外部サービスへの誘導は書けません。</p>
+            <p class="trv03-count" id="j-note-count" aria-live="polite">0 / 200</p>
+          </div>
+        </div>
+        <fieldset class="fieldset trv03-consent">
+          <legend>最少人数での実行への同意<span class="field__required" aria-hidden="true">*</span></legend>
+          <label class="check"><input type="checkbox" id="j-consent" name="consentMinMembers" required aria-describedby="j-consent-help"> <span class="check__text">このグループは、最少人数(4人)でも実行されます。4人になっても参加します。実行が確定する前なら、辞退できます(不利益はありません)。</span></label>
+        </fieldset>
+        <p class="field__help" id="j-consent-help">同意にチェックすると「申請する」を押せます。</p>
+        <div class="modal__footer" style="padding:0">
+          <a class="btn btn--ghost" href="#main">やめる</a>
+          <button class="btn btn--primary" type="submit" disabled aria-describedby="j-consent-help">申請する</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== 取り下げの確認ダイアログ(:target で開く) ===== -->
+  <div id="withdraw" class="modal-overlay modal-overlay--target">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="wd-title">
+      <div class="modal__header">
+        <h2 class="modal__title" id="wd-title">申請を取り下げますか</h2>
+        <a class="modal__close" href="#p6-h" aria-label="閉じる">×</a>
+      </div>
+      <div class="modal__body">
+        <p>虹帆町 夜市めぐり(公式)への申請を取り下げます。幹事には通知されません。受付中であれば、あとで改めて申請できます(同じグループへの申請は 3 回まで)。</p>
+      </div>
+      <div class="modal__footer">
+        <a class="btn btn--ghost" href="#p6-h">やめる</a>
+        <a class="btn btn--danger" href="group-detail-public.html#v-rejected">取り下げる</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

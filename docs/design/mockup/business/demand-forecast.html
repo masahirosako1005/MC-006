@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>来訪の見込みと提案 | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    /* BIZ-01 固有(base.css の延長。共通化の候補は報告に記載) */
+    .biz01-filter { display: grid; gap: var(--sp-sm); grid-template-columns: minmax(0, 1fr); }
+    .biz01-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .biz01-few { color: var(--text-dimmed); font-weight: var(--fw-bold); }
+    .biz01-hatch { background: repeating-linear-gradient(45deg, var(--gray-5) 0 2px, var(--gray-1) 2px 6px) !important; }
+    /* 年代帯の色(凡例と直接ラベルを併記し、表でも示す) */
+    .biz01-s-u30 { background-color: var(--main-color); }
+    .biz01-s-mid { background-color: var(--main-color-light); }
+    .biz01-s-50 { background-color: var(--teal-6); }
+    /* 週別の積み上げ縦棒。見込みは斜線+破線の枠で実績と区別する */
+    .biz01-scroll { overflow-x: auto; }
+    .biz01-scroll__inner { min-width: 560px; }
+    .biz01-weeks { display: flex; align-items: flex-end; gap: 6px; height: 200px; margin: 0; padding: 18px 2px 0; border-bottom: 1px solid var(--gray-5); list-style: none; }
+    .biz01-wk { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
+    .biz01-wk__total { font-size: 10px; font-variant-numeric: tabular-nums; }
+    .biz01-wk__stack { display: flex; flex-direction: column-reverse; width: 100%; max-width: 30px; border-radius: var(--radius-sm) var(--radius-sm) 0 0; overflow: hidden; }
+    .biz01-seg { display: block; width: 100%; border-top: 1px solid #fff; }
+    .biz01-wk--forecast .biz01-seg { background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, .5) 0 2px, transparent 2px 6px); }
+    .biz01-wk--forecast .biz01-wk__stack { outline: 1px dashed var(--gray-7); outline-offset: 1px; }
+    .biz01-wk--gap { flex: 0 0 40px; justify-content: flex-start; border-left: 1px dashed var(--gray-5); }
+    .biz01-wk__gapnote { padding-top: 4px; font-size: 10px; line-height: 1.3; color: var(--text-dimmed); text-align: center; }
+    .biz01-axis { display: flex; gap: 6px; margin: 4px 0 0; padding: 0 2px; list-style: none; font-size: 10px; color: var(--text-dimmed); }
+    .biz01-axis li { flex: 1; text-align: center; white-space: nowrap; }
+    .biz01-axis li.biz01-wk--gap { flex: 0 0 40px; border: 0; }
+    .biz01-band { display: flex; justify-content: space-between; margin: 2px 0 0; font-size: var(--fz-xs); color: var(--text-dimmed); }
+    .legend__swatch.biz01-forecast-swatch { background: var(--main-color-light); background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, .6) 0 2px, transparent 2px 5px); outline: 1px dashed var(--gray-7); }
+    /* スポット別 */
+    .biz01-spots { display: grid; gap: var(--sp-sm); grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; }
+    .biz01-spot__name { margin-bottom: 4px; font-size: var(--fz-sm); font-weight: var(--fw-bold); }
+    .biz01-spots .bar-chart__row { grid-template-columns: 5.5em minmax(0, 1fr) 3.5em; }
+    /* 提案カード */
+    .biz01-proposal { display: flex; flex-direction: column; gap: var(--sp-xs); }
+    .biz01-proposal__head { display: flex; align-items: flex-start; gap: var(--sp-xs); }
+    .biz01-proposal__no { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--sub-color); color: var(--on-sub-color); font-size: var(--fz-xs); font-weight: var(--fw-bold); }
+    .biz01-proposal__basis { padding: 8px 10px; border-left: 3px solid var(--main-color); background: var(--gray-0); font-size: var(--fz-sm); }
+    .biz01-proposal__action { font-size: var(--fz-sm); }
+    .biz01-proposal .kv { font-size: var(--fz-xs); }
+    .biz01-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0; list-style: none; }
+    .biz01-proposal__foot { margin-top: auto; }
+    details.biz01-alt > summary { cursor: pointer; color: var(--link); }
+    details.biz01-alt[open] > summary { margin-bottom: 6px; }
+    .biz01-wide-label .bar-chart__row { grid-template-columns: 9em minmax(0, 1fr) 4.5em; }
+    @media (max-width: 400px) {
+      .biz01-wide-label .bar-chart__row { grid-template-columns: 6.5em minmax(0, 1fr) 4.5em; }
+    }
+    @media (min-width: 768px) {
+      .biz01-filter { grid-template-columns: repeat(2, minmax(0, 260px)); }
+      .biz01-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .biz01-spots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .biz01-scroll__inner { min-width: 0; }
+    }
+    @media (min-width: 1000px) {
+      .biz01-spots { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー(00 CMN-UI-01) ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="../traveler/group-list.html">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="demand-forecast.html" aria-current="true">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option selected>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="../index.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>来訪の見込みと提案</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="demand-forecast.html" aria-current="page">見込み・提案</a>
+        <a href="#">スポット</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読なし)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ミ</span>ミナト</span>
+      </div>
+    </header>
+
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>BIZ-01</dd>
+        <dt>画面名</dt><dd>来訪の見込みと提案(観光事業オーナー向けダッシュボード)</dd>
+        <dt>対象ロール</dt><dd>観光事業オーナー(デモユーザー ミナト。ロールの識別子・担当エリアは仮)</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/business/forecast</code>(案。モジュール 13 の設計で確定)</dd>
+        <dt>参照設計書</dt><dd><code>.work/review.md</code> 第 13 章(要件・判断 31〜34)、<code>.work/sample-data-analysis.md</code> 第 5 章(傾向)・第 6 章(データの限界)・第 7 章(集計テーブル T1〜T10、K=5)・第 8 章(提案ルール R1〜R10)、<code>docs/feature/12-municipal-stats.md</code> §5(K=5・補完秘匿の規則を流用)、<code>docs/feature/13-tourism-owner-insight.md</code>(作成中)</dd>
+        <dt>遷移先</dt><dd><a href="proposal-detail.html">提案の詳細(BIZ-02)</a>、<a href="../safety/notifications.html">通知一覧(SAF-01)</a>、<a href="../index.html">画面モック一覧</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="../index.html#role-business">観光事業オーナー</a></li>
+            <li><span aria-current="page">来訪の見込みと提案</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">来訪の見込みと提案</p>
+
+        <!-- デモの注意書き -->
+        <div class="alert alert--warning" role="status">
+          <span class="alert__icon" aria-hidden="true">!</span>
+          <div class="stack stack--xs">
+            <p class="alert__title">デモ用のダミーデータです</p>
+            <p>見込みは、登録済みの旅行日程と過去の来訪の集計から求めた簡易な値です。実際の来訪数とは異なる場合があります。</p>
+            <p>個人が特定できないよう、5 人未満の値は「少数」と表示しています。</p>
+          </div>
+        </div>
+
+        <!-- 条件 -->
+        <section class="card card--sm stack" aria-labelledby="biz01-h-filter">
+          <h2 id="biz01-h-filter" class="title-section">表示の条件</h2>
+          <div class="biz01-filter">
+            <div class="field">
+              <label class="field__label" for="biz01-area">担当エリア</label>
+              <select class="select" id="biz01-area" aria-describedby="biz01-area-help">
+                <option selected>星凪諸島(5 スポット)</option>
+                <option>虹帆町(4 スポット)</option>
+              </select>
+              <p class="field__help" id="biz01-area-help">登録した事業所のあるエリアを選べます。</p>
+            </div>
+            <div class="field">
+              <label class="field__label" for="biz01-span">見込みの期間</label>
+              <select class="select" id="biz01-span">
+                <option selected>今後 8 週間(11/09〜01/03)</option>
+                <option>今後 4 週間(11/09〜12/06)</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <!-- 見込みの概要 -->
+        <section class="stack" aria-labelledby="biz01-h-summary">
+          <h2 id="biz01-h-summary" class="title-section">見込みの概要(星凪諸島)</h2>
+          <div class="stat-grid biz01-stats">
+            <div class="stat"><span class="stat__label">今後 8 週間の来訪見込み</span><span class="stat__value">326 人</span><span class="stat__note">実行確定の日程 188 人、募集中の日程 138 人</span></div>
+            <div class="stat"><span class="stat__label">ピークの週</span><span class="stat__value">11/23〜29</span><span class="stat__note">64 人(祝日を含む週)</span></div>
+            <div class="stat"><span class="stat__label">最も多い年代帯</span><span class="stat__value">30〜49 歳</span><span class="stat__note">138 人(42%)</span></div>
+            <div class="stat"><span class="stat__label">見込みの確度</span><span class="stat__value"><span class="badge badge--warning badge--lg">参考値</span></span><span class="stat__note">過去の来訪データは約 3 週間分。季節による変動は含みません</span></div>
+          </div>
+        </section>
+
+        <!-- 週別の来訪見込み -->
+        <section class="card stack" aria-labelledby="biz01-h-weekly">
+          <h2 id="biz01-h-weekly" class="title-section">週別の来訪(実績と見込み)</h2>
+          <ul class="legend">
+            <li><span class="legend__swatch biz01-s-u30"></span>30 歳未満</li>
+            <li><span class="legend__swatch biz01-s-mid"></span>30〜49 歳</li>
+            <li><span class="legend__swatch biz01-s-50"></span>50 歳以上</li>
+            <li><span class="legend__swatch biz01-forecast-swatch"></span>見込み(斜線・破線の枠)</li>
+          </ul>
+          <div class="biz01-scroll" role="img" aria-label="週別の来訪人数。左の 3 週は 10 月の実績(38、46、19 人。最後の週は期間末)。右の 8 週は見込みで、11/23〜29 の週が最も多い 64 人。年代帯は 30〜49 歳が最も多い。">
+            <div class="biz01-scroll__inner">
+              <ol class="biz01-weeks" aria-hidden="true">
+                  <li class="biz01-wk"><span class="biz01-wk__total">38</span><span class="biz01-wk__stack" style="height:54.3%"><span class="biz01-seg biz01-s-u30" style="height:28.9%"></span><span class="biz01-seg biz01-s-mid" style="height:39.5%"></span><span class="biz01-seg biz01-s-50" style="height:31.6%"></span></span></li>
+                  <li class="biz01-wk"><span class="biz01-wk__total">46</span><span class="biz01-wk__stack" style="height:65.7%"><span class="biz01-seg biz01-s-u30" style="height:37%"></span><span class="biz01-seg biz01-s-mid" style="height:39.1%"></span><span class="biz01-seg biz01-s-50" style="height:23.9%"></span></span></li>
+                  <li class="biz01-wk"><span class="biz01-wk__total">19</span><span class="biz01-wk__stack" style="height:27.1%"><span class="biz01-seg biz01-s-u30" style="height:31.6%"></span><span class="biz01-seg biz01-s-mid" style="height:42.1%"></span><span class="biz01-seg biz01-s-50" style="height:26.3%"></span></span></li>
+                  <li class="biz01-wk biz01-wk--gap"><span class="biz01-wk__gapnote">基準日<br>11/09</span></li>
+                  <li class="biz01-wk biz01-wk--forecast"><span class="biz01-wk__total">42</span><span class="biz01-wk__stack" style="height:60%"><span class="biz01-seg biz01-s-u30" style="height:33.3%"></span><span class="biz01-seg biz01-s-mid" style="height:42.9%"></span><span class="biz01-seg biz01-s-50" style="height:23.8%"></span></span></li>
+                  <li class="biz01-wk biz01-wk--forecast"><span class="biz01-wk__total">47</span><span class="biz01-wk__stack" style="height:67.1%"><span class="biz01-seg biz01-s-u30" style="height:34%"></span><span class="biz01-seg biz01-s-mid" style="height:42.6%"></span><span class="biz01-seg biz01-s-50" style="height:23.4%"></span></span></li>
+                  <li class="biz01-wk biz01-wk--forecast"><span class="biz01-wk__total">64</span><span class="biz01-wk__stack" style="height:91.4%"><span class="biz01-seg biz01-s-u30" style="height:37.5%"></span><span class="biz01-seg biz01-s-mid" style="height:40.6%"></span><span class="biz01-seg biz01-s-50" style="height:21.9%"></span></span></li>
+                  <li class="biz01-wk biz01-wk--forecast"><span class="biz01-wk__total">38</span><span class="biz01-wk__stack" style="height:54.3%"><span class="biz01-seg biz01-s-u30" style="height:31.6%"></span><span class="biz01-seg biz01-s-mid" style="height:44.7%"></span><span class="biz01-seg biz01-s-50" style="height:23.7%"></span></span></li>
+                  <li class="biz01-wk biz01-wk--forecast"><span class="biz01-wk__total">33</span><span class="biz01-wk__stack" style="height:47.1%"><span class="biz01-seg biz01-s-u30" style="height:30.3%"></span><span class="biz01-seg biz01-s-mid" style="height:45.5%"></span><span class="biz01-seg biz01-s-50" style="height:24.2%"></span></span></li>
+                  <li class="biz01-wk biz01-wk--forecast"><span class="biz01-wk__total">28</span><span class="biz01-wk__stack" style="height:40%"><span class="biz01-seg biz01-s-u30" style="height:32.1%"></span><span class="biz01-seg biz01-s-mid" style="height:46.4%"></span><span class="biz01-seg biz01-s-50" style="height:21.4%"></span></span></li>
+                  <li class="biz01-wk biz01-wk--forecast"><span class="biz01-wk__total">38</span><span class="biz01-wk__stack" style="height:54.3%"><span class="biz01-seg biz01-s-u30" style="height:39.5%"></span><span class="biz01-seg biz01-s-mid" style="height:42.1%"></span><span class="biz01-seg biz01-s-50" style="height:18.4%"></span></span></li>
+                  <li class="biz01-wk biz01-wk--forecast"><span class="biz01-wk__total">36</span><span class="biz01-wk__stack" style="height:51.4%"><span class="biz01-seg biz01-s-u30" style="height:47.2%"></span><span class="biz01-seg biz01-s-mid" style="height:36.1%"></span><span class="biz01-seg biz01-s-50" style="height:16.7%"></span></span></li>
+              </ol>
+              <ol class="biz01-axis" aria-hidden="true"><li>10/01〜</li><li>10/08〜</li><li>10/15〜</li><li class="biz01-wk--gap"></li><li>11/09〜</li><li>11/16〜</li><li>11/23〜</li><li>11/30〜</li><li>12/07〜</li><li>12/14〜</li><li>12/21〜</li><li>12/28〜</li></ol>
+              <p class="biz01-band" aria-hidden="true"><span>← 実績(10 月の来訪の集計)</span><span>見込み(登録済みの旅行日程から)→</span></p>
+            </div>
+          </div>
+          <p class="text-xs text-dimmed">見込みは、担当エリアを含む旅行日程(実行確定・募集中)の参加予定人数を週ごとに足した値です。募集中の日程は、過去の実行確定率で割り引いています。10/15〜の週は集計期間の末尾のため少なく表示されます。</p>
+          <details class="biz01-alt">
+            <summary class="text-xs">表で見る</summary>
+            <div class="table-wrap">
+              <table class="table">
+                <caption>週別・年代帯別の来訪(人)</caption>
+                <thead><tr><th scope="col">週</th><th scope="col">区分</th><th scope="col" class="num">30 歳未満</th><th scope="col" class="num">30〜49 歳</th><th scope="col" class="num">50 歳以上</th><th scope="col" class="num">合計</th></tr></thead>
+                <tbody>
+                    <tr><th scope="row">10/01〜10/07</th><td>実績</td><td class="num">11</td><td class="num">15</td><td class="num">12</td><td class="num">38</td></tr>
+                    <tr><th scope="row">10/08〜10/14</th><td>実績</td><td class="num">17</td><td class="num">18</td><td class="num">11</td><td class="num">46</td></tr>
+                    <tr><th scope="row">10/15〜10/20<span class="text-xs text-dimmed">(期間末(6 日間))</span></th><td>実績</td><td class="num">6</td><td class="num">8</td><td class="num">5</td><td class="num">19</td></tr>
+                    <tr><th scope="row">11/09〜11/15</th><td>見込み</td><td class="num">14</td><td class="num">18</td><td class="num">10</td><td class="num">42</td></tr>
+                    <tr><th scope="row">11/16〜11/22</th><td>見込み</td><td class="num">16</td><td class="num">20</td><td class="num">11</td><td class="num">47</td></tr>
+                    <tr><th scope="row">11/23〜11/29<span class="text-xs text-dimmed">(ピーク(祝日を含む))</span></th><td>見込み</td><td class="num">24</td><td class="num">26</td><td class="num">14</td><td class="num">64</td></tr>
+                    <tr><th scope="row">11/30〜12/06</th><td>見込み</td><td class="num">12</td><td class="num">17</td><td class="num">9</td><td class="num">38</td></tr>
+                    <tr><th scope="row">12/07〜12/13</th><td>見込み</td><td class="num">10</td><td class="num">15</td><td class="num">8</td><td class="num">33</td></tr>
+                    <tr><th scope="row">12/14〜12/20</th><td>見込み</td><td class="num">9</td><td class="num">13</td><td class="num">6</td><td class="num">28</td></tr>
+                    <tr><th scope="row">12/21〜12/27</th><td>見込み</td><td class="num">15</td><td class="num">16</td><td class="num">7</td><td class="num">38</td></tr>
+                    <tr><th scope="row">12/28〜01/03<span class="text-xs text-dimmed">(年末年始)</span></th><td>見込み</td><td class="num">17</td><td class="num">13</td><td class="num">6</td><td class="num">36</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </section>
+
+        <!-- 年代帯・スポット別 -->
+        <section class="card stack" aria-labelledby="biz01-h-spot">
+          <h2 id="biz01-h-spot" class="title-section">年代帯・スポット別の見込み(今後 8 週間)</h2>
+          <ul class="legend">
+            <li><span class="legend__swatch biz01-s-u30"></span>30 歳未満</li>
+            <li><span class="legend__swatch biz01-s-mid"></span>30〜49 歳</li>
+            <li><span class="legend__swatch biz01-s-50"></span>50 歳以上</li>
+            <li><span class="legend__swatch biz01-hatch"></span>少数</li>
+          </ul>
+          <ul class="biz01-spots" aria-label="スポット別・年代帯別の来訪見込み(人)">
+              <li class="biz01-spot">
+                <p class="biz01-spot__name">星綴港の朝市</p>
+                <ul class="bar-chart">
+                  <li class="bar-chart__row"><span class="bar-chart__label">30 歳未満</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-s-u30" style="display:block;width:71%"></span></span><span class="bar-chart__value">22 人</span></li>
+                  <li class="bar-chart__row"><span class="bar-chart__label">30〜49 歳</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-s-mid" style="display:block;width:100%"></span></span><span class="bar-chart__value">31 人</span></li>
+                  <li class="bar-chart__row"><span class="bar-chart__label">50 歳以上</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-s-50" style="display:block;width:58.1%"></span></span><span class="bar-chart__value">18 人</span></li>
+                </ul>
+              </li>
+              <li class="biz01-spot">
+                <p class="biz01-spot__name">星凪の灯台</p>
+                <ul class="bar-chart">
+                  <li class="bar-chart__row"><span class="bar-chart__label">30 歳未満</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-s-u30" style="display:block;width:90.3%"></span></span><span class="bar-chart__value">28 人</span></li>
+                  <li class="bar-chart__row"><span class="bar-chart__label">30〜49 歳</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-s-mid" style="display:block;width:96.8%"></span></span><span class="bar-chart__value">30 人</span></li>
+                  <li class="bar-chart__row"><span class="bar-chart__label">50 歳以上</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-s-50" style="display:block;width:48.4%"></span></span><span class="bar-chart__value">15 人</span></li>
+                </ul>
+              </li>
+              <li class="biz01-spot">
+                <p class="biz01-spot__name">白波の浜</p>
+                <ul class="bar-chart">
+                  <li class="bar-chart__row"><span class="bar-chart__label">30 歳未満</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-s-u30" style="display:block;width:96.8%"></span></span><span class="bar-chart__value">30 人</span></li>
+                  <li class="bar-chart__row"><span class="bar-chart__label">30〜49 歳</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-s-mid" style="display:block;width:87.1%"></span></span><span class="bar-chart__value">27 人</span></li>
+                  <li class="bar-chart__row"><span class="bar-chart__label">50 歳以上</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-hatch" style="display:block;width:8%"></span></span><span class="bar-chart__value"><span class="biz01-few" aria-label="少数(5 人未満のため非表示)">少数</span></span></li>
+                </ul>
+              </li>
+              <li class="biz01-spot">
+                <p class="biz01-spot__name">島の展望台</p>
+                <ul class="bar-chart">
+                  <li class="bar-chart__row"><span class="bar-chart__label">30 歳未満</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-s-u30" style="display:block;width:67.7%"></span></span><span class="bar-chart__value">21 人</span></li>
+                  <li class="bar-chart__row"><span class="bar-chart__label">30〜49 歳</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-s-mid" style="display:block;width:83.9%"></span></span><span class="bar-chart__value">26 人</span></li>
+                  <li class="bar-chart__row"><span class="bar-chart__label">50 歳以上</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-s-50" style="display:block;width:41.9%"></span></span><span class="bar-chart__value">13 人</span></li>
+                </ul>
+              </li>
+              <li class="biz01-spot">
+                <p class="biz01-spot__name">凪浜のガラス工房</p>
+                <ul class="bar-chart">
+                  <li class="bar-chart__row"><span class="bar-chart__label">30 歳未満</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-s-u30" style="display:block;width:51.6%"></span></span><span class="bar-chart__value">16 人</span></li>
+                  <li class="bar-chart__row"><span class="bar-chart__label">30〜49 歳</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-s-mid" style="display:block;width:77.4%"></span></span><span class="bar-chart__value">24 人</span></li>
+                  <li class="bar-chart__row"><span class="bar-chart__label">50 歳以上</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-hatch" style="display:block;width:8%"></span></span><span class="bar-chart__value"><span class="biz01-few" aria-label="少数(5 人未満のため非表示)">少数</span></span></li>
+                </ul>
+              </li>
+          </ul>
+          <details class="biz01-alt">
+            <summary class="text-xs">表で見る</summary>
+            <div class="table-wrap">
+              <table class="table">
+                <caption>スポット別・年代帯別の来訪見込み(人)</caption>
+                <thead><tr><th scope="col">スポット</th><th scope="col" class="num">30 歳未満</th><th scope="col" class="num">30〜49 歳</th><th scope="col" class="num">50 歳以上</th></tr></thead>
+                <tbody>
+                    <tr><th scope="row">星綴港の朝市</th><td class="num">22</td><td class="num">31</td><td class="num">18</td></tr>
+                    <tr><th scope="row">星凪の灯台</th><td class="num">28</td><td class="num">30</td><td class="num">15</td></tr>
+                    <tr><th scope="row">白波の浜</th><td class="num">30</td><td class="num">27</td><td class="num"><span class="biz01-few" aria-label="少数(5 人未満のため非表示)">少数</span></td></tr>
+                    <tr><th scope="row">島の展望台</th><td class="num">21</td><td class="num">26</td><td class="num">13</td></tr>
+                    <tr><th scope="row">凪浜のガラス工房</th><td class="num">16</td><td class="num">24</td><td class="num"><span class="biz01-few" aria-label="少数(5 人未満のため非表示)">少数</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p class="text-xs text-dimmed">1 人が複数のスポットを訪れるため、スポットの合計は全体の見込みと一致しません。50 歳以上の列は、少数の値を逆算できないよう 2 スポットを「少数」にしています。</p>
+        </section>
+
+        <!-- 曜日・時間帯 -->
+        <div class="grid grid--2">
+          <section class="card stack" aria-labelledby="biz01-h-weekday">
+            <h2 id="biz01-h-weekday" class="title-section">曜日別の来訪(過去の実績)</h2>
+            <p class="card__meta">1 日あたりの来訪者数(人)。10 月の 20 日間の集計</p>
+            <ul class="bar-chart" aria-label="曜日別の 1 日あたり来訪者数">
+              <li class="bar-chart__row"><span class="bar-chart__label">月</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:65%"></span></span><span class="bar-chart__value">5.1</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">火</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:58%"></span></span><span class="bar-chart__value">4.6</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">水</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:100%"></span></span><span class="bar-chart__value">7.9</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">木</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:86%"></span></span><span class="bar-chart__value">6.8</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">金</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:81%"></span></span><span class="bar-chart__value">6.4</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">土</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:84%"></span></span><span class="bar-chart__value">6.6</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">日</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:71%"></span></span><span class="bar-chart__value">5.6</span></li>
+            </ul>
+            <div class="table-wrap">
+              <table class="table">
+                <caption>平日・週末の 1 日あたり来訪者数(人)</caption>
+                <thead><tr><th scope="col">年代帯</th><th scope="col" class="num">平日</th><th scope="col" class="num">週末</th><th scope="col" class="num">週末 ÷ 平日</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">30 歳未満</th><td class="num">1.6</td><td class="num">1.9</td><td class="num">1.2 倍</td></tr>
+                  <tr><th scope="row">30〜49 歳</th><td class="num">2.3</td><td class="num">2.3</td><td class="num">1.0 倍</td></tr>
+                  <tr><th scope="row">50 歳以上</th><td class="num">1.5</td><td class="num">1.4</td><td class="num">0.9 倍</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-xs text-dimmed">各曜日は 2〜3 日分の集計のため、日による変動の影響を受けます。</p>
+          </section>
+          <section class="card stack" aria-labelledby="biz01-h-hour">
+            <h2 id="biz01-h-hour" class="title-section">時間帯別の来訪(過去の実績)</h2>
+            <p class="card__meta">スタンプ取得の時刻による構成比</p>
+            <ul class="bar-chart biz01-wide-label" aria-label="時間帯別の構成比">
+              <li class="bar-chart__row"><span class="bar-chart__label">朝(6〜10 時)</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:13%"></span></span><span class="bar-chart__value">13%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">昼(11〜16 時)</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:37%"></span></span><span class="bar-chart__value">37%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">夕方・夜(17〜23 時)</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:50%"></span></span><span class="bar-chart__value">50%</span></li>
+            </ul>
+            <div class="alert alert--info">
+              <span class="alert__icon" aria-hidden="true">i</span>
+              <p>0〜5 時の記録は時刻の確認中のため除いています。時間帯の傾向は参考値です。年代帯による差は小さく、どの年代も 17 時以降が最も多くなっています。</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- サービス提案 -->
+        <section class="stack" aria-labelledby="biz01-h-proposals">
+          <div class="group group--between">
+            <h2 id="biz01-h-proposals" class="title-section">サービスの提案(6 件)</h2>
+            <p class="text-xs text-dimmed">集計値と判定のルールから作成しています</p>
+          </div>
+          <ul class="grid grid--3" style="margin:0;padding:0;list-style:none">
+            <li class="card biz01-proposal">
+              <div class="biz01-proposal__head"><span class="biz01-proposal__no" aria-hidden="true">1</span><h3 class="text-sm">30 歳未満向けの体験メニューを見直す</h3></div>
+              <ul class="biz01-tags" aria-label="事業種別"><li class="badge badge--info">体験</li><li class="badge badge--info">土産</li></ul>
+              <dl class="kv"><dt>対象期間</dt><dd>11/09〜01/03(週末を中心に)</dd><dt>対象の年代</dt><dd>30 歳未満</dd><dt>見込み人数</dt><dd>117 人</dd></dl>
+              <p class="biz01-proposal__basis">満足率 49%(全体 62%、13 ポイント低い)。要望は特典・景品 20%、交通・移動 18% が多い。</p>
+              <p class="biz01-proposal__action">短時間で参加できる体験や、その場で受け取れる特典を用意する。週末の来訪が平日の 1.2 倍のため、週末の枠を増やす。</p>
+              <div class="biz01-proposal__foot"><a class="btn btn--secondary btn--sm" href="proposal-detail.html">詳細を見る</a> <span class="mock-note">R4・R3</span></div>
+            </li>
+            <li class="card biz01-proposal">
+              <div class="biz01-proposal__head"><span class="biz01-proposal__no" aria-hidden="true">2</span><h3 class="text-sm">港とスポットを結ぶ送迎を用意する</h3></div>
+              <ul class="biz01-tags" aria-label="事業種別"><li class="badge badge--info">交通・送迎</li><li class="badge badge--info">宿泊</li></ul>
+              <dl class="kv"><dt>対象期間</dt><dd>11/23〜11/29(ピークの週)</dd><dt>対象の年代</dt><dd>全年代</dd><dt>見込み人数</dt><dd>64 人</dd></dl>
+              <p class="biz01-proposal__basis">回答者の 17% が交通・移動の要望を挙げ、その方の不満率は 40%(全体 19%)。</p>
+              <p class="biz01-proposal__action">港と主要スポットを結ぶ送迎・シャトルを運行する。乗り場と所要時間を宿・店頭で案内する。</p>
+              <div class="biz01-proposal__foot"><a class="btn btn--secondary btn--sm" href="proposal-detail.html">詳細を見る</a> <span class="mock-note">R5・R6</span></div>
+            </li>
+            <li class="card biz01-proposal">
+              <div class="biz01-proposal__head"><span class="biz01-proposal__no" aria-hidden="true">3</span><h3 class="text-sm">ピークの週の受付・案内を増やす</h3></div>
+              <ul class="biz01-tags" aria-label="事業種別"><li class="badge badge--info">飲食</li><li class="badge badge--info">宿泊</li></ul>
+              <dl class="kv"><dt>対象期間</dt><dd>11/23〜11/29</dd><dt>対象の年代</dt><dd>全年代(30 歳未満 24 人)</dd><dt>見込み人数</dt><dd>64 人</dd></dl>
+              <p class="biz01-proposal__basis">8 週間の平均(41 人)の 1.6 倍。30 歳未満は平均の 1.6 倍。</p>
+              <p class="biz01-proposal__action">受付・案内の人員、予約枠、飲食の仕込み量を増やす。</p>
+              <div class="biz01-proposal__foot"><a class="btn btn--secondary btn--sm" href="proposal-detail.html">詳細を見る</a> <span class="mock-note">R1</span></div>
+            </li>
+            <li class="card biz01-proposal">
+              <div class="biz01-proposal__head"><span class="biz01-proposal__no" aria-hidden="true">4</span><h3 class="text-sm">夕方以降の営業・メニューを用意する</h3></div>
+              <ul class="biz01-tags" aria-label="事業種別"><li class="badge badge--info">飲食</li><li class="badge badge--info">体験</li></ul>
+              <dl class="kv"><dt>対象期間</dt><dd>11/09〜01/03</dd><dt>対象の年代</dt><dd>全年代</dd><dt>見込み人数</dt><dd>326 人</dd></dl>
+              <p class="biz01-proposal__basis">来訪の 50% が 17 時以降。<span class="badge badge--warning">参考値</span></p>
+              <p class="biz01-proposal__action">営業時間を延ばす、夕食のメニューや夕方からの体験を用意する。</p>
+              <div class="biz01-proposal__foot"><a class="btn btn--secondary btn--sm" href="proposal-detail.html">詳細を見る</a> <span class="mock-note">R2</span></div>
+            </li>
+            <li class="card biz01-proposal">
+              <div class="biz01-proposal__head"><span class="biz01-proposal__no" aria-hidden="true">5</span><h3 class="text-sm">ゆっくり巡るコースと休憩の案内を用意する</h3></div>
+              <ul class="biz01-tags" aria-label="事業種別"><li class="badge badge--info">飲食</li><li class="badge badge--info">土産</li></ul>
+              <dl class="kv"><dt>対象期間</dt><dd>11/09〜01/03</dd><dt>対象の年代</dt><dd>50 歳以上</dd><dt>見込み人数</dt><dd>71 人</dd></dl>
+              <p class="biz01-proposal__basis">全スポットを巡った方の割合 47%(全体 36%)。休憩に関する要望 7%。</p>
+              <p class="biz01-proposal__action">休憩できる店の案内、ゆっくり巡るモデルコース、2 周目向けの特典を用意する。</p>
+              <div class="biz01-proposal__foot"><a class="btn btn--secondary btn--sm" href="proposal-detail.html">詳細を見る</a> <span class="mock-note">R7</span></div>
+            </li>
+            <li class="card biz01-proposal">
+              <div class="biz01-proposal__head"><span class="biz01-proposal__no" aria-hidden="true">6</span><h3 class="text-sm">地元の方と話せる体験を企画する</h3></div>
+              <ul class="biz01-tags" aria-label="事業種別"><li class="badge badge--info">体験</li></ul>
+              <dl class="kv"><dt>対象期間</dt><dd>11/09〜01/03</dd><dt>対象の年代</dt><dd>30〜49 歳</dd><dt>見込み人数</dt><dd>138 人</dd></dl>
+              <p class="biz01-proposal__basis">良かった点の最多は「旅先の交流」(32%)。</p>
+              <p class="biz01-proposal__action">作り手と話せる工房体験や、地元の方が案内する散策を用意する。</p>
+              <div class="biz01-proposal__foot"><a class="btn btn--secondary btn--sm" href="proposal-detail.html">詳細を見る</a> <span class="mock-note">R8</span></div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- 来訪者の声 -->
+        <div class="grid grid--2">
+          <section class="card stack" aria-labelledby="biz01-h-voice">
+            <h2 id="biz01-h-voice" class="title-section">来訪者の要望(テーマ別)</h2>
+            <p class="card__meta">参加後アンケート 86 件。1 件が複数のテーマに入ることがあります</p>
+            <ul class="bar-chart biz01-wide-label" aria-label="要望のテーマ別の割合">
+              <li class="bar-chart__row"><span class="bar-chart__label">交通・移動</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:43%"></span></span><span class="bar-chart__value">17%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">特典・景品</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:38%"></span></span><span class="bar-chart__value">15%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">案内・標識</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:28%"></span></span><span class="bar-chart__value">11%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">周辺の店の情報</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:18%"></span></span><span class="bar-chart__value">7%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">休憩</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:18%"></span></span><span class="bar-chart__value">7%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">アプリの操作</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-hatch" style="display:block;width:8%"></span></span><span class="bar-chart__value">6% 未満</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">スポットの説明</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-hatch" style="display:block;width:8%"></span></span><span class="bar-chart__value">6% 未満</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">混雑</span><span class="bar-chart__track"><span class="bar-chart__bar biz01-hatch" style="display:block;width:8%"></span></span><span class="bar-chart__value">6% 未満</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">要望なし</span><span class="bar-chart__track"><span class="bar-chart__bar bar-chart__bar--sub" style="display:block;width:100%"></span></span><span class="bar-chart__value">40%</span></li>
+            </ul>
+            <p class="text-xs text-dimmed">「6% 未満」は、該当が 5 件未満のため上限だけを示しています。文章は保存せず、テーマの件数だけを集計しています。</p>
+          </section>
+          <section class="card stack" aria-labelledby="biz01-h-sat">
+            <h2 id="biz01-h-sat" class="title-section">満足度</h2>
+            <p class="card__meta">参加後アンケート 86 件。満足(4・5)62%、不満(1・2)19%</p>
+            <ul class="bar-chart biz01-wide-label" aria-label="満足度の分布">
+              <li class="bar-chart__row"><span class="bar-chart__label">5 大変満足</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:72%"></span></span><span class="bar-chart__value">26%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">4 やや満足</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:100%"></span></span><span class="bar-chart__value">36%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">3 普通</span><span class="bar-chart__track"><span class="bar-chart__bar bar-chart__bar--sub" style="display:block;width:55%"></span></span><span class="bar-chart__value">20%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">2 やや不満</span><span class="bar-chart__track"><span class="bar-chart__bar bar-chart__bar--sub" style="display:block;width:36%"></span></span><span class="bar-chart__value">13%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">1 大変不満</span><span class="bar-chart__track"><span class="bar-chart__bar bar-chart__bar--sub" style="display:block;width:17%"></span></span><span class="bar-chart__value">6%</span></li>
+            </ul>
+            <div class="table-wrap">
+              <table class="table">
+                <caption>年代帯別の満足率(4・5 の割合)</caption>
+                <thead><tr><th scope="col">年代帯</th><th scope="col" class="num">回答</th><th scope="col" class="num">満足率</th><th scope="col" class="num">全体との差</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">30 歳未満</th><td class="num">35</td><td class="num">49%</td><td class="num">−13 ポイント</td></tr>
+                  <tr><th scope="row">30〜49 歳</th><td class="num">31</td><td class="num">71%</td><td class="num">+9 ポイント</td></tr>
+                  <tr><th scope="row">50 歳以上</th><td class="num">20</td><td class="num">70%</td><td class="num">+8 ポイント</td></tr>
+                </tbody>
+                <tfoot><tr><th scope="row">全体</th><td class="num">86</td><td class="num">62%</td><td class="num">—</td></tr></tfoot>
+              </table>
+            </div>
+            <p class="text-xs text-dimmed">平均値は表示しません。回答者はスタンプを 3 個以上取得した方に限られます。</p>
+          </section>
+        </div>
+
+        <!-- データの限界 -->
+        <section class="card card--muted stack" aria-labelledby="biz01-h-limits">
+          <h2 id="biz01-h-limits" class="title-section">この見込みについて</h2>
+          <ul class="text-sm" style="margin:0;padding-left:1.2em">
+            <li>過去の来訪は 10 月の 20 日間の集計です。月ごと・季節ごとの傾向は判断できません。</li>
+            <li>来訪はスタンプの取得で数えています。スタンプを取得しない方は含まれません。</li>
+            <li>同行者の人数、滞在時間、購入金額のデータはありません。</li>
+            <li>年代は 3 区分(30 歳未満・30〜49 歳・50 歳以上)で集計し、性別は扱いません。</li>
+          </ul>
+        </section>
+
+        <!-- 空状態の見本 -->
+        <section class="stack" aria-labelledby="biz01-h-empty">
+          <h2 id="biz01-h-empty" class="title-section">表示の見本(空状態)</h2>
+          <div class="empty">
+            <p class="empty__title">この期間に登録された旅行日程はありません</p>
+            <p>過去の傾向と提案は表示します。見込みの期間を変えてください。</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a>
+    </footer>
+
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="demand-forecast.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>見込み・提案
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="../safety/notifications.html">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>通知
+      </a>
+    </nav>
+  </div>
+</body>
+</html>
