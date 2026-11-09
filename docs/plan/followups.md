@@ -9,3 +9,43 @@
 
 ## 一覧
 
+2026-11-09 17:15 時点の集約(各サブエージェントの報告から、高・中を中心に記録。低は各報告を参照)。
+
+### 高(主ルートの体験に影響)
+
+- [ ] F-001 通し試験の skip を有効化する: 中止 → 再企画 → 再申請、lifecycle の GET、通知 API 経由の確認。04 の handlers・view・replan と 11 の getOfficialBadges は、P-3-16 の実行後にマージ済みなので、skip を外して実物で通す / P-3-16 / 高
+- [ ] F-002 `replan` が呼ぶ `recordCreated` と、01 の `createGroupInternal` が内部で呼ぶ `recordCreated` が二重になる可能性。通し試験で確認 / P-2-12 / 高
+- [ ] F-003 04 の `register.ts` が `beforeRequest` で `evaluateAll` を実行する。本体が揃った統合状態で、route() 経由の全試験が通るか確認(LCY-T-73: seed が評価で変わらない) / P-2-10 / 高
+- [ ] F-004 統合後の全体試験(`npm test`)と G-B を 1 回通す。各タスクは他モジュールを `vi.mock` で代替して試験したため、実物同士の結合は未確認 / 全体 / 高
+- [ ] F-005 画面は未実装(Wave 3 の P-3-2、3-4〜3-15 が未着手。P-3-1、P-3-3 は実行中または未マージ)。`/groups`、`/new-group`、`/notifications` は 404 のまま / Wave 3 / 高
+
+- [ ] F-028 `GET /api/groups` が `internal` を返した(P-3-3 の確認時。マージ前の古い状態での結果の可能性)。再開時に最初に再確認し、一覧画面(`/nttw-demo/groups`)に実データが出ることを確認 / P-3-3 / 高
+
+### 中
+
+- [ ] F-006 `service.ts`(notify)に残るスタブは publish.ts の再エクスポートに置換済み(P-3-16)。P-2-14 のマージ内容と矛盾がないか確認 / P-2-13・P-2-14 / 中
+- [ ] F-007 `visibleProfile` は P-2-2 のマージで本体が入った。05・06・07・08 の自前の表示名取得(db().profiles / users を直接引く)を `visibleProfile` に統一 / P-2-15・17・18・19・21 / 中
+- [ ] F-008 `GET /api/stats` の合成履歴は規模・分布が概算(約 150/190 グループに未調整)。`F/stats/messages.ts`(指標名・区分表示名・検証メッセージ)が不足 / P-2-24・P-1-6 / 中
+- [ ] F-009 要望テーマの辞書が分析値と不一致(案内 58/目標 33、交通 39/48、特典 58/42、スポット説明 33/10、なし 96/112)。CSV を見ずに調整できなかった / P-0-4 / 中
+- [ ] F-010 `createGroup` は 09 の禁止表現検査を呼ばない(合成層が担当。P-2-4 は実装済みだが、結合で確認) / P-2-3・P-2-4 / 中
+- [ ] F-011 `organizerCancel` は revision が 2 上がる。辞退者の判定は `members.status === "active"` のみ。中止時の status 変更との整合を確認 / P-2-11・P-2-12 / 中
+- [ ] F-012 `future-trips` の既定は `NODE_ENV=test` では含めず、それ以外では含める。仕様どおりか確認。週×エリア配分と 04 の evaluate が変化なしを返すか未検証 / P-1-1・P-0-5 / 中
+- [ ] F-013 辞書(禁止表現)の語彙は最小限。実語彙の作成とレビューが必要(romance_hint、money_solicit)。07 の「ペイ」を含む語の広い拒否は誤検知しうる / P-1-5・P-2-19 / 中
+- [ ] F-014 compareGroups の `created:desc` は id 降順で代用(GroupSummary に createdAt がない) / P-2-5 / 中
+- [ ] F-015 `addFunnelEvents` は facts.ts に実装した。metrics.ts のスタブ削除または再エクスポートが必要 / P-1-7・P-2-24 / 中
+- [ ] F-016 `UserRole` / `DemoUser` の型定義の本体(契約 3.6)は未改訂で、追補の箇条のみ。13 の優先度を A としたことはオーナー確認が必要 / P-0-7 / 中
+- [ ] F-017 05 の PATCH/PUT のハンドラ(P-2-16)と service(P-2-15)の結合で、PLN-VAL-12(meeting の date/time だけの指定を拒否)と spotId の seed 存在確認が行われているか確認 / P-2-16 / 中
+- [ ] F-018 `keywordSchema` 失敗時に reason `invalid_code` が付けられない。ハンドラ(P-2-21)で補う必要 / P-2-20 / 中
+- [ ] F-019 seed(g-011)の特典付与記録があるメンバーには新規付与されない(`(userId, rewardId)` の一意制約)。デモで特典付与を見せる際に seed を確認 / P-2-20 / 中
+
+### 環境・運用
+
+- [ ] F-020 セキュリティ機能(SentinelOne / WDAC)が `@next/swc-win32-x64-msvc` をブロックし、Next.js は WASM 版にフォールバックしている。`next dev` は `CodeFrameColorMode` のエラーが出る。確認は `build` + `start` が確実。提出先 PC でも同じブロックが起きるかを確認する / 環境 / 中
+- [ ] F-021 `NEXT_TELEMETRY_DISABLED=1` を `mise.toml` の `[env]` と起動手順に入れる / 環境 / 中
+- [ ] F-022 `npm ci` の並行実行が競合する(ENOTEMPTY)。各 worktree に、他 worktree の `node_modules` のコピーまたは junction がある。junction は元の worktree を削除すると壊れる。`app/node_modules_bad` が 1 つの worktree に残っている / 環境 / 中
+- [ ] F-023 提出物に Chrome DevTools MCP の設定を含めない(local スコープ `C:\Users\Jisui_share006\.claude.json`)。OSS ライセンス一覧に vitest、chrome-devtools-mcp の扱いを追記 / 環境 / 低
+- [ ] F-024 `vitest.config.ts` が CommonJS として読まれる警告 / P-1-9 ほか / 低
+- [ ] F-025 lint 警告 約 90〜120 件(未使用引数など) / 全体 / 低
+- [ ] F-026 seed 再生成で `src/data/*.json` に差分(改行コードの可能性)。`.gitattributes` の LF 固定を検討 / W1-gate / 低
+- [ ] F-027 `docs/plan/tasks.md` の件数表記: 作成済みモックは 25 画面 + BIZ-02 で、依頼文の「22 画面」と合わない / P-0-8 / 低
+

@@ -9,56 +9,56 @@
 
 P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起動する。
 
-- [ ] P-0-1 環境と 00 の骨組み(M)
+- [*] P-0-1 環境と 00 の骨組み(M)
   - ブランチ: `agent/w0-foundation-skeleton`
   - 並行: P-0-3〜P-0-8 と並行可
   - 前提: なし
   - 対象: `app/package.json`・`package-lock.json`、`app/vitest.config.ts`、`app/src/test/setup.ts`、`L/` の 00 の全ファイル(00 §4.1 の一覧)、`F/bootstrap.ts`
   - 内容: Vitest 導入(`test`・`test:watch`)と `seed` スクリプトの変更(INS-C-08: `node scripts/build-seed.mjs && node scripts/build-future-trips.mjs`)。`groups-types.ts`(`UserRole` は 4 ロール、`DemoUser.businessId`・`background`。INS-C-01)、`errors.ts`・`ids.ts`(`isSlugId` に `biz`。INS-C-02)・`limits.ts` は本実装。他の `L/` の公開関数と、デモ API(`/api/demo/*`)のハンドラは署名スタブ。`bootstrap.ts` は 03・04・06・07 の `register.ts` を import する(各 `register.ts` は P-0-2 が空で置く)。Next.js の該当ガイド(`app/node_modules/next/dist/docs/` の Route Handler・Cookie)を読み、注意点を報告に書く。設計: 00 CMN-TASK-01・12(一部)、契約 3.1〜3.7・10.3
   - 完了条件: `npm test`(試験 0 件で成功)、`npx tsc --noEmit`
-- [ ] P-0-2 全モジュールの型・スタブ・route.ts(M)
+- [*] P-0-2 全モジュールの型・スタブ・route.ts(M)
   - ブランチ: `agent/w0-module-skeleton`
   - 並行: 直列: 前提 P-0-1
   - 前提: P-0-1
   - 対象: `F/` 配下の全モジュール(01〜13)の `types.ts`、他モジュールから呼ばれる関数のファイル(各設計のファイル構成のパス)、各モジュールの `handlers.ts`、`register.ts`(03・04・06・07)、`A/api/**/route.ts`(契約 2.2 の全 API と INS-C-04)、画面部品のスタブ(`GroupForm`、`GroupStatusBadge`、`JoinRequestPanel`・`consentText`、`PublicGroupDetailScreen`、`LifecyclePanel`・`WithdrawButton`・`OrganizerActions`、`PlanTab`、`ChatPanel`、`ExpenseTab`、`RallyTab`、`TextRejectNotice`・`useTextCheck`、`ReportDialog`・`BlockMenuItem`、`NotificationBell`、`OfficialBadge`、`CellText`・`ChartTableToggle`)
   - 内容: 型は各設計の型定義と契約の形をそのまま書く。関数は契約 第 3〜9 章・7.x の署名で `throw new Error("not implemented")`、ハンドラは 00 の `route()` で包んで 501 を返す、画面部品は props の型だけ合わせた空の表示。`route.ts` は再エクスポートだけ。設計: 00 CMN-TASK-01(G0)、契約 2.1・2.2・4.4・6・7・9、各設計のファイル構成
   - 完了条件: `npx tsc --noEmit`、`npm run build`(全ルートが解決する)
-- [ ] P-0-3 seed(group-seed.json)の作成(M)
+- [*] P-0-3 seed(group-seed.json)の作成(M)
   - ブランチ: `agent/w0-group-seed`
   - 並行: 並行可
   - 前提: なし(形は契約と各設計の seed の節)
   - 対象: `app/src/data/group-seed.json`
   - 内容: 00 §4.4 のユーザー・グループ・メンバーに、契約 11.3・11.4 の見本(8 状態、g-006/g-007/g-013、wd-001・wd-002、u-008・u-010)、09 の Profile・Verification・Block、02 の regions(INS-C-06 の `spotAreas`)、11 の municipalities・hosts・listings、13 の u-013・u-014・businesses(INS-C-06)、03 の申請、05 の plans、06 のメッセージ、07 の費用メモ、08 のスタンプ・振り返り、10 の通知(必須 12 種から)を入れる。設計: 00 CMN-TASK-05、各モジュールの seed の節(JOIN-TASK-02、PLN-TASK-08、CHT-TASK-17、EXP-TASK-07、RLY-TASK-05、NTF-TASK-09、ENT-TASK-06、SAF-TASK-07・10)
   - 完了条件: JSON として読める(`node -e "JSON.parse(...)"`)。形の検査は P-1-1 の `parseSeed` の試験で行う
-- [ ] P-0-4 13 ビルド時の集計スクリプト(M)
+- [*] P-0-4 13 ビルド時の集計スクリプト(M)
   - ブランチ: `agent/w0-insight-aggregate`
   - 並行: 並行可
   - 前提: なし
   - 対象: `app/scripts/lib/csv.mjs`・`privacy.mjs`・`insight-aggregate.mjs`、`app/scripts/build-seed.mjs`(出力の追加のみ)、`app/src/data/insight-aggregates.json`
   - 内容: CSV から必要な列だけを読み、K=5 適用済みの集計を出力する。スクリプト末尾の出力検査(13 §4.7)を実装する。`seed.json` の出力は変えない。設計: 13 INS-TASK-02・03、§4
   - 完了条件: `cd app && node scripts/build-seed.mjs` が成功し、出力検査が通る。標準出力・報告に CSV の行の内容を出さない
-- [ ] P-0-5 13 未来日程 100 件の生成スクリプト(M)
+- [*] P-0-5 13 未来日程 100 件の生成スクリプト(M)
   - ブランチ: `agent/w0-future-trips`
   - 並行: 並行可
   - 前提: なし
   - 対象: `app/scripts/lib/future-trips.mjs`、`app/scripts/build-future-trips.mjs`、`app/src/data/future-trips.json`
   - 内容: 13 §5 の ID 範囲・配分・状態で決定論的に生成する(INS-C-07)。設計: 13 INS-TASK-04
   - 完了条件: `cd app && node scripts/build-future-trips.mjs` が成功し、`future-trips.json` が 100 グループを持つ
-- [ ] P-0-6 セキュリティヘッダー(S)
+- [*] P-0-6 セキュリティヘッダー(S)
   - ブランチ: `agent/w0-security-headers`
   - 並行: 並行可
   - 前提: なし
   - 対象: `app/next.config.ts`
   - 内容: `headers()` に 3 種を追加(既存の設定は残す)。設計: 契約 11.2、00 CMN-TASK-19
   - 完了条件: `npm run build`
-- [ ] P-0-7 契約書へのモジュール 13 の追加事項の反映(S。文書)
+- [*] P-0-7 契約書へのモジュール 13 の追加事項の反映(S。文書)
   - ブランチ: `agent/w0-contract-ins`
   - 並行: 並行可(実装と並行する小タスク)
   - 前提: なし
   - 対象: `docs/feature/_unified-contracts.md`、`docs/feature/README.md`
   - 内容: 13 §22 の INS-C-01〜17 を契約書の該当節に追記し、README のモジュール一覧・依存図に 13 を加える。推敲・整合の検証はしない
   - 完了条件: 追記箇所の一覧を報告する
-- [ ] P-0-8 画面モックの一覧(index.html)の更新(S。文書)
+- [*] P-0-8 画面モックの一覧(index.html)の更新(S。文書)
   - ブランチ: `agent/w0-mockup-index`
   - 並行: 並行可(実装と並行する小タスク)
   - 前提: なし
@@ -70,28 +70,28 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
 
 全タスク並行。前提は Wave 0 のマージ。
 
-- [ ] P-1-1 00 ストア・seed 読み込み・時計・フック・イベント(M)
+- [*] P-1-1 00 ストア・seed 読み込み・時計・フック・イベント(M)
   - ブランチ: `agent/w1-store-clock-events`
   - 並行: 並行可
   - 前提: P-0-2、P-0-3、P-0-5
   - 対象: `L/groups-store.ts`、`L/group-seed.ts`、`L/clock.ts`、`L/hooks.ts`、`L/events.ts`
   - 内容: `db()`・`Repo`・`tx`・`resetStore`、`parseSeed`(`future-trips.json` の連結。INS-C-07)、`clock`(`demoNow`)、`registerHook`/`runHooks`、`emit`/`on`。設計: 00 CMN-TASK-04・06・14・18、契約 3.1・3.5・4.6
   - 完了条件: G-T(`src/lib`)(CMN-T-16〜21、25、34 の主要部分、46、49)、G-B
-- [ ] P-1-2 00 検証・日時(M)
+- [*] P-1-2 00 検証・日時(M)
   - ブランチ: `agent/w1-validation-datetime`
   - 並行: 並行可
   - 前提: P-0-2
   - 対象: `L/validation.ts`、`L/messages.ts`、`L/datetime.ts`
   - 内容: `v`(`v.nullable`・`v.id` を含む)、`parse`、`safeParse`、`sanitizeText`、`formatJst`、`startOfNextJstDay` ほか。設計: 00 CMN-TASK-02・03、契約 3.4・3.7
   - 完了条件: G-T(`src/lib`)(CMN-T-01〜10 の代表、33)、G-B
-- [ ] P-1-3 00 API 層・デモ API・試験ヘルパー(M)
+- [*] P-1-3 00 API 層・デモ API・試験ヘルパー(M)
   - ブランチ: `agent/w1-route-demo-api`
   - 並行: 並行可
   - 前提: P-0-2
   - 対象: `L/current-user.ts`、`L/authz.ts`、`L/api-route.ts`、`L/query.ts`、デモ API のハンドラ(P-0-1 が置いたスタブ。`A/api/demo/*/route.ts` の再エクスポート元)、`app/src/test/helpers.ts`・`fixtures.ts`
   - 内容: `route()`(入口検査、`beforeRequest`、`skipHooks`、`c.id/body/query`)、`parsePage`・`parseSort`、`/api/demo/me・users・clock・reset`、`resetForTest(opts?: { futureTrips })`、`callRoute`、`asUser`、`insertGroup`・`insertMember`・`insertBlock`、`GROUP_BY_STATUS` ほか契約 11.3 と INS-C-14 の定数。ストアは P-1-1 の署名に対して書き、試験では代替する。設計: 00 CMN-TASK-07・08・09・12、契約 3.5・3.7・11.3
   - 完了条件: G-T(`src/lib`)(CMN-T-11〜15 の代表)、G-B
-- [ ] P-1-4 00 クライアント・共通 UI・DemoBar(M)
+- [*] P-1-4 00 クライアント・共通 UI・DemoBar(M)
   - ブランチ: `agent/w1-client-common-ui`
   - 並行: 並行可
   - 前提: P-0-2
@@ -99,35 +99,35 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: `gapi`・`gpost`・`gput`・`gpatch`・`gdelete`、`ApiError`、`useGroupsApi`、`useCurrentUser`、`ntf:refresh`。`ErrorNotice`・`LoadingBlock`・`StatusBadge`・`MockBadge`・`useFormErrors`・`DemoBar`(4 ロールの表示。INS-C-13)。AppShell に DemoBar と、自治体ロールに `/[campaign]/admin/stats`、観光事業オーナーに `/[campaign]/business/insights` のメニューを足す(MUN-TASK-15、INS-TASK-14)。設計: 00 CMN-TASK-10・11
   - 画面: `docs/design/mockup/components.html`
   - 完了条件: G-B
-- [ ] P-1-5 09 禁止表現(M)
+- [*] P-1-5 09 禁止表現(M)
   - ブランチ: `agent/w1-safety-text`
   - 並行: 並行可
   - 前提: P-0-2
   - 対象: `F/safety/text/*`(`normalize.ts`、`dictionary.json`、`dictionary.test.json`、`contexts.ts`、`check-text.ts`)
   - 内容: `checkText`・`assertTextAllowed`(`text_denied`・`text_review_required`、`ackReview`)。辞書は最小限の語彙で可。設計: 09 SAF-TASK-03〜05、契約 6.2
   - 完了条件: G-T(`src/features/safety/text`)(SAF-T-30〜35 の代表)、G-B
-- [ ] P-1-6 12 少数の扱い・設定(S)
+- [*] P-1-6 12 少数の扱い・設定(S)
   - ブランチ: `agent/w1-stats-privacy`
   - 並行: 並行可
   - 前提: P-0-2
   - 対象: `F/stats/config.ts`、`F/stats/privacy.ts`、`F/stats/messages.ts`
   - 内容: `MIN_CELL_COUNT`、`toCountCell`・`toRateCell`・`suppressBreakdown`・`coarseAgeBand`。設計: 12 MUN-TASK-01・02、契約 10.5
   - 完了条件: G-T(`src/features/stats`)(MUN-T-01〜04)、G-B
-- [ ] P-1-7 12 指標の計算(M)
+- [*] P-1-7 12 指標の計算(M)
   - ブランチ: `agent/w1-stats-metrics`
   - 並行: 並行可
   - 前提: P-0-2
   - 対象: `F/stats/metrics.ts`
   - 内容: `groupPhase`、`cancelReasonGroup`、`computeStats` の M-01〜M-12(M-13〜17 は余力)。入力は `GroupFact` の配列。設計: 12 MUN-TASK-05
   - 完了条件: G-T(`src/features/stats`)(MUN-T-18〜32 の代表)、G-B
-- [ ] P-1-8 13 見込みと提案ルール(M)
+- [*] P-1-8 13 見込みと提案ルール(M)
   - ブランチ: `agent/w1-insight-rules`
   - 並行: 並行可
   - 前提: P-0-2
   - 対象: `F/insights/config.ts`、`messages.ts`、`weeks.ts`、`forecast.ts`、`rules.ts`
   - 内容: 週の算出、`computeForecast`・`buildPastProfile`、`evaluateRules`、`fillTemplate`。入力は試験用の値で直接与える。設計: 13 INS-TASK-01・08(forecast)・09、§6・§7
   - 完了条件: G-T(`src/features/insights`)(INS-T-16〜29 の代表)、G-B
-- [ ] P-1-9 07 分担と精算の計算(S)
+- [*] P-1-9 07 分担と精算の計算(S)
   - ブランチ: `agent/w1-expense-calc`
   - 並行: 並行可
   - 前提: P-0-2
@@ -141,98 +141,98 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
 
 ### Wave 2A(主ルート)
 
-- [ ] P-2-1 09 ブロック・本人確認・アクセス判定・頻度制限・メンバー概要(M)
+- [*] P-2-1 09 ブロック・本人確認・アクセス判定・頻度制限・メンバー概要(M)
   - ブランチ: `agent/w2-safety-guards`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/safety/policy.ts`、`blocks/`、`verification/`、`guards/access.ts`、`guards/rate-limit.ts`、`visibility/summary.ts`
   - 内容: `isBlocked` 系・`filterVisibleMessages`・`blockUser`、`requireVerified`、`assertGroupAccess`・`assertInGroup`、`checkRate`(固定ウィンドウ)、`memberSummary`・`ageBandsOf`・`formatMemberSummary`。設計: 09 SAF-TASK-01・06・08・10・11、契約 6.1・6.3・7.10
   - 完了条件: G-T(`src/features/safety`)(SAF-T-10〜15・20・24・44〜46・53 の代表)、G-B
-- [ ] P-2-2 09 公開範囲・通報・安全の API(M)
+- [*] P-2-2 09 公開範囲・通報・安全の API(M)
   - ブランチ: `agent/w2-safety-visibility-api`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/safety/visibility/profile.ts`・`group.ts`、`reports/`、`guards/input.ts`、`F/safety/handlers.ts`
   - 内容: `visibleProfile`・`updateProfile`(表示名を 2 か所更新。契約 3.6)、`isGroupVisibleTo`、`createReport`(3 種)、`rejectProhibitedParams`、SAF-API-01〜10・12。設計: 09 SAF-TASK-02・07・09・12・13
   - 完了条件: G-T(`src/features/safety`)(SAF-T-01〜05・07・08・27・28 の代表)、G-B
-- [ ] P-2-3 01 グループ中核と 01 の API(M)
+- [*] P-2-3 01 グループ中核と 01 の API(M)
   - ブランチ: `agent/w2-group-core`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/core/*`(components を除く)
   - 内容: 契約 7.1 の関数、招待コード(7.2)、`updateGroup`、`listMembers`、01 単独のハンドラ(PATCH 詳細、メンバー一覧、招待コード 3 本)。設計: 01 GRP-TASK-01〜11、契約 7.1・7.2・8
   - 完了条件: G-T(`src/features/groups/core`)(GRP-T-14・16・22・23・32・36〜38・40 の代表)、G-B
-- [ ] P-2-4 合成層(グループの作成・詳細)(M)
+- [*] P-2-4 合成層(グループの作成・詳細)(M)
   - ブランチ: `agent/w2-group-compose`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/compose/handlers.ts`
   - 内容: `createGroupHandler`(契約 5.1 の手順)、`getGroupDetailHandler`(5.5 の 4 段)。設計: 01 GRP-TASK-12・13(作成・詳細の API 試験)
   - 完了条件: G-T(`src/features/groups/compose`)(GRP-T-01・09・17〜21 の代表)、G-B
-- [ ] P-2-5 02 条件の解釈・地方・検索語・絞り込み(M)
+- [*] P-2-5 02 条件の解釈・地方・検索語・絞り込み(M)
   - ブランチ: `agent/w2-discovery-query`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/discovery/query.ts`・`regions.ts`・`text.ts`・`filter.ts`・`messages.ts`
   - 内容: `parseGroupListQuery`(strict/lenient)・`serializeFilter`、`listRegions`・`getCampaign`、`normalizeSearchText`、`matchesFilter`・`compareGroups`。設計: 02 DSC-TASK-03〜05・07(関数)、契約 7.3
   - 完了条件: G-T(`src/features/groups/discovery`)(DSC-T-03・06・13・26・63〜66 の代表)、G-B
-- [ ] P-2-6 02 一覧・参加前詳細・招待コード照合の API(M)
+- [*] P-2-6 02 一覧・参加前詳細・招待コード照合の API(M)
   - ブランチ: `agent/w2-discovery-service`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/discovery/view.ts`・`service.ts`・`handlers.ts`
   - 内容: `toGroupSummary`・`buildApplyState`、`listGroups`、`getPublicGroup`、`findByInviteCode`(`inviteVerified: true`)、`listGroupsHandler`(先頭で `rejectProhibitedParams`)・`lookupInviteHandler`・`listRegionsHandler`。設計: 02 DSC-TASK-06〜11
   - 完了条件: G-T(`src/features/groups/discovery`)(DSC-T-01・41〜47・57・58 の代表)、G-B
-- [ ] P-2-7 03 申請・承認・却下・取り下げ(M)
+- [*] P-2-7 03 申請・承認・却下・取り下げ(M)
   - ブランチ: `agent/w2-join-service`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/join/repository.ts`・`preconditions.ts`・`service.ts`・`stats.ts`・`constants.ts`・`messages.ts`
   - 内容: `requestJoin`(契約 5.2 の検査順)、`approve`、`reject`、`withdrawRequest`、`listRequests`・`getMyRequest`・`listMyRequests`、`hasPendingRequest`。設計: 03 JOIN-TASK-01・03〜07・09・10
   - 完了条件: G-T(`src/features/groups/join`)(JOIN-T-01〜04・23・33 の代表)、G-B
-- [ ] P-2-8 03 失効・API・画面用フック(M)
+- [*] P-2-8 03 失効・API・画面用フック(M)
   - ブランチ: `agent/w2-join-api`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/join/expire.ts`・`register.ts`・`handlers.ts`・`paths.ts`・`hooks.ts`
   - 内容: `expireOnStatusChanged`(`join_expired` は T5 のみ)、JOIN-API-01〜07(02・07 の先頭で `rejectProhibitedParams`)、`useMyJoinRequest`・`useOrganizerRequests`。設計: 03 JOIN-TASK-08・11・12、契約 5.3
   - 完了条件: G-T(`src/features/groups/join`)(JOIN-T-20・31・41 の代表)、G-B
-- [ ] P-2-9 04 状態の可否・入力検証・ラベル(S)
+- [*] P-2-9 04 状態の可否・入力検証・ラベル(S)
   - ブランチ: `agent/w2-lifecycle-rules`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/lifecycle/policy.ts`・`messages.ts`・`dates.ts`・`rules.ts`
   - 内容: 契約 4.4 の可否関数、`statusLabel`、`notAcceptingReason`、`validateLifecycleInput`、`buildInitialLifecycle`、`nextDue`。設計: 04 LCY-TASK-01〜04
   - 完了条件: G-T(`src/features/groups/lifecycle`)(LCY-T-01〜08・12〜16・69 の代表)、G-B
-- [ ] P-2-10 04 遷移・評価・通知(M)
+- [*] P-2-10 04 遷移・評価・通知(M)
   - ブランチ: `agent/w2-lifecycle-transitions`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/lifecycle/transitions.ts`・`notices.ts`・`evaluate.ts`・`register.ts`
   - 内容: `applyDue` と遷移の共通処理(契約 5.3 の順)、`recordCreated`、`evaluate`・`evaluateAll`・`onMembershipChanged`、`beforeRequest`・`afterClockChange` への登録。seed の状態が評価で変わらないことを確かめる。設計: 04 LCY-TASK-05〜08・17
   - 完了条件: G-T(`src/features/groups/lifecycle`)(LCY-T-10・17・21・23・25・73 の代表)、G-B
-- [ ] P-2-11 04 辞退・退会・幹事の中止・条件変更(M)
+- [*] P-2-11 04 辞退・退会・幹事の中止・条件変更(M)
   - ブランチ: `agent/w2-lifecycle-withdraw`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/lifecycle/withdraw.ts`・`conditions.ts`
   - 内容: `withdraw`(契約 4.5 の 6 手順)、`organizerCancel`(実行確定の前まで)、`changeConditions`。設計: 04 LCY-TASK-09・10
   - 完了条件: G-T(`src/features/groups/lifecycle`)(LCY-T-30〜33・40・46・48 の代表)、G-B
-- [ ] P-2-12 04 再企画・状態の表示・04 の API(M)
+- [*] P-2-12 04 再企画・状態の表示・04 の API(M)
   - ブランチ: `agent/w2-lifecycle-replan-api`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/lifecycle/replan.ts`・`view.ts`・`handlers.ts`
   - 内容: `getReplanDraft`・`replan`(契約 5.4)、`getLifecycleView`(`organizerCancelReason`)、LCY-API-01〜06。設計: 04 LCY-TASK-11〜13
   - 完了条件: G-T(`src/features/groups/lifecycle`)(LCY-T-34・50・52・65 の代表)、G-B
-- [ ] P-2-13 10 通知の生成(M)
+- [*] P-2-13 10 通知の生成(M)
   - ブランチ: `agent/w2-notify-core`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/notify/kinds.ts`・`messages.ts`・`params.ts`・`render.ts`・`recipients.ts`・`index.ts`
   - 内容: 必須 12 種のテンプレート(`cancelled` は 5 理由)、`notify`(`eventKey` で冪等、`confirmed` の概要)、`resolveRecipients`。設計: 10 NTF-TASK-01〜06、契約 第 9 章
   - 完了条件: G-T(`src/features/notify`)(NTF-T-01〜13 の代表)、G-B
-- [ ] P-2-14 10 通知の一覧・既読・API・クライアント(M)
+- [*] P-2-14 10 通知の一覧・既読・API・クライアント(M)
   - ブランチ: `agent/w2-notify-api`
   - 並行: 並行可
   - 前提: Wave 1
@@ -242,77 +242,77 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
 
 ### Wave 2B(実施中の機能・入口・集計)
 
-- [ ] P-2-15 05 旅程のサービス層(M)
+- [*] P-2-15 05 旅程のサービス層(M)
   - ブランチ: `agent/w2-plan-service`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/plan/validation.ts`・`view.ts`・`service.ts`・`messages.ts`
   - 内容: `getPlan`、集合場所・日程メモの更新、項目の追加・更新・削除、並び替え(`itemsRevision`)。設計: 05 PLN-TASK-01〜06
   - 完了条件: G-T(`src/features/groups/plan`)(PLN-T-01〜11・38 の代表)、G-B
-- [ ] P-2-16 05 旅程の API・クライアント(S)
+- [*] P-2-16 05 旅程の API・クライアント(S)
   - ブランチ: `agent/w2-plan-api`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/plan/handlers.ts`・`client.ts`
   - 内容: 8 ハンドラ(契約 2.2 の 05 の行)と薄いクライアント。設計: 05 PLN-TASK-07・09
   - 完了条件: G-T(`src/features/groups/plan`)(HTTP 経由で GET・PUT・POST 各 1 件)、G-B
-- [ ] P-2-17 06 チャットのサービス層(M)
+- [*] P-2-17 06 チャットのサービス層(M)
   - ブランチ: `agent/w2-chat-service`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/chat/sanitize.ts`・`service.ts`・`templates.ts`・`constants.ts`・`messages.ts`
   - 内容: `postMessage`(禁止表現の後に `checkRate("chat_post")`)、`listMessages`(`CursorPage`、`idSeq`)、`filterVisibleMessages`、`markChatRead`、`reportMessage`。設計: 06 CHT-TASK-01〜05・07・12・13・16
   - 完了条件: G-T(`src/features/groups/chat`)(CHT-T-01〜04・10・20 の代表)、G-B
-- [ ] P-2-18 06 チャットの API・システムメッセージ(M)
+- [*] P-2-18 06 チャットの API・システムメッセージ(M)
   - ブランチ: `agent/w2-chat-api-events`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/chat/handlers.ts`・`system-messages.ts`・`register.ts`・`index.ts`
   - 内容: CHT-API-01〜04、4 イベントの購読によるシステムメッセージ(表示名は `visibleProfile`)。設計: 06 CHT-TASK-06・14
   - 完了条件: G-T(`src/features/groups/chat`)(CHT-T-28・29・51 の代表)、G-B
-- [ ] P-2-19 07 費用メモのサービス層・API(M)
+- [*] P-2-19 07 費用メモのサービス層・API(M)
   - ブランチ: `agent/w2-expense-api`
   - 並行: 並行可
   - 前提: Wave 1(P-1-9)
   - 対象: `F/groups/expense/text-guard.ts`・`validate.ts`・`service.ts`・`register.ts`・`handlers.ts`
   - 内容: 追加・一覧・更新(`baseVersion`)・削除、`getExpenseSummary`、`member_left` の購読、EXP-API-01〜05。設計: 07 EXP-TASK-05・06・08〜12(EXP-T-45 は P-3-16)
   - 完了条件: G-T(`src/features/groups/expense`)(EXP-T-14・21〜27 の代表)、G-B
-- [ ] P-2-20 08 スタンプと個人特典(M)
+- [*] P-2-20 08 スタンプと個人特典(M)
   - ブランチ: `agent/w2-rally-stamps`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/rally/catalog.ts`・`access.ts`・`validate.ts`・`stamps.ts`・`rewards.ts`・`messages.ts`
   - 内容: 合言葉の照合、`acquireForGroup`(1 人で取得済み)、`groupProgress`、`grantRewardsOnReach`(全員に付与)。設計: 08 RLY-TASK-01〜07、契約 7.8
   - 完了条件: G-T(`src/features/groups/rally`)(RLY-T-01〜04・07〜14・16・25 の代表)、G-B
-- [ ] P-2-21 08 振り返り・08 の API(M)
+- [*] P-2-21 08 振り返り・08 の API(M)
   - ブランチ: `agent/w2-rally-review-api`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/groups/rally/review.ts`・`handlers.ts`
   - 内容: メモ・アンケート 5 項目・ダミー写真の読み書き(実施中・完了)、RLY-API-01〜07。設計: 08 RLY-TASK-08〜10
   - 完了条件: G-T(`src/features/groups/rally`)(RLY-T-31・33・38・54 の代表)、G-B
-- [ ] P-2-22 11 入口B(着地の判定・計測)(M)
+- [*] P-2-22 11 入口B(着地の判定・計測)(M)
   - ブランチ: `agent/w2-entry`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/entry/*`(components を除く)
   - 内容: `parseEntryParams`(02 の lenient に委譲)、`resolveEntry`・`buildGroupsPath`、`recordFunnelEvent`・`aggregateFunnel`、ENT-API-01・02。設計: 11 ENT-TASK-01〜05・09(entry 分)
   - 完了条件: G-T(`src/features/entry`)(ENT-T-04〜09・12・22・23 の代表)、G-B
-- [ ] P-2-23 11 公式枠(バッジ・作成)(M)
+- [*] P-2-23 11 公式枠(バッジ・作成)(M)
   - ブランチ: `agent/w2-official`
   - 並行: 並行可
   - 前提: Wave 1
   - 対象: `F/official/service.ts`・`handlers.ts`・`messages.ts`
   - 内容: `getOfficialBadges`・`getListing`、`createOfficialSlot`(本人確認あり、`fields` の `group.` 接頭辞)、`resolveSponsor`、ENT-API-03。設計: 11 ENT-TASK-06〜09(official 分)、契約 7.11
   - 完了条件: G-T(`src/features/official`)(ENT-T-16・17・21・33 の代表)、G-B
-- [ ] P-2-24 12 集計のサービス層・API(M)
+- [*] P-2-24 12 集計のサービス層・API(M)
   - ブランチ: `agent/w2-stats-api`
   - 並行: 並行可
   - 前提: Wave 1(P-1-6、P-1-7)
   - 対象: `F/stats/access.ts`・`query.ts`・`facts.ts`・`demo-history.ts`・`service.ts`・`handlers.ts`
   - 内容: `resolveScope`(`not_municipal`)、`parseStatsQuery`(strict)、ストアのアダプタ、合成履歴、`getStats`、MUN-API-01。設計: 12 MUN-TASK-03・04・06〜09、契約 7.12
   - 完了条件: G-T(`src/features/stats`)(MUN-T-05・08・11・38・41 の代表)、G-B
-- [ ] P-2-25 13 需要見込み・提案の API(M)
+- [*] P-2-25 13 需要見込み・提案の API(M)
   - ブランチ: `agent/w2-insights-api`
   - 並行: 並行可
   - 前提: Wave 1(P-1-8)、P-0-4
@@ -324,7 +324,7 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
 
 全タスク並行。前提は Wave 2 のマージ。各画面タスクは、対応するモックの HTML+CSS を Mantine で置き換え、P-0-2 のスタブを本体にする。完了条件は共通で G-B と、`npm run dev` でページが開き、モックと主要な要素(見出し・入力・ボタン・状態表示)が対応すること。
 
-- [ ] P-3-1 01 作成・編集フォーム(M)
+- [*] P-3-1 01 作成・編集フォーム(M)
   - ブランチ: `agent/w3-ui-group-form` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/core/components/`(フォーム系、`GroupForm`、`formValues.ts`)、`A/[campaign]/new-group/page.tsx`、`A/[campaign]/groups/[groupId]/edit/page.tsx`
   - 内容: 共通部品と `GroupForm`(作成・編集・再企画で共用)、`TextRejectNotice` の表示、review の再送(`ackReview`)。設計: 01 GRP-TASK-14・15
