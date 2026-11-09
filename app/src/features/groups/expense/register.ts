@@ -1,2 +1,5 @@
-// P-0-2 が中身を置く(07 のイベント購読の登録)。
-export {};
+// 07 のイベント購読の登録(EXP-FN-08)。bootstrap.ts から import される。
+import { on } from "@/lib/events";
+import { onGroupMemberLeft } from "./service";
+
+on("member_left", "expense", onGroupMemberLeft);

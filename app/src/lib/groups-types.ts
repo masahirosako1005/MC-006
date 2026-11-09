@@ -18,6 +18,21 @@ export interface DemoUser {
   background?: boolean;         // 未来日程の背景ユーザー。デモバーの切替候補に出さない
 }
 
+// 各モジュールの型の再エクスポート(契約 3.1)。
+export type { Group, GroupMember } from "@/features/groups/types";
+export type { Region } from "@/features/groups/discovery/types";
+export type { JoinRequest } from "@/features/groups/join/types";
+export type { Withdrawal, GroupStatusLog, GroupStatus, CancelReasonCode, GroupLifecycle } from "@/features/groups/lifecycle/types";
+export type { GroupNotification } from "@/features/notify/types";
+export type { GroupPlan } from "@/features/groups/plan/types";
+export type { GroupMessage, ChatReadMark } from "@/features/groups/chat/types";
+export type { ExpenseNote } from "@/features/groups/expense/types";
+export type { GroupStamp, ReviewMemo, SurveyAnswer, PhotoPost, RallyRewardGrant } from "@/features/groups/rally/types";
+export type { Profile, Verification, Block, Report } from "@/features/safety/types";
+export type { Municipality, LocalHost, Listing } from "@/features/official/types";
+export type { FunnelEvent } from "@/features/entry/types";
+export type { TourismBusiness } from "@/features/insights/types";
+
 export interface Page<T> { items: T[]; total: number; limit: number; offset: number; hasMore: boolean; }
 export interface CursorPage<T> { items: T[]; nextCursor: string | null; }
 export type DemoUserSummary = Pick<DemoUser, "id" | "displayName" | "role">;

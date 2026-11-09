@@ -30,5 +30,9 @@ export function route<P extends RouteParams = Record<string, never>>(
   opts?: RouteOptions,
 ): (req: Request, ctx: { params: Promise<P> }) => Promise<Response> {
   void handler; void opts;
-  return async () => { throw new Error("not implemented"); };
+  // スタブ: ビルド時のプリレンダーで落ちないよう 501 を返す(P-1-3 で本実装に置き換える)。
+  return async () => Response.json(
+    { error: "internal", reason: "not_implemented", message: "未実装です" },
+    { status: 501 },
+  );
 }
