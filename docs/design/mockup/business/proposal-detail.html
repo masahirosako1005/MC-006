@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>提案の詳細 | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    /* BIZ-02 固有(base.css の延長) */
+    .biz02-few { color: var(--text-dimmed); font-weight: var(--fw-bold); }
+    .biz02-hatch { background: repeating-linear-gradient(45deg, var(--gray-5) 0 2px, var(--gray-1) 2px 6px) !important; }
+    .biz02-wide-label .bar-chart__row { grid-template-columns: 7em minmax(0, 1fr) 4.5em; }
+    .biz02-target { position: relative; }
+    .biz02-target__line { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--gray-9); }
+    .biz02-col .col-chart__col { position: relative; }
+    .biz02-col__val { font-size: 10px; font-variant-numeric: tabular-nums; }
+    .biz02-actions { margin: 0; padding-left: 1.4em; font-size: var(--fz-sm); }
+    .biz02-actions li + li { margin-top: 6px; }
+    .biz02-cond { margin: 0; padding: 0; list-style: none; font-size: var(--fz-sm); }
+    .biz02-cond li { display: flex; gap: 8px; align-items: flex-start; padding: 6px 0; border-bottom: 1px solid var(--border); }
+    .biz02-cond li:last-child { border-bottom: 0; }
+    .biz02-cond .badge { flex: none; margin-top: 2px; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー(00 CMN-UI-01) ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="../traveler/group-list.html">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="demand-forecast.html" aria-current="true">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option selected>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="demand-forecast.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>提案の詳細</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="demand-forecast.html" aria-current="page">見込み・提案</a>
+        <a href="#">スポット</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読なし)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ミ</span>ミナト</span>
+      </div>
+    </header>
+
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>BIZ-02</dd>
+        <dt>画面名</dt><dd>提案の詳細(例: 提案 1「30 歳未満向けの体験メニューを見直す」)</dd>
+        <dt>対象ロール</dt><dd>観光事業オーナー(デモユーザー ミナト)</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/business/proposals/[proposalId]</code>(案。モジュール 13 の設計で確定)</dd>
+        <dt>参照設計書</dt><dd><code>.work/sample-data-analysis.md</code> 第 8 章(提案ルール R4・R3)、第 7 章(T1・T3・T7・T9)、第 6 章(データの限界)。<code>docs/feature/13-tourism-owner-insight.md</code>(作成中)</dd>
+        <dt>遷移先</dt><dd><a href="demand-forecast.html">来訪の見込みと提案(BIZ-01)</a>、<a href="../index.html">画面モック一覧</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="demand-forecast.html">来訪の見込みと提案</a></li>
+            <li><span aria-current="page">提案の詳細</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">提案の詳細</p>
+
+        <div class="alert alert--warning" role="status">
+          <span class="alert__icon" aria-hidden="true">!</span>
+          <p>デモ用のダミーデータです。提案は集計値と判定のルールから作成した目安です。</p>
+        </div>
+
+        <!-- 提案の概要 -->
+        <section class="card card--accent stack" aria-labelledby="biz02-h-title">
+          <p class="text-xs">提案 1 / 6・星凪諸島</p>
+          <h2 id="biz02-h-title" class="title-page">30 歳未満向けの体験メニューを見直す</h2>
+          <ul class="chip-row" aria-label="事業種別"><li class="badge badge--info">体験</li><li class="badge badge--info">土産</li></ul>
+          <dl class="kv">
+            <dt>対象期間</dt><dd>11/09〜01/03(週末を中心に)</dd>
+            <dt>対象の年代</dt><dd>30 歳未満</dd>
+            <dt>見込み人数</dt><dd>117 人(今後 8 週間)。ピークは 11/23〜29 の 24 人</dd>
+          </dl>
+        </section>
+
+        <div class="grid grid--2">
+          <!-- 根拠 1: 満足率 -->
+          <section class="card stack" aria-labelledby="biz02-h-sat">
+            <h2 id="biz02-h-sat" class="title-section">根拠 1: 年代帯別の満足率</h2>
+            <p class="card__meta">参加後アンケートで 4・5 を選んだ割合。縦線は全体(62%)</p>
+            <ul class="bar-chart biz02-wide-label" aria-label="年代帯別の満足率。30 歳未満 49%、30〜49 歳 71%、50 歳以上 70%、全体 62%">
+              <li class="bar-chart__row"><span class="bar-chart__label text-bold">30 歳未満</span><span class="bar-chart__track biz02-target"><span class="bar-chart__bar" style="display:block;width:49%"></span><span class="biz02-target__line" style="left:62%" aria-hidden="true"></span></span><span class="bar-chart__value text-bold">49%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">30〜49 歳</span><span class="bar-chart__track biz02-target"><span class="bar-chart__bar bar-chart__bar--sub" style="display:block;width:71%"></span><span class="biz02-target__line" style="left:62%" aria-hidden="true"></span></span><span class="bar-chart__value">71%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">50 歳以上</span><span class="bar-chart__track biz02-target"><span class="bar-chart__bar bar-chart__bar--sub" style="display:block;width:70%"></span><span class="biz02-target__line" style="left:62%" aria-hidden="true"></span></span><span class="bar-chart__value">70%</span></li>
+            </ul>
+            <p class="text-sm">30 歳未満は全体より 13 ポイント低くなっています(回答 35 件)。</p>
+          </section>
+
+          <!-- 根拠 2: 要望 -->
+          <section class="card stack" aria-labelledby="biz02-h-req">
+            <h2 id="biz02-h-req" class="title-section">根拠 2: 30 歳未満の要望(テーマ別)</h2>
+            <p class="card__meta">回答 35 件に占める割合</p>
+            <ul class="bar-chart biz02-wide-label" aria-label="30 歳未満の要望のテーマ別の割合">
+              <li class="bar-chart__row"><span class="bar-chart__label">特典・景品</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:100%"></span></span><span class="bar-chart__value">20%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">交通・移動</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:85%"></span></span><span class="bar-chart__value">17%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">案内・標識</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:70%"></span></span><span class="bar-chart__value">14%</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">休憩</span><span class="bar-chart__track"><span class="bar-chart__bar biz02-hatch" style="display:block;width:10%"></span></span><span class="bar-chart__value">15% 未満</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">その他のテーマ</span><span class="bar-chart__track"><span class="bar-chart__bar biz02-hatch" style="display:block;width:10%"></span></span><span class="bar-chart__value">15% 未満</span></li>
+            </ul>
+            <p class="text-xs text-dimmed">「15% 未満」は、該当が 5 件未満のため上限だけを示しています。</p>
+          </section>
+        </div>
+
+        <!-- 根拠 3: 時期 -->
+        <section class="card stack" aria-labelledby="biz02-h-week">
+          <h2 id="biz02-h-week" class="title-section">根拠 3: 30 歳未満の週別の見込み</h2>
+          <ul class="legend"><li><span class="legend__swatch legend__swatch--forecast"></span>見込み(人)</li></ul>
+          <div role="img" aria-label="30 歳未満の週別の来訪見込み。11/09 から順に 14、16、24、12、10、9、15、17 人。11/23〜29 の週が最も多い。">
+            <ol class="col-chart biz02-col" aria-hidden="true">
+              <li class="col-chart__col"><span class="biz02-col__val">14</span><span class="col-chart__bar col-chart__bar--forecast" style="height:58%"></span></li>
+              <li class="col-chart__col"><span class="biz02-col__val">16</span><span class="col-chart__bar col-chart__bar--forecast" style="height:67%"></span></li>
+              <li class="col-chart__col"><span class="biz02-col__val">24</span><span class="col-chart__bar col-chart__bar--forecast" style="height:100%"></span></li>
+              <li class="col-chart__col"><span class="biz02-col__val">12</span><span class="col-chart__bar col-chart__bar--forecast" style="height:50%"></span></li>
+              <li class="col-chart__col"><span class="biz02-col__val">10</span><span class="col-chart__bar col-chart__bar--forecast" style="height:42%"></span></li>
+              <li class="col-chart__col"><span class="biz02-col__val">9</span><span class="col-chart__bar col-chart__bar--forecast" style="height:38%"></span></li>
+              <li class="col-chart__col"><span class="biz02-col__val">15</span><span class="col-chart__bar col-chart__bar--forecast" style="height:63%"></span></li>
+              <li class="col-chart__col"><span class="biz02-col__val">17</span><span class="col-chart__bar col-chart__bar--forecast" style="height:71%"></span></li>
+            </ol>
+            <ol class="col-chart__axis" aria-hidden="true"><li>11/09</li><li>11/16</li><li>11/23</li><li>11/30</li><li>12/07</li><li>12/14</li><li>12/21</li><li>12/28</li></ol>
+          </div>
+          <p class="text-sm">過去の実績では、30 歳未満の週末 1 日あたりの来訪は平日の 1.2 倍でした。他の年代帯は平日と週末の差が小さくなっています。</p>
+        </section>
+
+        <!-- 提案の内容 -->
+        <section class="card stack" aria-labelledby="biz02-h-action">
+          <h2 id="biz02-h-action" class="title-section">提案の内容</h2>
+          <ol class="biz02-actions">
+            <li>1〜2 時間で参加できる体験(ガラスの小物づくりなど)を、週末に設ける。</li>
+            <li>体験の参加者に、その場で受け取れる特典(小さな土産)を用意する。</li>
+            <li>予約の確認時に、港からの移動手段と所要時間を案内する。</li>
+          </ol>
+          <p class="text-xs text-dimmed">具体的な内容は事業所の判断で決めてください。提案は来訪の傾向を示す目安です。</p>
+        </section>
+
+        <!-- 判定の条件 -->
+        <section class="card card--muted stack" aria-labelledby="biz02-h-cond">
+          <h2 id="biz02-h-cond" class="title-section">この提案を表示した条件</h2>
+          <ul class="biz02-cond">
+            <li><span class="badge badge--success">✔ 該当</span><span>年代帯の満足率が全体より 10 ポイント以上低い(30 歳未満 49%、全体 62%)</span></li>
+            <li><span class="badge badge--success">✔ 該当</span><span>年代帯の週末 1 日あたりの来訪が平日の 1.15 倍以上(1.2 倍)</span></li>
+            <li><span class="badge badge--success">✔ 該当</span><span>判定に使う回答が 30 件以上で、「少数」の値を使っていない</span></li>
+          </ul>
+          <p class="text-xs text-dimmed">回答者はスタンプを 3 個以上取得した方に限られ、途中でやめた方の声は含まれません。過去の来訪は 10 月の 20 日間の集計です。</p>
+          <p><span class="mock-note">提案ルール R4(満足率の差)・R3(週末の偏り)。.work/sample-data-analysis.md 第 8 章</span></p>
+        </section>
+
+        <!-- 他の提案 -->
+        <nav class="stack" aria-labelledby="biz02-h-others">
+          <h2 id="biz02-h-others" class="title-section">他の提案</h2>
+          <ul class="list">
+            <li class="list__item"><span class="list__main"><a href="proposal-detail.html">港とスポットを結ぶ送迎を用意する</a></span><span class="text-xs text-dimmed">64 人</span></li>
+            <li class="list__item"><span class="list__main"><a href="proposal-detail.html">ピークの週の受付・案内を増やす</a></span><span class="text-xs text-dimmed">64 人</span></li>
+            <li class="list__item"><span class="list__main"><a href="proposal-detail.html">夕方以降の営業・メニューを用意する</a></span><span class="text-xs text-dimmed">326 人</span></li>
+          </ul>
+          <div class="btn-row"><a class="btn btn--outline" href="demand-forecast.html">見込みと提案の一覧へ戻る</a></div>
+        </nav>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a>
+    </footer>
+
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="demand-forecast.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>見込み・提案
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="../safety/notifications.html">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>通知
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

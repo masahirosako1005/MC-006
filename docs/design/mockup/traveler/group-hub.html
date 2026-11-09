@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>グループ詳細(概要) | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    .trv12-steps { display: flex; gap: 4px; margin: 8px 0 0; padding: 0; list-style: none; }
+    .trv12-steps li { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 6px; border-top: 3px solid var(--gray-3); color: var(--text-dimmed); font-size: 11px; line-height: 1.3; text-align: center; overflow-wrap: anywhere; }
+    .trv12-steps li[data-step="done"] { border-top-color: var(--success-color); color: var(--text); }
+    .trv12-steps li[aria-current="step"] { border-top-color: var(--main-color); color: var(--main-color); font-weight: var(--fw-bold); }
+    .trv12-steps__mark { font-size: 12px; }
+
+    .trv12-avail { margin: 0; padding: 0; list-style: none; font-size: var(--fz-sm); }
+    .trv12-avail li { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option selected>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option>ユイ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>ナナミ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="group-list.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>グループ詳細</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 3 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ミ</span>ミサキ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用。実装では作らない) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>TRV-12</dd>
+        <dt>画面名</dt><dd>グループ詳細のハブ(参加後): 概要</dd>
+        <dt>対象ロール</dt><dd>旅行者(参加中のメンバー。幹事には幹事の操作を追加表示)</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/groups/[groupId]</code>(参加後。01 GroupDetailShell が応答の <code>kind: "member"</code> で表示)</dd>
+        <dt>参照設計書</dt><dd>docs/feature/01-group-core.md §3・§3.1(GRP-UI-10)、docs/feature/04-group-lifecycle.md §3・§9(LCY-UI-01〜06)、_unified-contracts.md §4.4(状態ごとの可否)、docs/design/04-screens-flow.md「グループの状態表示と進行状況」</dd>
+        <dt>見本データ</dt><dd>g-001 鈴風高原のんびり歩き(募集中。定員 4・最少 3・現在 2・申請 2 件)。閲覧者: ミサキ(幹事)</dd>
+        <dt>遷移先</dt><dd>各タブ(<a href="group-plan.html">TRV-13</a>〜<a href="group-rally.html">TRV-16</a>、<a href="group-members.html">TRV-18</a>)、<a href="organizer-requests.html">承認画面(TRV-11)</a>、<a href="group-form.html">グループ編集(TRV-05)</a>、<a href="#cancel">中止ダイアログ</a>、<a href="group-states.html">状態ごとの表示(TRV-19)</a>、<a href="withdraw-dialog.html">辞退ダイアログ(TRV-20)</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="group-list.html">グループ一覧</a></li>
+            <li><span aria-current="page">鈴風高原のんびり歩き</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">グループ詳細</p>
+
+        <div class="card card--sm">
+          <div class="group group--between group--nowrap group--top">
+            <div>
+              <p class="card__title">鈴風高原のんびり歩き</p>
+              <p class="card__meta">鈴風高原 / 2026-12-05〜12-06 / 幹事: ミサキ(あなた)</p>
+            </div>
+            <span class="status status--recruiting">募集中</span>
+          </div>
+        </div>
+
+        <nav aria-label="グループ内のメニュー">
+        <ul class="tabs">
+          <li><a class="tabs__tab" href="group-hub.html" aria-current="page">概要</a></li>
+          <li><a class="tabs__tab" href="group-plan.html">旅程・集合場所</a></li>
+          <li><a class="tabs__tab" href="group-chat.html">チャット</a></li>
+          <li><a class="tabs__tab" href="group-expenses.html">費用メモ <span class="badge badge--gray">閲覧のみ</span></a></li>
+          <li><a class="tabs__tab" href="group-rally.html">スタンプラリー <span class="badge badge--gray">閲覧のみ</span></a></li>
+          <li><a class="tabs__tab" href="group-members.html">メンバー</a></li>
+        </ul>
+        </nav>
+        <p class="mock-note">モック注記: タブの「閲覧のみ」は、この状態では編集できないことを示す。「振り返り」は実施中・完了のときだけ表示する(TRV-19)。</p>
+
+        <div class="grid grid--side">
+          <div class="stack">
+            <section class="card stack" aria-labelledby="lc-title">
+              <h2 id="lc-title" class="title-section">実行条件</h2>
+              <div class="group group--between">
+                <span class="status status--recruiting">募集中</span>
+                <span class="badge badge--info badge--lg">締切まであと 11 日(11-20)</span>
+              </div>
+              <p class="text-sm">締切までに最少人数(3 人)に達すると、辞退期間(2 日)を経て実行が確定します。達しない場合は自動で中止になります。</p>
+              <div class="stack stack--xs">
+                <div class="progress-label"><span>現在 2 人 / 定員 4 人(最少 3 人)</span><span>あと 1 人で実行</span></div>
+                <div class="progress" role="progressbar" aria-label="参加人数" aria-valuemin="0" aria-valuemax="4" aria-valuenow="2" aria-valuetext="定員 4 人中 2 人。最少人数 3 人">
+                  <div class="progress__bar" style="width:50%"></div><div class="progress__marker" style="left:75%" aria-hidden="true"></div>
+                </div>
+                <ul class="seats" aria-label="席の状況(定員 4、最少 3、現在 2)">
+                  <li class="seat seat--filled">ミ</li><li class="seat seat--filled">ケ</li><li class="seat seat--min" title="最少人数の位置">3</li><li class="seat">4</li>
+                </ul>
+              </div>
+              <ol class="trv12-steps" aria-label="実行条件の進み具合">
+                <li aria-current="step"><span class="trv12-steps__mark" aria-hidden="true">●</span>募集中<span class="visually-hidden">(現在)</span></li>
+                <li><span class="trv12-steps__mark" aria-hidden="true">○</span>最少人数到達</li>
+                <li><span class="trv12-steps__mark" aria-hidden="true">○</span>辞退期間</li>
+                <li><span class="trv12-steps__mark" aria-hidden="true">○</span>実行確定</li>
+                <li><span class="trv12-steps__mark" aria-hidden="true">○</span>実施中</li>
+                <li><span class="trv12-steps__mark" aria-hidden="true">○</span>完了</li>
+              </ol>
+            </section>
+
+            <section class="card stack" aria-labelledby="org-title">
+              <h2 id="org-title" class="title-section">幹事の操作</h2>
+              <div class="alert alert--info" role="status">
+                <span class="alert__icon" aria-hidden="true">i</span>
+                <div>未対応の参加申請が 2 件あります。</div>
+              </div>
+              <div class="btn-row">
+                <a class="btn btn--primary" href="organizer-requests.html">参加申請を確認する</a>
+                <a class="btn btn--secondary" href="group-form.html">グループ情報を編集</a>
+                <button class="btn btn--outline" type="button">締切・最少人数を変更</button>
+              </div>
+              <hr class="divider">
+              <p class="text-sm">中止できるのは実行確定の前までです。中止すると参加者と申請中の人に通知されます。</p>
+              <div><a class="btn btn--danger-light" href="#cancel">グループを中止する</a></div>
+            </section>
+
+            <section class="card stack" aria-labelledby="info-title">
+              <h2 id="info-title" class="title-section">グループの情報</h2>
+              <dl class="kv">
+                <dt>行き先</dt><dd>鈴風高原(牧場と展望台のあたり)</dd>
+                <dt>日程</dt><dd>2026-12-05〜12-06(1 泊)</dd>
+                <dt>締切</dt><dd>2026-11-20</dd>
+                <dt>人数</dt><dd>定員 4 人・最少 3 人(幹事を含む)</dd>
+                <dt>公開範囲</dt><dd>公開(一覧に表示)</dd>
+                <dt>タグ</dt><dd>自然、写真、ゆっくり</dd>
+                <dt>説明</dt><dd>高原の遊歩道を、写真を撮りながらゆっくり歩きます。</dd>
+              </dl>
+            </section>
+          </div>
+
+          <div class="stack">
+            <section class="card stack" aria-labelledby="avail-title">
+              <h2 id="avail-title" class="title-section">この状態で使える機能</h2>
+              <ul class="trv12-avail">
+                <li><a href="group-plan.html">旅程・集合場所</a><span class="badge badge--success">編集可</span></li>
+                <li><a href="group-chat.html">チャット</a><span class="badge badge--success">投稿可</span></li>
+                <li><a href="group-expenses.html">費用メモ</a><span class="badge badge--gray">閲覧のみ(実行確定から記録)</span></li>
+                <li><a href="group-rally.html">スタンプラリー</a><span class="badge badge--gray">閲覧のみ(実施中に取得)</span></li>
+                <li><span>振り返り</span><span class="badge badge--gray">非表示(実施中から)</span></li>
+                <li><a href="group-members.html">メンバー</a><span class="badge badge--success">閲覧可</span></li>
+              </ul>
+              <a class="text-sm" href="group-states.html">状態ごとの違いを見る</a>
+            </section>
+
+            <section class="card stack" aria-labelledby="mem-title">
+              <h2 id="mem-title" class="title-section">メンバー(2 人)</h2>
+              <ul class="list">
+                <li class="list__item"><span class="avatar" aria-hidden="true">ミ</span><div class="list__main"><p class="text-bold">ミサキ <span class="badge badge--info">幹事</span></p><p class="text-xs text-dimmed">30代</p></div></li>
+                <li class="list__item"><span class="avatar" aria-hidden="true">ケ</span><div class="list__main"><p class="text-bold">ケンタ</p><p class="text-xs text-dimmed">20代</p></div></li>
+              </ul>
+              <a class="text-sm" href="group-members.html">メンバー一覧へ</a>
+            </section>
+
+            <p class="mock-note">モック注記: 参加者(幹事以外)には、「幹事の操作」の代わりに「辞退する」ボタンを表示する(<a href="withdraw-dialog.html">TRV-20</a>)。幹事は辞退できず、中止を使う。</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a> / <a href="../components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+
+  <!-- ===== 幹事の中止ダイアログ(LCY-UI-06 CancelDialog。:target で開く) ===== -->
+  <div id="cancel" class="modal-overlay modal-overlay--target">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cancel-title">
+      <div class="modal__header">
+        <h2 class="modal__title" id="cancel-title">グループを中止する</h2>
+        <a class="modal__close" href="#main" aria-label="閉じる">×</a>
+      </div>
+      <form class="modal__body" action="group-cancelled.html">
+        <p>鈴風高原のんびり歩き を中止します。中止すると元に戻せません。参加者 1 人と申請中の 2 人に通知されます。中止の後、日程などを見直して再企画できます。</p>
+        <fieldset class="fieldset" aria-describedby="cancel-err">
+          <legend>中止の理由<span class="field__required" aria-hidden="true">*</span>(必須)</legend>
+          <label class="check"><input type="radio" name="reason" value="schedule_conflict" required> <span class="check__text">日程の都合</span></label>
+          <label class="check"><input type="radio" name="reason" value="safety_concern"> <span class="check__text">安全上の懸念</span></label>
+          <label class="check"><input type="radio" name="reason" value="weather_or_closure"> <span class="check__text">天候・休業など</span></label>
+          <label class="check"><input type="radio" name="reason" value="other"> <span class="check__text">その他</span></label>
+        </fieldset>
+        <p class="field__error" id="cancel-err">中止の理由を選んでください。</p>
+        <p class="field__help">選んだ理由はグループ詳細に表示されます。通知の本文には含まれません。</p>
+        <div class="modal__footer" style="padding:0">
+          <a class="btn btn--ghost" href="#main">やめる</a>
+          <button class="btn btn--danger" type="submit">中止する</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>プロフィールと公開範囲 | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    /* SAF-04 固有: 入力と公開範囲の 2 列、プレビューの横置き */
+    .saf04-layout { display: grid; gap: var(--sp-md); grid-template-columns: minmax(0, 1fr); align-items: start; }
+    .saf04-row { display: grid; gap: var(--sp-sm); grid-template-columns: minmax(0, 1fr); padding: var(--sp-sm) 0; border-bottom: 1px solid var(--border); }
+    .saf04-row:last-of-type { border-bottom: 0; }
+    .saf04-vis { padding: 8px 10px; border-radius: var(--radius-md); background: var(--gray-0); }
+    .saf04-fixed { display: flex; align-items: center; min-height: var(--control-h); font-size: var(--fz-sm); }
+    .saf04-preview-hidden { color: var(--text-dimmed); font-size: var(--fz-xs); }
+    @media (min-width: 768px) {
+      .saf04-layout { grid-template-columns: minmax(0, 1fr) 320px; }
+      .saf04-row { grid-template-columns: minmax(0, 1fr) 220px; align-items: start; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="../traveler/group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option selected>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="../traveler/group-list.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>プロフィールと公開範囲</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="../traveler/group-list.html">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="notifications.html" aria-label="グループの通知(未読 4 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ミ</span>ミサキ</span>
+      </div>
+    </header>
+
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>SAF-04</dd>
+        <dt>画面名</dt><dd>公開範囲設定(プロフィール編集。<code>ProfileForm</code>、<code>VisibilityPicker</code>、<code>ProfilePreview</code>)</dd>
+        <dt>対象ロール</dt><dd>旅行者(全ロール共通)</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/mypage/profile</code>(案。09 §12.1)。取得 <code>GET /api/me/profile</code>、保存 <code>PUT /api/me/profile</code>(全項目を送る)</dd>
+        <dt>参照設計書</dt><dd>docs/feature/09-safety.md §6.1(FIELD_POLICY)、§4.4、§8.8(性別の禁止)、§12.2 SAF-UI-01、§12.3。docs/feature/_unified-contracts.md §6.3(年代帯)、§7.10、§10.3(<code>DISPLAY_NAME</code>・<code>PROFILE_BIO</code>・<code>TRAVEL_PURPOSES</code>)</dd>
+        <dt>遷移先</dt><dd><a href="block-list.html">ブロック一覧(SAF-03)</a>、<a href="verification.html">本人確認(SAF-05)</a>、<a href="prohibited-text.html">禁止表現の表示(SAF-06)</a>、<a href="../index.html">画面モック一覧</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="#">マイページ</a></li>
+            <li><span aria-current="page">プロフィールと公開範囲</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">プロフィールと公開範囲</p>
+
+        <div class="btn-row">
+          <a class="btn btn--secondary btn--sm" href="verification.html">本人確認(モック)</a>
+          <a class="btn btn--secondary btn--sm" href="block-list.html">ブロック一覧</a>
+        </div>
+
+        <div class="saf04-layout">
+          <!-- ===== 入力 ===== -->
+          <section class="card" aria-labelledby="sec-form">
+            <h2 id="sec-form" class="title-section">プロフィール</h2>
+            <p class="text-xs text-dimmed">項目ごとに「誰に見えるか」を選べます。参加が成立するまでは、見せる項目を少なくしておくことをおすすめします。</p>
+
+            <form action="#saved">
+              <!-- 表示名 -->
+              <div class="saf04-row">
+                <div class="field">
+                  <label class="field__label" for="p-name">表示名<span class="field__required" aria-hidden="true">*</span></label>
+                  <input class="input" id="p-name" type="text" value="ミサキ" maxlength="20" required aria-describedby="p-name-help">
+                  <p class="field__help" id="p-name-help">20 文字以内。本名・連絡先は書かないでください。</p>
+                </div>
+                <div class="saf04-vis">
+                  <p class="field__label">誰に見える?</p>
+                  <p class="saf04-fixed">全員(変更できません)</p>
+                </div>
+              </div>
+
+              <!-- 年代帯 -->
+              <div class="saf04-row">
+                <div class="field">
+                  <label class="field__label" for="p-age">年代<span class="field__required" aria-hidden="true">*</span></label>
+                  <select class="select" id="p-age" required aria-describedby="p-age-help">
+                    <option>18〜19歳</option>
+                    <option>20代</option>
+                    <option selected>30代</option>
+                    <option>40代</option>
+                    <option>50代</option>
+                    <option>60代</option>
+                    <option>70代以上</option>
+                  </select>
+                  <p class="field__help" id="p-age-help">年代の帯だけを扱います。生年月日や細かい年齢は登録しません。</p>
+                </div>
+                <div class="saf04-vis field">
+                  <label class="field__label" for="v-age">誰に見える?<span class="visually-hidden">(年代)</span></label>
+                  <select class="select" id="v-age" aria-describedby="v-age-help">
+                    <option selected>申請を確認する幹事</option>
+                    <option>参加が成立したメンバー</option>
+                    <option>自分のみ</option>
+                  </select>
+                  <p class="field__help" id="v-age-help">「全員」は選べません。</p>
+                </div>
+              </div>
+
+              <!-- ひとこと -->
+              <div class="saf04-row">
+                <div class="field">
+                  <label class="field__label" for="p-bio">ひとこと</label>
+                  <textarea class="textarea" id="p-bio" maxlength="200" rows="3" aria-describedby="p-bio-help">写真を撮りながら、ゆっくり歩く旅が好きです。</textarea>
+                  <p class="field__help" id="p-bio-help" aria-live="polite">200 文字以内・3 行まで。22 / 200</p>
+                </div>
+                <div class="saf04-vis field">
+                  <label class="field__label" for="v-bio">誰に見える?<span class="visually-hidden">(ひとこと)</span></label>
+                  <select class="select" id="v-bio">
+                    <option>全員</option>
+                    <option selected>申請を確認する幹事</option>
+                    <option>参加が成立したメンバー</option>
+                    <option>自分のみ</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- 旅の目的 -->
+              <div class="saf04-row">
+                <fieldset class="fieldset" aria-describedby="p-purpose-help">
+                  <legend>旅の目的(3 つまで)</legend>
+                  <div class="grid grid--2" style="gap:8px">
+                    <label class="check"><input type="checkbox" name="purpose" value="sightseeing"> <span class="check__text">観光</span></label>
+                    <label class="check"><input type="checkbox" name="purpose" value="food" checked> <span class="check__text">食べ歩き</span></label>
+                    <label class="check"><input type="checkbox" name="purpose" value="nature" checked> <span class="check__text">自然</span></label>
+                    <label class="check"><input type="checkbox" name="purpose" value="history"> <span class="check__text">歴史</span></label>
+                    <label class="check"><input type="checkbox" name="purpose" value="photo" checked> <span class="check__text">写真</span></label>
+                    <label class="check"><input type="checkbox" name="purpose" value="relax"> <span class="check__text">のんびり</span></label>
+                    <label class="check"><input type="checkbox" name="purpose" value="stamp_rally"> <span class="check__text">スタンプラリー</span></label>
+                  </div>
+                  <p class="field__help" id="p-purpose-help">3 つ選んでいます。</p>
+                </fieldset>
+                <div class="saf04-vis field">
+                  <label class="field__label" for="v-purpose">誰に見える?<span class="visually-hidden">(旅の目的)</span></label>
+                  <select class="select" id="v-purpose">
+                    <option selected>全員</option>
+                    <option>申請を確認する幹事</option>
+                    <option>参加が成立したメンバー</option>
+                    <option>自分のみ</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- 実名・連絡先(ダミー) -->
+              <div class="saf04-row">
+                <div class="field">
+                  <label class="field__label" for="p-real">実名</label>
+                  <input class="input" id="p-real" type="text" value="(ダミーの値)" disabled aria-describedby="p-real-help">
+                  <p class="field__help" id="p-real-help">デモ用のダミーです。値は編集できません。</p>
+                </div>
+                <div class="saf04-vis field">
+                  <label class="field__label" for="v-real">誰に見える?<span class="visually-hidden">(実名)</span></label>
+                  <select class="select" id="v-real">
+                    <option>参加が成立したメンバー</option>
+                    <option selected>自分のみ</option>
+                  </select>
+                </div>
+              </div>
+              <div class="saf04-row">
+                <div class="field">
+                  <label class="field__label" for="p-contact">連絡先</label>
+                  <input class="input" id="p-contact" type="text" value="連絡手段メモ(ダミー)" disabled aria-describedby="p-contact-help">
+                  <p class="field__help" id="p-contact-help">デモ用のダミーです。値は編集できません。参加が成立する前の人には表示しません。</p>
+                </div>
+                <div class="saf04-vis field">
+                  <label class="field__label" for="v-contact">誰に見える?<span class="visually-hidden">(連絡先)</span></label>
+                  <select class="select" id="v-contact">
+                    <option selected>参加が成立したメンバー</option>
+                    <option>自分のみ</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="alert alert--info" style="margin-top:8px">
+                <span class="alert__icon" aria-hidden="true">i</span>
+                <div>性別の項目はありません。グループの一覧でも、性別での表示・絞り込みは行いません。年齢は年代の帯だけを扱います。</div>
+              </div>
+
+              <div class="form-actions" style="margin-top:12px">
+                <a class="btn btn--ghost" href="profile-visibility.html">元に戻す</a>
+                <button class="btn btn--primary" type="submit">保存する</button>
+              </div>
+              <div class="alert alert--success" role="status" id="saved" style="margin-top:8px">
+                <span class="alert__icon" aria-hidden="true">✔</span>
+                <div>(保存後の表示の見本)プロフィールを保存しました。</div>
+              </div>
+            </form>
+          </section>
+
+          <!-- ===== プレビュー ===== -->
+          <section class="stack" aria-labelledby="sec-preview">
+            <h2 id="sec-preview" class="title-section">他の人からの見え方</h2>
+            <p class="text-xs text-dimmed">いまの設定で、相手ごとに表示される項目です。</p>
+
+            <section class="card card--sm" aria-labelledby="pv-public">
+              <h3 id="pv-public" class="text-sm">一覧・詳細を見る人(全員)</h3>
+              <dl class="kv" style="margin-top:6px">
+                <dt>表示名</dt><dd>ミサキ</dd>
+                <dt>旅の目的</dt><dd>食べ歩き、自然、写真</dd>
+              </dl>
+              <p class="saf04-preview-hidden" style="margin-top:4px">表示しない: 年代、ひとこと、実名、連絡先</p>
+            </section>
+
+            <section class="card card--sm" aria-labelledby="pv-reviewer">
+              <h3 id="pv-reviewer" class="text-sm">申請を確認する幹事(承認前)</h3>
+              <dl class="kv" style="margin-top:6px">
+                <dt>表示名</dt><dd>ミサキ</dd>
+                <dt>年代</dt><dd>30代</dd>
+                <dt>ひとこと</dt><dd>写真を撮りながら、ゆっくり歩く旅が好きです。</dd>
+                <dt>旅の目的</dt><dd>食べ歩き、自然、写真</dd>
+              </dl>
+              <p class="saf04-preview-hidden" style="margin-top:4px">表示しない: 実名、連絡先</p>
+            </section>
+
+            <section class="card card--sm card--accent" aria-labelledby="pv-member">
+              <h3 id="pv-member" class="text-sm">参加が成立したメンバー</h3>
+              <dl class="kv" style="margin-top:6px">
+                <dt>表示名</dt><dd>ミサキ</dd>
+                <dt>年代</dt><dd>30代</dd>
+                <dt>ひとこと</dt><dd>写真を撮りながら、ゆっくり歩く旅が好きです。</dd>
+                <dt>旅の目的</dt><dd>食べ歩き、自然、写真</dd>
+                <dt>連絡先</dt><dd>連絡手段メモ(ダミー)</dd>
+              </dl>
+              <p class="saf04-preview-hidden" style="margin-top:4px">表示しない: 実名</p>
+            </section>
+            <p class="mock-note">実装は 3 つをタブ(<code>role="tablist"</code>)で切り替える(09 §12.2)。モックでは並べて示した。グループの概要では、個人の年代ではなく「30〜40代」のようなまとまりだけを出す(4 人未満は出さない)。</p>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a>
+    </footer>
+
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="../traveler/group-list.html">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

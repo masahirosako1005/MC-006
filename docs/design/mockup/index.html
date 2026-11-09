@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>画面モック一覧 | 画面モック</title>
+  <link rel="stylesheet" href="assets/base.css">
+  <style>
+    .idx { max-width: 1080px; margin: 0 auto; padding: 16px; background: var(--surface); }
+    .idx h2 { margin-top: 24px; font-size: var(--fz-lg); }
+    .idx h3 { margin-top: 16px; font-size: var(--fz-md); }
+    .idx .table td:first-child { white-space: nowrap; font-family: var(--font-mono); font-size: var(--fz-xs); }
+    .idx code { font-family: var(--font-mono); font-size: var(--fz-xs); }
+  </style>
+</head>
+<body>
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="#role-traveler">旅行者</a></li>
+        <li><a class="demo-bar__role" href="#role-municipal">自治体</a></li>
+        <li><a class="demo-bar__role" href="#role-business">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <span>日付: 2026-11-09</span>
+  </div>
+
+  <main class="idx">
+    <h1 class="text-lg">画面モック一覧</h1>
+    <p class="text-sm">Next.js(Mantine)実装の前に、画面の構成を静的な HTML+CSS で示す。データはすべて架空。決まりは <code>docs/design/mockup/README.md</code> を参照。</p>
+    <div class="btn-row" style="margin-top:8px">
+      <a class="btn btn--primary btn--sm" href="components.html">部品カタログ</a>
+      <a class="btn btn--secondary btn--sm" href="_template.html">画面の雛形</a>
+      <a class="btn btn--secondary btn--sm" href="_sample-page.html">サンプル画面(土台の確認用)</a>
+    </div>
+    <p class="text-xs text-dimmed" style="margin-top:8px">状態の表記: 「作成済み」は画面名がリンク。「作成予定」はファイル未作成。各担当は自分の行だけを更新する(状態を「作成済み」にし、画面名をリンクにする)。</p>
+
+    <!-- ===== 旅行者 ===== -->
+    <h2 id="role-traveler">旅行者</h2>
+
+    <h3 id="f-discovery">探索(グループを探す・作る)</h3>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">画面ID</th><th scope="col">画面名</th><th scope="col">ファイル</th><th scope="col">実装パス</th><th scope="col">参照設計書</th><th scope="col">状態</th></tr></thead>
+        <tbody>
+          <tr><td>TRV-01</td><td>グループ一覧・絞り込み(入口 B の条件引き継ぎを含む)</td><td><code>traveler/group-list.html</code></td><td><code>/[campaign]/groups</code></td><td>04 画面の候補、feature 02、11</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-02</td><td>グループ詳細(参加前)</td><td><code>traveler/group-detail-public.html</code></td><td><code>/[campaign]/groups/[groupId]</code></td><td>feature 01、02、09(公開範囲)</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-03</td><td>参加申請ダイアログ(最少人数への同意、申請状況、取り下げ)</td><td><code>traveler/join-request-dialog.html</code></td><td>TRV-02 上のダイアログ</td><td>feature 03</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-04</td><td>招待コード入力(照合・プレビュー・申請)</td><td><code>traveler/invite-code.html</code></td><td><code>/[campaign]/invite</code></td><td>feature 01、02、03、統一仕様 7.2</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-05</td><td>グループ作成・編集</td><td><code>traveler/group-form.html</code></td><td><code>/[campaign]/new-group</code>、<code>/[campaign]/groups/[groupId]/edit</code></td><td>feature 01、04(最少人数・締切)、09(禁止表現)</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="f-operation">運営・実施(幹事・参加者)</h3>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">画面ID</th><th scope="col">画面名</th><th scope="col">ファイル</th><th scope="col">実装パス</th><th scope="col">参照設計書</th><th scope="col">状態</th></tr></thead>
+        <tbody>
+          <tr><td>TRV-11</td><td>幹事の承認画面(申請一覧、承認・見送り)</td><td><code>traveler/organizer-requests.html</code></td><td><code>/[campaign]/groups/[groupId]?tab=requests</code>(案)</td><td>feature 03</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-12</td><td>グループ詳細のハブ: 概要</td><td><code>traveler/group-hub.html</code></td><td><code>/[campaign]/groups/[groupId]</code></td><td>feature 01、04</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-13</td><td>ハブ: 旅程・集合場所メモ</td><td><code>traveler/group-plan.html</code></td><td><code>?tab=plan</code></td><td>feature 05</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-14</td><td>ハブ: チャット</td><td><code>traveler/group-chat.html</code></td><td><code>?tab=chat</code></td><td>feature 06</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-15</td><td>ハブ: 費用メモ</td><td><code>traveler/group-expenses.html</code></td><td><code>?tab=expenses</code></td><td>feature 07</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-16</td><td>ハブ: スタンプラリー</td><td><code>traveler/group-rally.html</code></td><td><code>?tab=rally</code></td><td>feature 08</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-17</td><td>振り返り(メモ・アンケート・写真)</td><td><code>traveler/group-review.html</code></td><td><code>/[campaign]/groups/[groupId]/review</code></td><td>feature 08</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-18</td><td>メンバー一覧(退会、通報・ブロックへの導線)</td><td><code>traveler/group-members.html</code></td><td><code>/[campaign]/groups/[groupId]/members</code></td><td>feature 01、09</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-19</td><td>状態ごとの表示(募集中〜再企画の 8 状態)</td><td><code>traveler/group-states.html</code></td><td>TRV-12 の上部</td><td>docs/design 04 状態遷移、feature 04</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-20</td><td>辞退ダイアログ</td><td><code>traveler/withdraw-dialog.html</code></td><td>TRV-12 上のダイアログ</td><td>feature 04</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-21</td><td>中止の表示と再エントリー</td><td><code>traveler/group-cancelled.html</code></td><td><code>/[campaign]/groups/[groupId]</code>(中止)</td><td>feature 04、10</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>TRV-22</td><td>再企画(幹事)</td><td><code>traveler/group-replan.html</code></td><td><code>/[campaign]/groups/[groupId]/replan</code></td><td>feature 04</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== 安全・通知(全ロール共通) ===== -->
+    <h2 id="role-safety">安全・通知(全ロール共通)</h2>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">画面ID</th><th scope="col">画面名</th><th scope="col">ファイル</th><th scope="col">実装パス</th><th scope="col">参照設計書</th><th scope="col">状態</th></tr></thead>
+        <tbody>
+          <tr><td>SAF-01</td><td>通知一覧</td><td><code>safety/notifications.html</code></td><td><code>/[campaign]/notifications</code></td><td>feature 10、統一仕様 9.2</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>SAF-02</td><td>通報ダイアログ</td><td><code>safety/report-dialog.html</code></td><td>各画面上のダイアログ</td><td>feature 09</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>SAF-03</td><td>ブロック一覧</td><td><code>safety/block-list.html</code></td><td>未定(マイページ配下の案)</td><td>feature 09</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>SAF-04</td><td>公開範囲設定(プロフィール)</td><td><code>safety/profile-visibility.html</code></td><td>未定(マイページ配下の案)</td><td>feature 09</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>SAF-05</td><td>本人確認(モック)</td><td><code>safety/verification.html</code></td><td>未定</td><td>feature 09</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+          <tr><td>SAF-06</td><td>禁止表現の拒否メッセージ(入力画面での表示例)</td><td><code>safety/prohibited-text.html</code></td><td>各入力画面</td><td>feature 09、docs/design 06</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== 自治体 ===== -->
+    <h2 id="role-municipal">自治体</h2>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">画面ID</th><th scope="col">画面名</th><th scope="col">ファイル</th><th scope="col">実装パス</th><th scope="col">参照設計書</th><th scope="col">状態</th></tr></thead>
+        <tbody>
+          <tr><td>MUN-01</td><td>自治体向け集計ダッシュボード</td><td><code>municipal/stats-dashboard.html</code></td><td><code>/[campaign]/admin/stats</code></td><td>feature 12 §8</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== 観光事業オーナー ===== -->
+    <h2 id="role-business">観光事業オーナー</h2>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">画面ID</th><th scope="col">画面名</th><th scope="col">ファイル</th><th scope="col">実装パス</th><th scope="col">参照設計書</th><th scope="col">状態</th></tr></thead>
+        <tbody>
+          <tr><td>BIZ-01</td><td>需要見込みと提案(いつ・どの年代が・どれくらい来るか、提供すべきサービスの提案)</td><td><code>business/demand-forecast.html</code></td><td>未定(モジュール 13 の設計待ち)</td><td>.work/review.md 第 13 章</td><td><span class="badge badge--gray">作成予定</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== 地元の担い手 ===== -->
+    <h2 id="role-host">地元の担い手</h2>
+    <p class="text-sm">同行枠の登録・集合型イベントの申込(feature 11、柱 12)は、今回の画面の分担に含まれていない。デモバーのロール切り替え先として、この節を置く。</p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">画面ID</th><th scope="col">画面名</th><th scope="col">ファイル</th><th scope="col">実装パス</th><th scope="col">参照設計書</th><th scope="col">状態</th></tr></thead>
+        <tbody>
+          <tr><td>HST-01</td><td>同行枠の登録</td><td><code>host/slot-form.html</code></td><td>未定</td><td>feature 11</td><td><span class="badge badge--gray">担当未定</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== 土台 ===== -->
+    <h2 id="base">土台(共通)</h2>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">ファイル</th><th scope="col">内容</th><th scope="col">状態</th></tr></thead>
+        <tbody>
+          <tr><td>assets/base.css</td><td>デザイントークンと共通部品のスタイル</td><td><span class="badge badge--success">作成済み</span></td></tr>
+          <tr><td><a href="components.html">components.html</a></td><td>部品カタログ</td><td><span class="badge badge--success">作成済み</span></td></tr>
+          <tr><td><a href="_template.html">_template.html</a></td><td>画面モックの雛形</td><td><span class="badge badge--success">作成済み</span></td></tr>
+          <tr><td><a href="_sample-page.html">_sample-page.html</a></td><td>サンプル画面(部品の組み合わせの確認用。グループ一覧の例)</td><td><span class="badge badge--success">作成済み</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

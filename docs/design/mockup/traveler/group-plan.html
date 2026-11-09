@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>旅程・集合場所 | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    .trv13-date { margin: var(--sp-sm) 0 4px; font-size: var(--fz-md); }
+    .trv13-list { margin: 0; padding: 0; list-style: none; border-left: 2px solid var(--sub-color); }
+    .trv13-item { position: relative; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 8px; padding: 8px 0 8px 12px; overflow-wrap: anywhere; }
+    .trv13-item::before { content: ""; position: absolute; left: -6px; top: 14px; width: 10px; height: 10px; border: 2px solid var(--main-color); border-radius: 50%; background: var(--surface); }
+    .trv13-time { font-size: var(--fz-sm); font-weight: var(--fw-bold); color: var(--on-sub-color); }
+    .trv13-body { min-width: 0; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option>ミサキ(旅行者)</option>
+        <option selected>ケンタ(旅行者)</option>
+        <option>ユイ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>ナナミ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="group-hub.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>旅程・集合場所</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 3 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ケ</span>ケンタ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用。実装では作らない) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>TRV-13</dd>
+        <dt>画面名</dt><dd>ハブ: 旅程・集合場所メモ</dd>
+        <dt>対象ロール</dt><dd>旅行者(参加中のメンバー全員が編集可)</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/groups/[groupId]?tab=plan</code></dd>
+        <dt>参照設計書</dt><dd>docs/feature/05-group-plan.md §3、§9.3(PLN-UI-01〜11)、§9.4、_unified-contracts.md §4.4(<code>canEdit</code>)、§10.3(<code>PLAN_ITEM_TITLE</code>、<code>MEETING</code>、<code>SCHEDULE_MEMO</code>)</dd>
+        <dt>見本データ</dt><dd>g-011 虹帆町 夜明けの港(実施中。11-08〜11-10。メンバー: ユイ(幹事)、ダイスケ、ケンタ。ソウタは実行確定時に退会した元メンバー)。閲覧者: ケンタ</dd>
+        <dt>遷移先</dt><dd><a href="group-hub.html">概要(TRV-12)</a>、<a href="group-chat.html">チャット(TRV-14)</a>、<a href="#add-item">予定の追加フォーム</a>、<a href="#edit-pi2">編集フォーム</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="group-list.html">グループ一覧</a></li>
+            <li><a href="group-hub.html">虹帆町 夜明けの港</a></li>
+            <li><span aria-current="page">旅程・集合場所</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">旅程・集合場所</p>
+
+        <div class="card card--sm">
+          <div class="group group--between group--nowrap group--top">
+            <div>
+              <p class="card__title">虹帆町 夜明けの港</p>
+              <p class="card__meta">虹帆町 / 2026-11-08〜11-10 / 幹事: ユイ / メンバー 3 人</p>
+            </div>
+            <span class="status status--in-progress">実施中</span>
+          </div>
+        </div>
+
+        <nav aria-label="グループ内のメニュー">
+        <ul class="tabs">
+          <li><a class="tabs__tab" href="group-hub.html">概要</a></li>
+          <li><a class="tabs__tab" href="group-plan.html" aria-current="page">旅程・集合場所</a></li>
+          <li><a class="tabs__tab" href="group-chat.html">チャット</a></li>
+          <li><a class="tabs__tab" href="group-expenses.html">費用メモ</a></li>
+          <li><a class="tabs__tab" href="group-rally.html">スタンプラリー</a></li>
+          <li><a class="tabs__tab" href="group-review.html">振り返り</a></li>
+          <li><a class="tabs__tab" href="group-members.html">メンバー</a></li>
+        </ul>
+        </nav>
+
+        <div class="group group--between">
+          <p class="text-sm">メンバー全員で編集できます。</p>
+          <button class="btn btn--ghost btn--sm" type="button">再読み込み</button>
+        </div>
+        <div class="visually-hidden" aria-live="polite">『朝市で朝ごはん』を保存しました</div>
+
+        <div class="grid grid--side">
+          <div class="stack">
+            <section class="card card--accent stack" aria-labelledby="meet-title">
+              <div class="group group--between">
+                <h2 id="meet-title" class="title-section">集合場所</h2>
+                <button class="btn btn--secondary btn--sm" type="button">編集<span class="visually-hidden">: 集合場所</span></button>
+              </div>
+              <p class="text-sm">11-08 9:00 虹帆町の港の案内所前。案内所の入口の時計の下で待ち合わせ。</p>
+              <p class="text-xs">更新: ユイ(11-05 20:10)</p>
+            </section>
+
+            <section class="card stack" aria-labelledby="memo-title">
+              <div class="group group--between">
+                <h2 id="memo-title" class="title-section">日程メモ</h2>
+                <button class="btn btn--secondary btn--sm" type="button">編集<span class="visually-hidden">: 日程メモ</span></button>
+              </div>
+              <p class="text-sm">2 日目の夜は各自で食事。最終日は 15 時に港で解散。雨の場合は帆布工房の見学を先にする。</p>
+              <p class="text-xs text-dimmed">更新: 元メンバー(11-01 12:30)</p>
+            </section>
+          </div>
+
+          <section class="card" aria-labelledby="tl-title">
+            <div class="group group--between">
+              <h2 id="tl-title" class="title-section">旅程</h2>
+              <a class="btn btn--primary btn--sm" href="#add-item">予定を追加</a>
+            </div>
+            <section aria-labelledby="d1">
+              <h3 id="d1" class="trv13-date"><time datetime="2026-11-08">11月8日(日)</time></h3>
+              <ol class="trv13-list">
+                <li class="trv13-item">
+                  <span class="trv13-time"><time datetime="09:00">09:00</time></span>
+                  <div class="trv13-body">
+                    <p class="text-bold">港の案内所前に集合</p>
+                    <p class="text-xs text-dimmed">スポット: 夜明けの桟橋</p>
+                    <p class="text-xs text-dimmed">更新: ユイ</p>
+                    <div class="btn-row" style="margin-top:4px">
+                      <a class="btn btn--ghost btn--sm" href="#edit-pi2">編集<span class="visually-hidden">: 港の案内所前に集合</span></a>
+                      <button class="btn btn--ghost btn--sm" type="button" aria-disabled="true" aria-label="『港の案内所前に集合』を 1 つ上へ">↑</button>
+                      <button class="btn btn--ghost btn--sm" type="button" aria-label="『港の案内所前に集合』を 1 つ下へ">↓</button>
+                      <button class="btn btn--ghost btn--sm" type="button">削除<span class="visually-hidden">: 港の案内所前に集合</span></button>
+                    </div>
+                  </div>
+                </li>
+                <li class="trv13-item">
+                  <span class="trv13-time"><time datetime="10:30">10:30</time></span>
+                  <div class="trv13-body">
+                    <p class="text-bold">灯台まで歩く</p>
+                    <p class="text-xs text-dimmed">スポット: 虹帆灯台</p>
+                    <p class="text-sm">坂道が続くので歩きやすい靴で。</p>
+                    <p class="text-xs text-dimmed">更新: ケンタ</p>
+                    <div class="btn-row" style="margin-top:4px">
+                      <a class="btn btn--ghost btn--sm" href="#edit-pi2">編集<span class="visually-hidden">: 灯台まで歩く</span></a>
+                      <button class="btn btn--ghost btn--sm" type="button" aria-label="『灯台まで歩く』を 1 つ上へ">↑</button>
+                      <button class="btn btn--ghost btn--sm" type="button" aria-disabled="true" aria-label="『灯台まで歩く』を 1 つ下へ">↓</button>
+                      <button class="btn btn--ghost btn--sm" type="button">削除<span class="visually-hidden">: 灯台まで歩く</span></button>
+                    </div>
+                  </div>
+                </li>
+              </ol>
+            </section>
+            <section aria-labelledby="d2">
+              <h3 id="d2" class="trv13-date"><time datetime="2026-11-09">11月9日(月)</time></h3>
+              <ol class="trv13-list">
+                <li class="trv13-item">
+                  <span class="trv13-time"><time datetime="07:30">07:30</time></span>
+                  <div class="trv13-body">
+                    <p class="text-bold">朝市で朝ごはん</p>
+                    <p class="text-xs text-dimmed">スポット: 朝市通り</p>
+                    <p class="text-xs text-dimmed">更新: ダイスケ</p>
+                    <div class="btn-row" style="margin-top:4px">
+                      <a class="btn btn--ghost btn--sm" href="#edit-pi2">編集<span class="visually-hidden">: 朝市で朝ごはん</span></a>
+                      <button class="btn btn--ghost btn--sm" type="button" aria-disabled="true" aria-label="『朝市で朝ごはん』を 1 つ上へ">↑</button>
+                      <button class="btn btn--ghost btn--sm" type="button" aria-label="『朝市で朝ごはん』を 1 つ下へ">↓</button>
+                      <button class="btn btn--ghost btn--sm" type="button">削除<span class="visually-hidden">: 朝市で朝ごはん</span></button>
+                    </div>
+                  </div>
+                </li>
+                <li class="trv13-item">
+                  <span class="trv13-time">時刻なし</span>
+                  <div class="trv13-body">
+                    <p class="text-bold">帆布工房の見学</p>
+                    <p class="text-xs text-dimmed">スポット: 帆布工房</p>
+                    <p class="text-sm">予約は不要。</p>
+                    <p class="text-xs text-dimmed">更新: 元メンバー</p>
+                    <div class="btn-row" style="margin-top:4px">
+                      <a class="btn btn--ghost btn--sm" href="#edit-pi2">編集<span class="visually-hidden">: 帆布工房の見学</span></a>
+                      <button class="btn btn--ghost btn--sm" type="button" aria-label="『帆布工房の見学』を 1 つ上へ">↑</button>
+                      <button class="btn btn--ghost btn--sm" type="button" aria-disabled="true" aria-label="『帆布工房の見学』を 1 つ下へ">↓</button>
+                      <button class="btn btn--ghost btn--sm" type="button">削除<span class="visually-hidden">: 帆布工房の見学</span></button>
+                    </div>
+                  </div>
+                </li>
+              </ol>
+            </section>
+            <section aria-labelledby="d3">
+              <h3 id="d3" class="trv13-date"><time datetime="2026-11-10">11月10日(火)</time></h3>
+              <ol class="trv13-list">
+                <li class="trv13-item">
+                  <span class="trv13-time"><time datetime="15:00">15:00</time></span>
+                  <div class="trv13-body">
+                    <p class="text-bold">港で解散</p>
+                    <p class="text-xs text-dimmed">更新: ユイ</p>
+                    <div class="btn-row" style="margin-top:4px">
+                      <a class="btn btn--ghost btn--sm" href="#edit-pi2">編集<span class="visually-hidden">: 港で解散</span></a>
+                      <button class="btn btn--ghost btn--sm" type="button" aria-disabled="true" aria-label="『港で解散』を 1 つ上へ">↑</button>
+                      <button class="btn btn--ghost btn--sm" type="button" aria-disabled="true" aria-label="『港で解散』を 1 つ下へ">↓</button>
+                      <button class="btn btn--ghost btn--sm" type="button">削除<span class="visually-hidden">: 港で解散</span></button>
+                    </div>
+                  </div>
+                </li>
+              </ol>
+            </section>
+          </section>
+        </div>
+
+        <section class="stack" aria-labelledby="conf-title">
+          <h2 id="conf-title" class="title-section">編集フォーム(競合したときの表示)</h2>
+          <p class="text-sm text-dimmed">保存の前にほかのメンバーが同じ旅程を更新した場合、フォームを閉じずに入力を残し、最新の内容を読み込んだうえで案内を出す。</p>
+          <div class="modal-preview">
+            <div class="modal" role="dialog" aria-modal="false" aria-labelledby="conf-dlg-title">
+              <div class="modal__header">
+                <h3 class="modal__title" id="conf-dlg-title">予定を編集</h3>
+              </div>
+              <form class="modal__body" action="#main">
+                <div class="alert alert--error" role="alert">
+                  <span class="alert__icon" aria-hidden="true">✕</span>
+                  <div><p class="alert__title">ほかのメンバーが先に更新しました</p><p>最新の内容を読み込みました。入力内容は残しています。最新の旅程を確認してから、もう一度保存してください。</p></div>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="cf-title">予定の名前<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+                  <input class="input" id="cf-title" type="text" required value="朝市で朝ごはん" aria-describedby="cf-title-help">
+                  <p class="field__help" id="cf-title-help">60 文字以内。</p>
+                </div>
+                <div class="grid grid--2">
+                  <div class="field">
+                    <label class="field__label" for="cf-date">日付<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+                    <input class="input" id="cf-date" type="date" required min="2026-11-08" max="2026-11-10" value="2026-11-09">
+                  </div>
+                  <div class="field">
+                    <label class="field__label" for="cf-time">時刻(任意)</label>
+                    <input class="input" id="cf-time" type="time" value="07:30">
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="cf-spot">スポット(任意)</label>
+                  <select class="select" id="cf-spot">
+                    <option value="">指定しない</option>
+                    <option selected>朝市通り</option><option>虹帆灯台</option><option>夜明けの桟橋</option><option>帆布工房</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="cf-note">メモ(任意)</label>
+                  <textarea class="textarea" id="cf-note" aria-describedby="cf-note-help">現金のみの店が多い。</textarea>
+                  <p class="field__help" id="cf-note-help">300 文字・5 行以内。連絡先は書かないでください。</p>
+                </div>
+                <div class="modal__footer" style="padding:0">
+                  <a class="btn btn--ghost" href="#main">やめる</a>
+                  <button class="btn btn--primary" type="submit">保存する</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <div class="empty">
+          <p class="empty__title">(空状態の例)まだ旅程がありません</p>
+          <p>集合時間や立ち寄る場所を追加してください。</p>
+          <a class="btn btn--secondary btn--sm" href="#add-item">予定を追加</a>
+        </div>
+        <div class="alert alert--info" role="status">
+          <span class="alert__icon" aria-hidden="true">i</span>
+          <div>(閲覧のみの例)完了したため、旅程は閲覧のみです。</div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a> / <a href="../components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+
+  <!-- ===== 予定の追加・編集フォーム(:target で開く) ===== -->
+  <div id="add-item" class="modal-overlay modal-overlay--target">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="add-title">
+      <div class="modal__header">
+        <h2 class="modal__title" id="add-title">予定を追加</h2>
+        <a class="modal__close" href="#main" aria-label="閉じる">×</a>
+      </div>
+      <form class="modal__body" action="#main">
+        <div class="field">
+          <label class="field__label" for="ad-title">予定の名前<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+          <input class="input" id="ad-title" type="text" required value="" aria-describedby="ad-title-help">
+          <p class="field__help" id="ad-title-help">60 文字以内。</p>
+        </div>
+        <div class="grid grid--2">
+          <div class="field">
+            <label class="field__label" for="ad-date">日付<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+            <input class="input" id="ad-date" type="date" required min="2026-11-08" max="2026-11-10" value="2026-11-10">
+          </div>
+          <div class="field">
+            <label class="field__label" for="ad-time">時刻(任意)</label>
+            <input class="input" id="ad-time" type="time" value="">
+          </div>
+        </div>
+        <div class="field">
+          <label class="field__label" for="ad-spot">スポット(任意)</label>
+          <select class="select" id="ad-spot">
+            <option value="">指定しない</option>
+            <option>朝市通り</option><option>虹帆灯台</option><option>夜明けの桟橋</option><option>帆布工房</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field__label" for="ad-note">メモ(任意)</label>
+          <textarea class="textarea" id="ad-note" aria-describedby="ad-note-help"></textarea>
+          <p class="field__help" id="ad-note-help">300 文字・5 行以内。連絡先は書かないでください。</p>
+        </div>
+        <div class="modal__footer" style="padding:0">
+          <a class="btn btn--ghost" href="#main">やめる</a>
+          <button class="btn btn--primary" type="submit">保存する</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="edit-pi2" class="modal-overlay modal-overlay--target">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+      <div class="modal__header">
+        <h2 class="modal__title" id="edit-title">予定を編集</h2>
+        <a class="modal__close" href="#main" aria-label="閉じる">×</a>
+      </div>
+      <form class="modal__body" action="#main">
+        <div class="field">
+          <label class="field__label" for="ed-title">予定の名前<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+          <input class="input" id="ed-title" type="text" required value="灯台まで歩く" aria-describedby="ed-title-help">
+          <p class="field__help" id="ed-title-help">60 文字以内。</p>
+        </div>
+        <div class="grid grid--2">
+          <div class="field">
+            <label class="field__label" for="ed-date">日付<span class="field__required" aria-hidden="true">*</span>(必須)</label>
+            <input class="input" id="ed-date" type="date" required min="2026-11-08" max="2026-11-10" value="2026-11-10">
+          </div>
+          <div class="field">
+            <label class="field__label" for="ed-time">時刻(任意)</label>
+            <input class="input" id="ed-time" type="time" value="">
+          </div>
+        </div>
+        <div class="field">
+          <label class="field__label" for="ed-spot">スポット(任意)</label>
+          <select class="select" id="ed-spot">
+            <option value="">指定しない</option>
+            <option>朝市通り</option><option>虹帆灯台</option><option>夜明けの桟橋</option><option>帆布工房</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field__label" for="ed-note">メモ(任意)</label>
+          <textarea class="textarea" id="ed-note" aria-describedby="ed-note-help"></textarea>
+          <p class="field__help" id="ed-note-help">300 文字・5 行以内。連絡先は書かないでください。</p>
+        </div>
+        <div class="modal__footer" style="padding:0">
+          <a class="btn btn--ghost" href="#main">やめる</a>
+          <button class="btn btn--primary" type="submit">保存する</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

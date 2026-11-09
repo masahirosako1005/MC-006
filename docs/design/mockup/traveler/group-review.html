@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>振り返り | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    .trv17-scale { display: flex; flex-direction: column; gap: 2px; }
+    @media (min-width: 768px) { .trv17-scale { flex-direction: row; flex-wrap: wrap; gap: 4px 16px; } }
+    .trv17-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .trv17-photo__img { aspect-ratio: 4 / 3; border-radius: var(--radius-md); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option>ミサキ(旅行者)</option>
+        <option selected>ケンタ(旅行者)</option>
+        <option>ユイ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>ナナミ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="group-hub.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>振り返り</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 3 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ケ</span>ケンタ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用。実装では作らない) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>TRV-17</dd>
+        <dt>画面名</dt><dd>振り返り(メモ・アンケート・写真)</dd>
+        <dt>対象ロール</dt><dd>旅行者(参加中のメンバー。実施中と完了で読み書きできる)</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/groups/[groupId]/review</code></dd>
+        <dt>参照設計書</dt><dd>docs/feature/08-group-rally.md §3.1・§3.2(ReviewPage、ReviewMemoSection、ReviewSurveySection、ReviewPhotoSection)・§3.3、§4.7(アンケートの設問と尺度)、_unified-contracts.md §4.4(<code>canReview</code>)、§7.8、§10.3(<code>RALLY_MEMO</code>、<code>PHOTO_CAPTION</code>、<code>PHOTOS</code>)</dd>
+        <dt>見本データ</dt><dd>g-011 虹帆町 夜明けの港(実施中。11-08〜11-10。メンバー: ユイ(幹事)、ダイスケ、ケンタ。ソウタは実行確定時に退会した元メンバー)。閲覧者: ケンタ</dd>
+        <dt>遷移先</dt><dd><a href="group-rally.html">スタンプラリー(TRV-16)</a>、<a href="group-hub.html">概要(TRV-12)</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="group-list.html">グループ一覧</a></li>
+            <li><a href="group-hub.html">虹帆町 夜明けの港</a></li>
+            <li><span aria-current="page">振り返り</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">振り返り</p>
+
+        <div class="card card--sm">
+          <div class="group group--between group--nowrap group--top">
+            <div>
+              <p class="card__title">虹帆町 夜明けの港</p>
+              <p class="card__meta">虹帆町 / 2026-11-08〜11-10 / 幹事: ユイ / メンバー 3 人</p>
+            </div>
+            <span class="status status--in-progress">実施中</span>
+          </div>
+        </div>
+
+        <nav aria-label="グループ内のメニュー">
+        <ul class="tabs">
+          <li><a class="tabs__tab" href="group-hub.html">概要</a></li>
+          <li><a class="tabs__tab" href="group-plan.html">旅程・集合場所</a></li>
+          <li><a class="tabs__tab" href="group-chat.html">チャット</a></li>
+          <li><a class="tabs__tab" href="group-expenses.html">費用メモ</a></li>
+          <li><a class="tabs__tab" href="group-rally.html">スタンプラリー</a></li>
+          <li><a class="tabs__tab" href="group-review.html" aria-current="page">振り返り</a></li>
+          <li><a class="tabs__tab" href="group-members.html">メンバー</a></li>
+        </ul>
+        </nav>
+
+        <div class="alert alert--info" role="status">
+          <span class="alert__icon" aria-hidden="true">i</span>
+          <div>旅行中も書けます。完了後も編集できます。</div>
+        </div>
+
+        <section class="card stack" aria-labelledby="ov-title">
+          <h2 id="ov-title" class="title-section">概要</h2>
+          <dl class="kv">
+            <dt>グループ</dt><dd>虹帆町 夜明けの港</dd>
+            <dt>日程</dt><dd>2026-11-08〜11-10</dd>
+            <dt>スタンプ</dt><dd>7 スポット中 3 スポット(43%)。取得済み: 夜明けの桟橋、虹帆灯台、朝市通り</dd>
+            <dt>受け取った特典</dt><dd>港町の絵はがき</dd>
+          </dl>
+        </section>
+
+        <section class="card stack" aria-labelledby="memo-title">
+          <h2 id="memo-title" class="title-section">メモ</h2>
+          <ul class="list">
+            <li class="list__item"><span class="avatar" aria-hidden="true">ユ</span><div class="list__main"><p class="text-bold">ユイ</p><p class="text-sm">朝市の干物がおいしかった。灯台からの景色は朝の時間がよい。</p></div></li>
+          </ul>
+          <form class="stack" action="#main">
+            <div class="field">
+              <label class="field__label" for="memo">あなたのメモ</label>
+              <textarea class="textarea" id="memo" aria-describedby="memo-help">坂道が多かったが、灯台まで歩いてよかった。</textarea>
+              <p class="field__help" id="memo-help">500 文字以内。グループのメンバーだけが読めます。</p>
+            </div>
+            <div class="form-actions"><button class="btn btn--primary" type="submit">メモを保存</button></div>
+          </form>
+        </section>
+
+        <section class="card stack" aria-labelledby="sv-title">
+          <h2 id="sv-title" class="title-section">アンケート(5 項目・すべて必須)</h2>
+          <p class="text-xs text-dimmed">回答はメンバーには表示しません。個人を特定しない形で集計に使います。回答済み 1 / 3 人。</p>
+          <form class="stack" action="#main">
+          <fieldset class="fieldset">
+            <legend>1. 今回の旅行全体の満足度を選んでください。</legend>
+            <div class="trv17-scale">
+              <label class="check"><input type="radio" name="satisfaction" value="1"> <span class="check__text">1: 不満</span></label>
+              <label class="check"><input type="radio" name="satisfaction" value="2"> <span class="check__text">2: やや不満</span></label>
+              <label class="check"><input type="radio" name="satisfaction" value="3"> <span class="check__text">3: どちらともいえない</span></label>
+              <label class="check"><input type="radio" name="satisfaction" value="4" checked> <span class="check__text">4: やや満足</span></label>
+              <label class="check"><input type="radio" name="satisfaction" value="5"> <span class="check__text">5: 満足</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="fieldset">
+            <legend>2. 旅程や集合場所の情報はわかりやすかったですか。</legend>
+            <div class="trv17-scale">
+              <label class="check"><input type="radio" name="planClarity" value="1"> <span class="check__text">1: わかりにくかった</span></label>
+              <label class="check"><input type="radio" name="planClarity" value="2"> <span class="check__text">2: ややわかりにくかった</span></label>
+              <label class="check"><input type="radio" name="planClarity" value="3"> <span class="check__text">3: どちらともいえない</span></label>
+              <label class="check"><input type="radio" name="planClarity" value="4"> <span class="check__text">4: ややわかりやすかった</span></label>
+              <label class="check"><input type="radio" name="planClarity" value="5" checked> <span class="check__text">5: わかりやすかった</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="fieldset">
+            <legend>3. この地域にまた旅行したいと思いますか。</legend>
+            <div class="trv17-scale">
+              <label class="check"><input type="radio" name="wantAgain" value="yes" checked> <span class="check__text">はい</span></label>
+              <label class="check"><input type="radio" name="wantAgain" value="maybe"> <span class="check__text">どちらともいえない</span></label>
+              <label class="check"><input type="radio" name="wantAgain" value="no"> <span class="check__text">いいえ</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="fieldset">
+            <legend>4. 旅行先で地元の人と交流する機会はありましたか。</legend>
+            <div class="trv17-scale">
+              <label class="check"><input type="radio" name="localInteraction" value="1"> <span class="check__text">1: まったくなかった</span></label>
+              <label class="check"><input type="radio" name="localInteraction" value="2"> <span class="check__text">2: あまりなかった</span></label>
+              <label class="check"><input type="radio" name="localInteraction" value="3"> <span class="check__text">3: どちらともいえない</span></label>
+              <label class="check"><input type="radio" name="localInteraction" value="4"> <span class="check__text">4: ややあった</span></label>
+              <label class="check"><input type="radio" name="localInteraction" value="5"> <span class="check__text">5: 十分にあった</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="fieldset">
+            <legend>5. 滞在中に、いろいろな場所を回ることができましたか。</legend>
+            <div class="trv17-scale">
+              <label class="check"><input type="radio" name="localExploration" value="1"> <span class="check__text">1: ほとんど回れなかった</span></label>
+              <label class="check"><input type="radio" name="localExploration" value="2"> <span class="check__text">2: あまり回れなかった</span></label>
+              <label class="check"><input type="radio" name="localExploration" value="3"> <span class="check__text">3: どちらともいえない</span></label>
+              <label class="check"><input type="radio" name="localExploration" value="4"> <span class="check__text">4: やや回れた</span></label>
+              <label class="check"><input type="radio" name="localExploration" value="5"> <span class="check__text">5: 十分に回れた</span></label>
+            </div>
+          </fieldset>
+            <p class="field__help" id="sv-help">5 項目すべてを選ぶと送信できます(未回答 2 項目)。</p>
+            <div class="form-actions"><button class="btn btn--primary" type="submit" disabled aria-describedby="sv-help">回答を送信</button></div>
+          </form>
+        </section>
+
+        <section class="card stack" aria-labelledby="ph-title">
+          <h2 id="ph-title" class="title-section">写真</h2>
+          <p class="mock-note">デモ用: 実際の写真は保存されません</p>
+          <ul class="trv17-photos">
+          <li class="trv17-photo">
+            <div class="trv17-photo__img" style="background:linear-gradient(135deg, #e8590c, #ffd43b)" role="img" aria-label="朝市の入口"></div>
+            <p class="text-sm">朝市の入口</p>
+            <p class="text-xs text-dimmed">朝市通り / ユイ</p>
+          </li>
+          <li class="trv17-photo">
+            <div class="trv17-photo__img" style="background:linear-gradient(135deg, #1971c2, #63a1dc)" role="img" aria-label="灯台からの海"></div>
+            <p class="text-sm">灯台からの海</p>
+            <p class="text-xs text-dimmed">虹帆灯台 / あなた</p>
+            <button class="btn btn--ghost btn--sm" type="button">削除<span class="visually-hidden">: 灯台からの海</span></button>
+          </li>
+          </ul>
+          <form class="stack" action="#main">
+            <div class="grid grid--2">
+              <div class="field">
+                <label class="field__label" for="ph-spot">スポット(任意)</label>
+                <select class="select" id="ph-spot"><option value="">指定しない</option><option>夜明けの桟橋</option><option>虹帆灯台</option><option>朝市通り</option></select>
+              </div>
+              <div class="field">
+                <label class="field__label" for="ph-cap">説明(任意)</label>
+                <input class="input" id="ph-cap" type="text" aria-describedby="ph-cap-help">
+                <p class="field__help" id="ph-cap-help">80 文字以内。あなたは残り 2 枚投稿できます(1 人 3 枚まで)。</p>
+              </div>
+            </div>
+            <div class="form-actions"><button class="btn btn--secondary" type="submit">ダミー写真を投稿</button></div>
+          </form>
+        </section>
+
+        <div class="empty">
+          <p class="empty__title">(実施前の表示例)振り返りは旅行の実施中から書けます</p>
+          <p>実行確定までは、このページには案内だけを表示します。</p>
+          <a class="btn btn--secondary btn--sm" href="group-hub.html">グループ詳細へ戻る</a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a> / <a href="../components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

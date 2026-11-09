@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>グループの通知 | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    /* SAF-01 固有: 宛先などのモック用注記を通知の下に並べる */
+    .saf01-list .notice-item { border-bottom: 0; }
+    .saf01-list > li { border-bottom: 1px solid var(--border); }
+    .saf01-meta { margin: 0; padding: 0 var(--sp-md) var(--sp-xs) calc(var(--sp-md) + 42px); }
+    .saf01-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+    .saf01-toolbar .segmented__item { white-space: nowrap; }
+    .notice-item--unread { box-shadow: inset 4px 0 0 var(--main-color); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="../traveler/group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option selected>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="../traveler/group-list.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>グループの通知</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="../traveler/group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="notifications.html" aria-label="グループの通知(未読 4 件)" aria-current="page">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__count" aria-hidden="true">4</span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ミ</span>ミサキ</span>
+      </div>
+    </header>
+
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>SAF-01</dd>
+        <dt>画面名</dt><dd>グループの通知(通知一覧)</dd>
+        <dt>対象ロール</dt><dd>旅行者(参加者・幹事・申請者)。自治体・地元の担い手も幹事として受け取る</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/notifications</code>(ヘッダーのベル <code>NotificationBell</code> から開く)</dd>
+        <dt>参照設計書</dt><dd>docs/feature/10-notifications.md §3、§4.1、§4.2(文面)、§7.4(リンク)、§14(画面)。docs/feature/_unified-contracts.md §9.1、§9.2、§16.2</dd>
+        <dt>遷移先</dt><dd><a href="../traveler/group-hub.html">グループ詳細のハブ(TRV-12)</a>、<a href="../traveler/organizer-requests.html">幹事の承認画面(TRV-11)</a>、<a href="../traveler/group-cancelled.html">中止の表示(TRV-21)</a>、<a href="../traveler/group-detail-public.html">グループ詳細(参加前、TRV-02)</a>、<a href="../traveler/group-list.html">グループ一覧(TRV-01)</a>、<a href="../index.html">画面モック一覧</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="../traveler/group-list.html">グループ</a></li>
+            <li><span aria-current="page">グループの通知</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">グループの通知</p>
+
+        <div class="alert alert--info" role="status">
+          <span class="alert__icon" aria-hidden="true">i</span>
+          <div><span class="badge badge--mock">モック(ローカル)</span> この通知はデモ用のローカルのお知らせです(外部には送信されません)。運営からの「お知らせ」とは別の画面です。</div>
+        </div>
+
+        <!-- ===== 通知の一覧 ===== -->
+        <section class="stack" aria-labelledby="sec-list">
+          <h2 id="sec-list" class="title-section">通知(12 件、未読 4 件)</h2>
+          <div class="saf01-toolbar">
+            <div class="segmented" role="group" aria-label="表示する通知">
+              <button class="segmented__item" type="button" aria-pressed="true">すべて</button>
+              <button class="segmented__item" type="button" aria-pressed="false">未読のみ</button>
+            </div>
+            <button class="btn btn--ghost btn--sm" type="button">すべて既読にする</button>
+          </div>
+          <p class="text-xs text-dimmed">項目を開くと既読になり、関連する画面へ移動します。新しい順に表示します。</p>
+          <p class="mock-note">見本のため、必須 12 種を 1 人の一覧に並べた。実際の宛先は種類ごとに異なる(各項目の「宛先」)。「すべて既読にする」は統一仕様 §16.2 で見送り(余力で実装)。</p>
+
+          <ul class="notice-list saf01-list" aria-label="通知の一覧">
+            <!-- 1. join_requested(幹事向け) -->
+            <li>
+              <a class="notice-item notice-item--unread" href="../traveler/organizer-requests.html">
+                <span class="notice-item__icon" aria-hidden="true">✉</span>
+                <span class="notice-item__body">
+                  <span class="notice-item__time">11月9日 10:12</span><br>
+                  <span class="notice-item__title">参加申請が届いています</span><br>
+                  <span class="notice-item__text">「鈴風高原のんびり歩き」に参加申請があります。未対応は1件です。</span>
+                </span>
+              </a>
+              <p class="saf01-meta"><span class="mock-note">join_requested / 宛先: 幹事のみ / 遷移: 承認画面</span></p>
+            </li>
+            <!-- 2. withdraw_period_ending -->
+            <li>
+              <a class="notice-item notice-item--unread" href="../traveler/group-hub.html">
+                <span class="notice-item__icon" aria-hidden="true">◆</span>
+                <span class="notice-item__body">
+                  <span class="notice-item__time">11月9日 9:00</span><br>
+                  <span class="notice-item__title">まもなく実行確定します</span><br>
+                  <span class="notice-item__text">「雫森谷 紅葉ハイク」の辞退期間が終わります。まもなく実行が確定します。現在3人です。</span>
+                </span>
+              </a>
+              <p class="saf01-meta"><span class="mock-note">withdraw_period_ending / 宛先: 参加中メンバー全員 / 遷移: グループ詳細</span></p>
+            </li>
+            <!-- 3. join_approved -->
+            <li>
+              <a class="notice-item notice-item--unread" href="../traveler/group-hub.html">
+                <span class="notice-item__icon" aria-hidden="true">✔</span>
+                <span class="notice-item__body">
+                  <span class="notice-item__time">11月8日 18:30</span><br>
+                  <span class="notice-item__title">参加が承認されました</span><br>
+                  <span class="notice-item__text">「雫森谷 小さな森歩き」への参加が承認されました。メンバーとして利用できます。</span>
+                </span>
+              </a>
+              <p class="saf01-meta"><span class="mock-note">join_approved / 宛先: 申請者のみ / 遷移: グループ詳細</span></p>
+            </li>
+            <!-- 4. conditions_changed -->
+            <li>
+              <a class="notice-item notice-item--unread" href="../traveler/group-hub.html">
+                <span class="notice-item__icon" aria-hidden="true">≡</span>
+                <span class="notice-item__body">
+                  <span class="notice-item__time">11月8日 12:05</span><br>
+                  <span class="notice-item__title">募集の条件が変わりました</span><br>
+                  <span class="notice-item__text">「雫森谷 小さな森歩き」の条件が変わりました。締切が11月18日から11月16日になりました。</span>
+                </span>
+              </a>
+              <p class="saf01-meta"><span class="mock-note">conditions_changed / 宛先: 幹事を除く参加中メンバーと申請中の申請者 / 遷移: グループ詳細</span></p>
+            </li>
+            <!-- 5. withdraw_period_started -->
+            <li>
+              <a class="notice-item" href="../traveler/group-hub.html">
+                <span class="notice-item__icon" aria-hidden="true">◆</span>
+                <span class="notice-item__body">
+                  <span class="notice-item__time">11月8日 0:00</span><br>
+                  <span class="notice-item__title">辞退期間が始まりました</span><br>
+                  <span class="notice-item__text">「雫森谷 紅葉ハイク」の辞退期間が始まりました。11月11日 0:00までペナルティなしで辞退できます。現在3人です。</span>
+                </span>
+              </a>
+              <p class="saf01-meta"><span class="mock-note">withdraw_period_started / 宛先: 参加中メンバー全員 / 遷移: グループ詳細</span></p>
+            </li>
+            <!-- 6. join_expired -->
+            <li>
+              <a class="notice-item" href="../traveler/group-list.html">
+                <span class="notice-item__icon" aria-hidden="true">⌛</span>
+                <span class="notice-item__body">
+                  <span class="notice-item__time">11月8日 0:00</span><br>
+                  <span class="notice-item__title">参加申請の受付が終了しました</span><br>
+                  <span class="notice-item__text">「星綴港 朝市さんぽ」は募集の締切を迎えたため、申請中の参加申請は受け付けられなくなりました。ほかのグループもご覧ください。</span>
+                </span>
+              </a>
+              <p class="saf01-meta"><span class="mock-note">join_expired / 宛先: 失効した申請者のみ / 遷移: グループ一覧</span></p>
+            </li>
+            <!-- 7. cancelled -->
+            <li>
+              <a class="notice-item" href="../traveler/group-cancelled.html">
+                <span class="notice-item__icon" aria-hidden="true">✕</span>
+                <span class="notice-item__body">
+                  <span class="notice-item__time">11月7日 0:00</span><br>
+                  <span class="notice-item__title">中止になりました</span><br>
+                  <span class="notice-item__text">「星凪諸島 夕暮れの浜歩き」は、締切までに最少人数(3人)に達しなかったため、中止になりました。幹事は日程などを見直して再企画できます。再企画されると、参加者に案内が届きます。</span>
+                </span>
+              </a>
+              <p class="saf01-meta"><span class="mock-note">cancelled(min_not_reached)/ 宛先: 参加中メンバー全員と申請中の申請者 / 遷移: グループ詳細(中止)</span></p>
+            </li>
+            <!-- 8. withdrawal_received(幹事向け) -->
+            <li>
+              <a class="notice-item" href="../traveler/group-hub.html">
+                <span class="notice-item__icon" aria-hidden="true">−</span>
+                <span class="notice-item__body">
+                  <span class="notice-item__time">11月6日 21:40</span><br>
+                  <span class="notice-item__title">辞退を受け付けました</span><br>
+                  <span class="notice-item__text">「鈴風高原のんびり歩き」で辞退がありました。現在2人(最少3人)です。</span>
+                </span>
+              </a>
+              <p class="saf01-meta"><span class="mock-note">withdrawal_received / 宛先: 幹事のみ / 遷移: グループ詳細。辞退した人の名前は載せない</span></p>
+            </li>
+            <!-- 9. replan_invited -->
+            <li>
+              <a class="notice-item" href="../traveler/group-detail-public.html">
+                <span class="notice-item__icon" aria-hidden="true">↻</span>
+                <span class="notice-item__body">
+                  <span class="notice-item__time">11月6日 10:00</span><br>
+                  <span class="notice-item__title">再企画のご案内</span><br>
+                  <span class="notice-item__text">「月灯集落 灯りの夕べ」を見直して、新しい募集が始まりました。参加するには、もう一度お申し込みください。</span>
+                </span>
+              </a>
+              <p class="saf01-meta"><span class="mock-note">replan_invited / 宛先: 元グループの参加中メンバー(幹事を除く)と失効した申請者 / 遷移: 新しいグループの詳細</span></p>
+            </li>
+            <!-- 10. confirmed -->
+            <li>
+              <a class="notice-item" href="../traveler/group-hub.html">
+                <span class="notice-item__icon" aria-hidden="true">✔</span>
+                <span class="notice-item__body">
+                  <span class="notice-item__time">11月5日 0:00</span><br>
+                  <span class="notice-item__title">実行が確定しました</span><br>
+                  <span class="notice-item__text">「星凪諸島 島時間(公式)」の実行が確定しました。参加は5人です。参加者の概要: 参加者 5 人(20代以下、30〜40代、50〜60代)</span>
+                </span>
+              </a>
+              <p class="saf01-meta"><span class="mock-note">confirmed / 宛先: 参加中メンバー全員 / 概要は 09 の formatMemberSummary(4 人未満は年代を出さない)</span></p>
+            </li>
+            <!-- 11. join_rejected -->
+            <li>
+              <a class="notice-item" href="../traveler/group-list.html">
+                <span class="notice-item__icon" aria-hidden="true">i</span>
+                <span class="notice-item__body">
+                  <span class="notice-item__time">11月4日 15:20</span><br>
+                  <span class="notice-item__title">申請の結果</span><br>
+                  <span class="notice-item__text">「星凪諸島 灯台めぐり(1 対 1)」への参加申請は、今回は見送りとなりました。ほかのグループもご覧ください。</span>
+                </span>
+              </a>
+              <p class="saf01-meta"><span class="mock-note">join_rejected / 宛先: 申請者のみ / 遷移: グループ一覧。却下理由は載せない</span></p>
+            </li>
+            <!-- 12. min_reached -->
+            <li>
+              <a class="notice-item" href="../traveler/group-hub.html">
+                <span class="notice-item__icon" aria-hidden="true">▲</span>
+                <span class="notice-item__body">
+                  <span class="notice-item__time">11月3日 11:15</span><br>
+                  <span class="notice-item__title">最少人数に達しました</span><br>
+                  <span class="notice-item__text">「雫森谷 小さな森歩き」が最少人数(2人)に達しました。現在2人です。まだ実行確定ではありません。</span>
+                </span>
+              </a>
+              <p class="saf01-meta"><span class="mock-note">min_reached / 宛先: 参加中メンバー全員(幹事を含む)/ 遷移: グループ詳細</span></p>
+            </li>
+          </ul>
+
+          <button class="btn btn--secondary btn--block" type="button">もっと見る</button>
+        </section>
+
+        <!-- ===== 状態の見本 ===== -->
+        <section class="stack" aria-labelledby="sec-states">
+          <h2 id="sec-states" class="title-section">状態の見本</h2>
+          <div class="grid grid--3">
+            <section class="stack" aria-labelledby="st-empty">
+              <h3 id="st-empty" class="text-sm">通知が 0 件のとき</h3>
+              <div class="empty">
+                <p class="empty__title">通知はまだありません</p>
+                <p>グループに参加を申し込むと、承認や実行確定のお知らせがここに届きます。</p>
+                <a class="btn btn--secondary btn--sm" href="../traveler/group-list.html">グループを探す</a>
+              </div>
+            </section>
+            <section class="stack" aria-labelledby="st-unread-empty">
+              <h3 id="st-unread-empty" class="text-sm">「未読のみ」で 0 件のとき</h3>
+              <div class="empty">
+                <p class="empty__title">未読の通知はありません</p>
+                <button class="btn btn--secondary btn--sm" type="button">すべて表示</button>
+              </div>
+            </section>
+            <section class="stack" aria-labelledby="st-error">
+              <h3 id="st-error" class="text-sm">読み込みに失敗したとき</h3>
+              <div class="alert alert--error" role="alert">
+                <span class="alert__icon" aria-hidden="true">✕</span>
+                <div>
+                  <p class="alert__title">通知を読み込めませんでした</p>
+                  <button class="btn btn--secondary btn--sm" type="button" style="margin-top:6px">もう一度読み込む</button>
+                </div>
+              </div>
+              <div class="card" aria-busy="true" aria-label="読み込み中の表示の見本"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton skeleton--short"></div></div>
+            </section>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a>
+    </footer>
+
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="../traveler/group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

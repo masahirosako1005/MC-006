@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>チャット | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    .trv14-report { font-size: var(--fz-xs); color: var(--text-dimmed); }
+    .trv14-ro .chip { opacity: .6; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option>ミサキ(旅行者)</option>
+        <option selected>ケンタ(旅行者)</option>
+        <option>ユイ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>ナナミ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="group-hub.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>チャット</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 3 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ケ</span>ケンタ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用。実装では作らない) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>TRV-14</dd>
+        <dt>画面名</dt><dd>ハブ: チャット</dd>
+        <dt>対象ロール</dt><dd>旅行者(参加が成立したメンバーのみ)</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/groups/[groupId]?tab=chat</code></dd>
+        <dt>参照設計書</dt><dd>docs/feature/06-group-chat.md §3、§6.6(ブロックの非表示)、§8.1(CHT-ERR-04・05・11)、§9(CHT-UI-01〜09)、§9.3、_unified-contracts.md §4.4(<code>canChat</code>)、§6.2、§10.3(<code>CHAT</code>)</dd>
+        <dt>見本データ</dt><dd>g-011 虹帆町 夜明けの港(実施中。11-08〜11-10。メンバー: ユイ(幹事)、ダイスケ、ケンタ。ソウタは実行確定時に退会した元メンバー)。閲覧者: ケンタ。ケンタがブロックしている相手の投稿は表示しない</dd>
+        <dt>遷移先</dt><dd><a href="group-hub.html">概要(TRV-12)</a>、<a href="../safety/report-dialog.html">通報ダイアログ(SAF-02)</a>、<a href="../safety/prohibited-text.html">禁止表現の表示例(SAF-06)</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="group-list.html">グループ一覧</a></li>
+            <li><a href="group-hub.html">虹帆町 夜明けの港</a></li>
+            <li><span aria-current="page">チャット</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">チャット</p>
+
+        <div class="card card--sm">
+          <div class="group group--between group--nowrap group--top">
+            <div>
+              <p class="card__title">虹帆町 夜明けの港</p>
+              <p class="card__meta">虹帆町 / 2026-11-08〜11-10 / 幹事: ユイ / メンバー 3 人</p>
+            </div>
+            <span class="status status--in-progress">実施中</span>
+          </div>
+        </div>
+
+        <nav aria-label="グループ内のメニュー">
+        <ul class="tabs">
+          <li><a class="tabs__tab" href="group-hub.html">概要</a></li>
+          <li><a class="tabs__tab" href="group-plan.html">旅程・集合場所</a></li>
+          <li><a class="tabs__tab" href="group-chat.html" aria-current="page">チャット</a></li>
+          <li><a class="tabs__tab" href="group-expenses.html">費用メモ</a></li>
+          <li><a class="tabs__tab" href="group-rally.html">スタンプラリー</a></li>
+          <li><a class="tabs__tab" href="group-review.html">振り返り</a></li>
+          <li><a class="tabs__tab" href="group-members.html">メンバー</a></li>
+        </ul>
+        </nav>
+
+        <div class="alert alert--info" role="note">
+          <span class="alert__icon" aria-hidden="true">i</span>
+          <div><span class="badge badge--mock">モック(ローカル)</span> この画面の内容は外部に送信されません。</div>
+        </div>
+
+        <section class="card stack" aria-labelledby="chat-title">
+          <h2 id="chat-title" class="visually-hidden">メッセージ</h2>
+          <button class="btn btn--ghost btn--sm" type="button">以前のメッセージを読み込む</button>
+          <ol class="chat" aria-label="メッセージ">
+            <li class="chat__msg chat__msg--system"><span class="chat__bubble">グループが作成されました</span></li>
+            <li class="chat__msg chat__msg--system"><span class="chat__bubble">ケンタ さんが参加しました</span></li>
+            <li class="chat__msg chat__msg--system"><span class="chat__bubble">ダイスケ さんが参加しました</span></li>
+            <li class="chat__msg"><span class="chat__meta">元メンバー <time datetime="2026-11-02 21:15">21:15</time></span><span class="chat__bubble">当日は少し遅れるかもしれません。</span><a class="trv14-report" href="../safety/report-dialog.html">通報<span class="visually-hidden">: 元メンバーの投稿</span></a></li>
+            <li class="chat__msg chat__msg--system"><span class="chat__bubble">状態が「実行確定」になりました</span></li>
+            <li class="chat__msg chat__msg--system"><span class="chat__bubble">メンバー 1 人が退会しました</span></li>
+            <li class="chat__msg"><span class="chat__meta">ユイ <time datetime="2026-11-07 19:02">19:02</time></span><span class="chat__bubble">明日は 9 時に港の案内所前です。雨具があると安心です。</span><a class="trv14-report" href="../safety/report-dialog.html">通報<span class="visually-hidden">: ユイの投稿</span></a></li>
+            <li class="chat__msg chat__msg--me"><span class="chat__meta">自分 <time datetime="2026-11-07 19:10">19:10</time></span><span class="chat__bubble">了解です</span></li>
+            <li class="chat__msg chat__msg--system"><span class="chat__bubble">状態が「実施中」になりました</span></li>
+            <li class="chat__msg"><span class="chat__meta">ダイスケ <time datetime="2026-11-09 07:05">07:05</time></span><span class="chat__bubble">朝市の入口に着きました。</span><a class="trv14-report" href="../safety/report-dialog.html">通報<span class="visually-hidden">: ダイスケの投稿</span></a></li>
+            <li class="chat__msg chat__msg--me"><span class="chat__meta">自分 <time datetime="2026-11-09 07:12">07:12</time></span><span class="chat__bubble">あと 5 分で着きます。</span></li>
+          </ol>
+          <p class="mock-note">モック注記: ケンタがブロックした相手の投稿はサーバー側で除外し、表示しない(非表示にした件数も出さない)。システムメッセージと自分の投稿は常に表示する。</p>
+
+          <div class="stack stack--xs">
+            <ul class="chip-row" aria-label="定型文">
+              <li><button class="chip" type="button">集合時間を相談したい</button></li>
+              <li><button class="chip" type="button">集合場所を確認したい</button></li>
+              <li><button class="chip" type="button">持ち物を確認したい</button></li>
+              <li><button class="chip" type="button">遅れそうです</button></li>
+              <li><button class="chip" type="button">了解です</button></li>
+              <li><button class="chip" type="button">ありがとうございます</button></li>
+            </ul>
+            <div class="chat__composer">
+              <label class="visually-hidden" for="chat-in">メッセージ</label>
+              <textarea class="textarea" id="chat-in" rows="1" placeholder="メッセージを入力" aria-describedby="chat-help"></textarea>
+              <button class="btn btn--primary" type="button">送信</button>
+            </div>
+            <p class="field__help" id="chat-help">500 文字・10 行以内。連絡先や外部サービスへの誘導は書けません。</p>
+          </div>
+        </section>
+
+        <section class="stack" aria-labelledby="err-title">
+          <h2 id="err-title" class="title-section">入力内容の確認の表示例</h2>
+
+          <div class="card stack stack--xs">
+            <h3 class="text-sm text-bold">送信できない表現(拒否)</h3>
+            <div class="chat__composer">
+              <label class="visually-hidden" for="chat-deny">メッセージ(拒否の例)</label>
+              <textarea class="textarea" id="chat-deny" rows="2" aria-invalid="true" aria-describedby="chat-deny-err">続きは外部のメッセージアプリで話しましょう</textarea>
+              <button class="btn btn--primary" type="button">送信</button>
+            </div>
+            <p class="field__error" id="chat-deny-err" role="alert">この内容は送信できません(外部サービスへの誘導にあたる表現が含まれています)。言い換えて送信してください。</p>
+          </div>
+
+          <div class="card stack stack--xs">
+            <h3 class="text-sm text-bold">確認が必要な表現(要確認)</h3>
+            <div class="chat__composer">
+              <label class="visually-hidden" for="chat-review">メッセージ(要確認の例)</label>
+              <textarea class="textarea" id="chat-review" rows="2" aria-invalid="true" aria-describedby="chat-review-msg">灯台の案内ページは lighthouse.example を見てください</textarea>
+              <button class="btn btn--primary" type="button">送信</button>
+            </div>
+            <div class="alert alert--warning" id="chat-review-msg">
+              <span class="alert__icon" aria-hidden="true">!</span>
+              <div><p class="alert__title">URL が含まれています</p><p>連絡先や外部サービスへの誘導でないことを確認してから送信してください。</p><div class="btn-row" style="margin-top:6px"><button class="btn btn--secondary btn--sm" type="button">このまま送信</button><button class="btn btn--ghost btn--sm" type="button">修正する</button></div></div>
+            </div>
+          </div>
+
+          <div class="card stack stack--xs trv14-ro">
+            <h3 class="text-sm text-bold">投稿できない状態(完了・中止・再企画済み)</h3>
+            <div class="alert alert--info" role="status">
+              <span class="alert__icon" aria-hidden="true">i</span>
+              <div>完了のため、新しい投稿はできません。履歴は読めます。</div>
+            </div>
+            <ul class="chip-row" aria-label="定型文">
+              <li><button class="chip" type="button" disabled>集合時間を相談したい</button></li>
+              <li><button class="chip" type="button" disabled>集合場所を確認したい</button></li>
+              <li><button class="chip" type="button" disabled>持ち物を確認したい</button></li>
+              <li><button class="chip" type="button" disabled>遅れそうです</button></li>
+              <li><button class="chip" type="button" disabled>了解です</button></li>
+              <li><button class="chip" type="button" disabled>ありがとうございます</button></li>
+            </ul>
+            <div class="chat__composer">
+              <label class="visually-hidden" for="chat-ro">メッセージ(投稿できない例)</label>
+              <textarea class="textarea" id="chat-ro" rows="1" disabled></textarea>
+              <button class="btn btn--primary" type="button" disabled>送信</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a> / <a href="../components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

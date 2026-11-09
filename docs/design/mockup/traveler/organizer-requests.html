@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>参加申請の承認 | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option selected>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option>ユイ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>ナナミ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="group-hub.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>参加申請の承認</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 3 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ミ</span>ミサキ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用。実装では作らない) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>TRV-11</dd>
+        <dt>画面名</dt><dd>幹事の承認画面(申請一覧、承認・却下)</dd>
+        <dt>対象ロール</dt><dd>旅行者(幹事のみ。幹事以外は 403 の説明とグループ詳細へのリンク)</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/groups/[groupId]/requests</code>(03 JOIN-UI-03。index.html の <code>?tab=requests</code> は案)</dd>
+        <dt>参照設計書</dt><dd>docs/feature/03-join-flow.md §3、§10.1〜10.2、§11.1、§14.3(RequestList・RequestCard・RejectDialog)、docs/design/04-screens-flow.md「参加申請の承認画面」</dd>
+        <dt>見本データ</dt><dd>g-001 鈴風高原のんびり歩き(募集中。定員 4・最少 3・現在 2)。幹事: ミサキ</dd>
+        <dt>遷移先</dt><dd><a href="group-hub.html">グループ詳細のハブ(TRV-12)</a>、<a href="../safety/report-dialog.html">通報ダイアログ(SAF-02)</a>、<a href="../safety/profile-visibility.html">公開範囲設定(SAF-04)</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="group-list.html">グループ一覧</a></li>
+            <li><a href="group-hub.html">鈴風高原のんびり歩き</a></li>
+            <li><span aria-current="page">参加申請の承認</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">参加申請の承認</p>
+
+        <div class="card card--sm">
+          <div class="group group--between group--nowrap group--top">
+            <div>
+              <p class="card__title">鈴風高原のんびり歩き</p>
+              <p class="card__meta">鈴風高原 / 2026-12-05〜12-06 / 締切 2026-11-20</p>
+            </div>
+            <span class="status status--recruiting">募集中</span>
+          </div>
+          <div class="stack stack--xs" style="margin-top:8px">
+            <div class="progress-label"><span>現在 2 人 / 定員 4 人(最少 3 人)</span><span>あと 1 人で実行</span></div>
+            <div class="progress" role="progressbar" aria-label="参加人数" aria-valuemin="0" aria-valuemax="4" aria-valuenow="2" aria-valuetext="定員 4 人中 2 人。最少人数 3 人">
+              <div class="progress__bar" style="width:50%"></div><div class="progress__marker" style="left:75%" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert--info" role="status">
+          <span class="alert__icon" aria-hidden="true">i</span>
+          <div>申請は申請日時の古い順に並びます。表示するプロフィールは、申請者が公開範囲で公開している項目だけです。締切(11-20)を過ぎると、未対応の申請は受付終了になります。</div>
+        </div>
+
+        <section class="stack" aria-labelledby="req-title">
+          <h2 id="req-title" class="title-section">参加申請(2 件)</h2>
+          <div class="segmented" role="group" aria-label="表示する申請">
+            <button class="segmented__item" type="button" aria-pressed="true">申請中(2)</button>
+            <button class="segmented__item" type="button" aria-pressed="false">処理済み(2)</button>
+          </div>
+          <ul class="stack" style="margin:0;padding:0;list-style:none">
+            <li class="card">
+              <div class="group group--nowrap group--top">
+                <span class="avatar" aria-hidden="true">ダ</span>
+                <div class="list__main">
+                  <h3 class="card__title">ダイスケ <span class="badge badge--success">本人確認済み</span></h3>
+                  <p class="card__meta">申請日時 <time datetime="2026-11-06T09:12">2026-11-06 09:12</time>(3 日経過)</p>
+                </div>
+                <span class="badge badge--info">申請中</span>
+              </div>
+              <dl class="kv" style="margin-top:8px">
+                <dt>年代</dt><dd>50代</dd>
+                <dt>旅の目的</dt><dd>自然・写真</dd>
+                <dt>一言</dt><dd>高原の朝の景色を撮るのが好きです。</dd>
+                <dt>ひとこと(申請)</dt><dd>写真を撮りながらゆっくり歩きたいです。よろしくお願いします。</dd>
+                <dt>最少人数への同意</dt><dd><span aria-hidden="true">✔</span> 3 人でも参加してよい(11-06 09:12 に同意)</dd>
+              </dl>
+              <div class="btn-row" style="margin-top:12px">
+                <button class="btn btn--primary" type="button" aria-describedby="r1-name">承認する</button>
+                <a class="btn btn--outline" href="#reject" aria-describedby="r1-name">却下する</a>
+                <a class="btn btn--ghost btn--sm" href="../safety/report-dialog.html">通報・ブロック</a>
+              </div>
+              <span class="visually-hidden" id="r1-name">ダイスケさんの申請</span>
+            </li>
+            <li class="card">
+              <div class="group group--nowrap group--top">
+                <span class="avatar" aria-hidden="true">ユ</span>
+                <div class="list__main">
+                  <h3 class="card__title">ユイ <span class="badge badge--success">本人確認済み</span></h3>
+                  <p class="card__meta">申請日時 <time datetime="2026-11-08T18:40">2026-11-08 18:40</time>(1 日経過)</p>
+                </div>
+                <span class="badge badge--info">申請中</span>
+              </div>
+              <dl class="kv" style="margin-top:8px">
+                <dt>年代</dt><dd>非公開</dd>
+                <dt>旅の目的</dt><dd>食べ歩き</dd>
+                <dt>一言</dt><dd>(未設定)</dd>
+                <dt>ひとこと(申請)</dt><dd>高原の牧場の軽食が気になっています。</dd>
+                <dt>最少人数への同意</dt><dd><span aria-hidden="true">✔</span> 3 人でも参加してよい(11-08 18:40 に同意)</dd>
+              </dl>
+              <div class="btn-row" style="margin-top:12px">
+                <button class="btn btn--primary" type="button" aria-describedby="r2-name">承認する</button>
+                <a class="btn btn--outline" href="#reject" aria-describedby="r2-name">却下する</a>
+                <a class="btn btn--ghost btn--sm" href="../safety/report-dialog.html">通報・ブロック</a>
+              </div>
+              <span class="visually-hidden" id="r2-name">ユイさんの申請</span>
+            </li>
+          </ul>
+          <p class="mock-note">モック注記: 「年代: 非公開」は、申請者が公開範囲で年代を公開していない例。招待コード経由の申請には「招待コード経由」の印が付く(非公開グループのみ)。定員に達している間は「承認する」を無効にし、理由「定員に達しています」を表示する。</p>
+        </section>
+
+        <section class="stack" aria-labelledby="done-title">
+          <h2 id="done-title" class="title-section">処理済みの表示例</h2>
+          <ul class="list">
+            <li class="list__item"><span class="avatar" aria-hidden="true">ケ</span><div class="list__main"><p class="text-bold">ケンタ</p><p class="text-xs text-dimmed">11-02 承認(メンバーに追加済み)</p></div><span class="badge badge--success">承認</span></li>
+            <li class="list__item"><span class="avatar" aria-hidden="true">ハ</span><div class="list__main"><p class="text-bold">ハルカ</p><p class="text-xs text-dimmed">11-04 却下(理由: 日程・集合の都合が合わなかったため)</p></div><span class="badge badge--gray">却下</span></li>
+          </ul>
+        </section>
+
+        <div class="empty">
+          <p class="empty__title">(空状態の例)申請はまだありません</p>
+          <p>申請が届くと通知でお知らせします。</p>
+          <a class="btn btn--secondary btn--sm" href="group-hub.html">グループ詳細へ戻る</a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a> / <a href="../components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+
+  <!-- ===== 却下ダイアログ(JOIN-UI-04。:target で開く) ===== -->
+  <div id="reject" class="modal-overlay modal-overlay--target">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reject-title">
+      <div class="modal__header">
+        <h2 class="modal__title" id="reject-title">申請を却下する</h2>
+        <a class="modal__close" href="#main" aria-label="閉じる">×</a>
+      </div>
+      <form class="modal__body" action="#main">
+        <div class="alert alert--warning">
+          <span class="alert__icon" aria-hidden="true">!</span>
+          <div>あと 1 人で最少人数(実行の条件)に達します。却下しますか。</div>
+        </div>
+        <fieldset class="fieldset">
+          <legend>却下の理由(申請者の画面に表示されます。通知には含まれません)</legend>
+          <label class="check"><input type="radio" name="reason" value="plan_mismatch"> <span class="check__text">プランの内容・進め方が合わなかったため</span></label>
+          <label class="check"><input type="radio" name="reason" value="schedule_mismatch"> <span class="check__text">日程・集合の都合が合わなかったため</span></label>
+          <label class="check"><input type="radio" name="reason" value="not_specified" checked> <span class="check__text">理由は伝えない</span></label>
+        </fieldset>
+        <p class="field__help">理由は定型のみです。却下した申請者は、このグループに再申請できません。</p>
+        <div class="modal__footer" style="padding:0">
+          <a class="btn btn--ghost" href="#main">やめる</a>
+          <button class="btn btn--danger" type="submit">却下する</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

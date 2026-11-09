@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<!--
+  TRV-05 グループ作成・編集(docs/design/mockup/traveler/group-form.html)
+  _template.html から作成。決まりは docs/design/mockup/README.md を参照。
+  上: 作成(入力途中)。下: 入力エラー、禁止表現の拒否、送信エラー、1 対 1、編集(幹事)の見本。
+  視点: ダイスケ(u-004。編集の例は自分が幹事の g-007)。基準日 2026-11-09。
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>グループ作成・編集 | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    /* TRV-05 固有 */
+    .trv05-col { width: 100%; max-width: 640px; }
+    /* 選択肢の少ない単一選択(SegmentedControl)。.segmented と同じ見た目をラジオで作る */
+    .trv05-seg { display: flex; margin: 0; padding: 4px; border-radius: var(--radius-md); background: var(--gray-1); list-style: none; }
+    .trv05-seg li { flex: 1; }
+    .trv05-seg label { position: relative; display: grid; place-items: center; align-content: center; line-height: 1.2; min-height: 32px; padding: 2px 6px; border-radius: var(--radius-sm); color: var(--gray-7); font-size: var(--fz-sm); font-weight: var(--fw-medium); text-align: center; cursor: pointer; }
+    .trv05-seg input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+    .trv05-seg label:has(input:checked) { background: var(--surface); color: var(--text); font-weight: var(--fw-bold); box-shadow: 0 1px 3px rgba(0, 0, 0, .1); }
+    .trv05-seg label:has(input:focus-visible) { outline: 2px solid var(--blue-6); outline-offset: 1px; }
+    .trv05-seg label:has(input:disabled) { color: var(--gray-6); cursor: not-allowed; }
+    .trv05-tag-add { display: flex; gap: var(--sp-xs); }
+    .trv05-tag-add .input { flex: 1; }
+    .trv05-count { font-size: var(--fz-xs); color: var(--text-dimmed); text-align: right; }
+    .trv05-hit { text-decoration: underline wavy var(--red-8); text-underline-offset: 3px; font-weight: var(--fw-bold); }
+    .trv05-summary ul { margin: 4px 0 0; padding-left: 1.2em; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー(00 CMN-UI-01) ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="group-list.html" aria-current="true">旅行者</a></li>
+        <li><a class="demo-bar__role" href="../municipal/stats-dashboard.html">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option selected>ダイスケ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===== ヘッダー ===== -->
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="group-list.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>グループを作る</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="group-list.html" aria-current="page">グループ</a>
+        <a href="#">スポット</a>
+        <a href="#">GET特典履歴</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 2 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">ダ</span>ダイスケ</span>
+      </div>
+    </header>
+
+    <!-- ===== 画面情報(モック専用) ===== -->
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>TRV-05</dd>
+        <dt>画面名</dt><dd>グループ作成・編集</dd>
+        <dt>対象ロール</dt><dd>旅行者(作成者は幹事になる。編集は幹事のみ)</dd>
+        <dt>実装パス</dt><dd>作成 <code>/[campaign]/new-group</code>、編集 <code>/[campaign]/groups/[groupId]/edit</code>(どちらも <code>GroupForm</code>。再企画 TRV-22 も同じ部品を使う)</dd>
+        <dt>参照設計書</dt><dd>docs/feature/01-group-core.md §3.2・§7.1・§7.2・§8・§10.2、docs/feature/04-group-lifecycle.md(最少人数・締切の検証 <code>validateLifecycleInput</code>)、docs/feature/09-safety.md SAF-UI-05、docs/feature/_unified-contracts.md 6.2・10.3</dd>
+        <dt>遷移先</dt><dd><a href="group-hub.html">グループ詳細のハブ(TRV-12。作成・保存の後)</a>、<a href="group-list.html">グループ一覧(TRV-01)</a>、<a href="../safety/verification.html">本人確認(SAF-05)</a>、<a href="../safety/prohibited-text.html">禁止表現の拒否メッセージ(SAF-06)</a>、<a href="../index.html">画面モック一覧</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="group-list.html">グループを探す</a></li>
+            <li><span aria-current="page">グループを作る</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">グループを作る</p>
+
+        <div class="stack stack--lg trv05-col">
+          <div class="alert alert--info">
+            <span class="alert__icon" aria-hidden="true">i</span>
+            <div>作成すると、あなたが幹事になります。参加の申請を承認するのは幹事です。氏名や連絡先を入力する欄はありません。</div>
+          </div>
+
+          <!-- ===== 作成フォーム ===== -->
+          <form class="stack stack--lg" action="group-hub.html" method="post" novalidate aria-labelledby="form-title">
+            <h2 id="form-title" class="visually-hidden">グループの内容</h2>
+
+            <section class="card stack" aria-labelledby="sec-basic">
+              <h3 id="sec-basic" class="title-section">基本</h3>
+              <div class="field">
+                <label class="field__label" for="g-name">名称<span class="field__required" aria-hidden="true">*</span></label>
+                <input class="input" id="g-name" name="name" type="text" required maxlength="30" value="雫森谷 朝霧の散歩" aria-describedby="g-name-help">
+                <div class="group group--between"><p class="field__help" id="g-name-help">30 文字まで</p><p class="trv05-count">9 / 30</p></div>
+              </div>
+              <div class="field">
+                <label class="field__label" for="g-region">地方<span class="field__required" aria-hidden="true">*</span></label>
+                <select class="select" id="g-region" name="region" required>
+                  <option value="r-mizukoto" selected>水琴地方</option>
+                  <option value="r-suzukaze">鈴風高原</option>
+                  <option value="r-hoshinagi">星凪諸島</option>
+                  <option value="r-nijiho">虹帆町</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="field__label" for="g-dest">行き先<span class="field__required" aria-hidden="true">*</span></label>
+                <input class="input" id="g-dest" name="destination" type="text" required maxlength="40" value="雫森谷" aria-describedby="g-dest-help">
+                <p class="field__help" id="g-dest-help">40 文字まで。スポットや地区の名前など。</p>
+              </div>
+            </section>
+
+            <section class="card stack" aria-labelledby="sec-date">
+              <h3 id="sec-date" class="title-section">日程</h3>
+              <div class="grid grid--2">
+                <div class="field">
+                  <label class="field__label" for="g-start">開始日<span class="field__required" aria-hidden="true">*</span></label>
+                  <input class="input" id="g-start" name="startDate" type="date" required min="2026-11-10" value="2026-12-19" aria-describedby="g-date-help">
+                </div>
+                <div class="field">
+                  <label class="field__label" for="g-end">終了日<span class="field__required" aria-hidden="true">*</span></label>
+                  <input class="input" id="g-end" name="endDate" type="date" required min="2026-11-10" value="2026-12-20" aria-describedby="g-date-help">
+                </div>
+              </div>
+              <p class="field__help" id="g-date-help">期間は 14 日以内。日帰りは開始日と終了日を同じ日にします。</p>
+              <div class="field">
+                <label class="field__label" for="g-note">日程の幅(任意)</label>
+                <input class="input" id="g-note" name="dateNote" type="text" maxlength="40" placeholder="例: 前後 2 日は調整可" aria-describedby="g-note-help">
+                <p class="field__help" id="g-note-help">40 文字まで</p>
+              </div>
+            </section>
+
+            <section class="card stack" aria-labelledby="sec-count">
+              <h3 id="sec-count" class="title-section">人数と締切</h3>
+              <fieldset class="fieldset" aria-describedby="g-cap-help">
+                <legend>人数の上限(定員)<span class="field__required" aria-hidden="true">*</span></legend>
+                <ul class="trv05-seg">
+                  <li><label>2<span class="text-xs">(1対1)</span><input type="radio" name="capacity" value="2"></label></li>
+                  <li><label>3<input type="radio" name="capacity" value="3"></label></li>
+                  <li><label>4<input type="radio" name="capacity" value="4" checked></label></li>
+                  <li><label>5<input type="radio" name="capacity" value="5"></label></li>
+                  <li><label>6<input type="radio" name="capacity" value="6"></label></li>
+                </ul>
+                <p class="field__help" id="g-cap-help">幹事を含む人数。2 を選ぶと 1 対 1 の同行になり、最少人数は 2 に固定されます。</p>
+              </fieldset>
+              <div class="grid grid--2">
+                <div class="field">
+                  <label class="field__label" for="g-min">最少人数<span class="field__required" aria-hidden="true">*</span></label>
+                  <input class="input" id="g-min" name="minMembers" type="number" required min="2" max="4" step="1" value="3" aria-describedby="g-min-help">
+                  <p class="field__help" id="g-min-help">2〜4 人(上限以下。幹事を含む)。この人数で実行します。</p>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="g-deadline">締切日<span class="field__required" aria-hidden="true">*</span></label>
+                  <input class="input" id="g-deadline" name="deadlineDate" type="date" required min="2026-11-10" max="2026-12-18" value="2026-12-12" aria-describedby="g-deadline-help">
+                  <p class="field__help" id="g-deadline-help">明日以降で、開始日より前。初期値は開始日の 7 日前。</p>
+                </div>
+              </div>
+              <div class="alert alert--info">
+                <span class="alert__icon" aria-hidden="true">i</span>
+                <div>締切までに最少人数に達すると、辞退期間を経て実行が確定します。達しない場合は自動で中止になり、日程などを見直して再企画できます。最少人数と締切は、作成後はこの画面では変更できません。</div>
+              </div>
+            </section>
+
+            <section class="card stack" aria-labelledby="sec-vis">
+              <h3 id="sec-vis" class="title-section">公開設定</h3>
+              <fieldset class="fieldset" aria-describedby="g-vis-help">
+                <legend>公開範囲<span class="field__required" aria-hidden="true">*</span></legend>
+                <ul class="trv05-seg">
+                  <li><label>公開<input type="radio" name="visibility" value="public" checked></label></li>
+                  <li><label>非公開<input type="radio" name="visibility" value="private"></label></li>
+                </ul>
+                <p class="field__help" id="g-vis-help">公開: グループ一覧に載り、誰でも申請できます。</p>
+              </fieldset>
+              <p class="text-xs text-dimmed"><span class="mock-note">非公開を選んだとき</span> 「一覧に載りません。招待コードを知る人だけが申請できます」と表示します。コードは作成後に幹事の画面で確認できます。</p>
+            </section>
+
+            <section class="card stack" aria-labelledby="sec-tags">
+              <h3 id="sec-tags" class="title-section">タグと説明</h3>
+              <div class="field">
+                <label class="field__label" for="g-tag">タグ(任意)</label>
+                <div class="trv05-tag-add">
+                  <input class="input" id="g-tag" type="text" maxlength="16" placeholder="例: 森歩き" aria-describedby="g-tag-help">
+                  <button class="btn btn--secondary" type="button">追加</button>
+                </div>
+                <p class="field__help" id="g-tag-help">5 個まで、各 16 文字まで(2 / 5)</p>
+                <ul class="chip-row" aria-label="追加したタグ">
+                  <li><button class="chip" type="button" aria-pressed="true" aria-label="タグ「散策」を削除">散策 ×</button></li>
+                  <li><button class="chip" type="button" aria-pressed="true" aria-label="タグ「朝」を削除">朝 ×</button></li>
+                </ul>
+                <p class="text-xs text-dimmed">候補:</p>
+                <ul class="chip-row" aria-label="タグの候補">
+                  <li><button class="chip" type="button" aria-pressed="false">森歩き</button></li>
+                  <li><button class="chip" type="button" aria-pressed="false">写真</button></li>
+                  <li><button class="chip" type="button" aria-pressed="false">食べ歩き</button></li>
+                  <li><button class="chip" type="button" aria-pressed="false">のんびり</button></li>
+                </ul>
+              </div>
+              <div class="field">
+                <label class="field__label" for="g-desc">説明(任意)</label>
+                <textarea class="textarea" id="g-desc" name="description" maxlength="200" aria-describedby="g-desc-help">朝霧の出る時間に谷の遊歩道を歩きます。2 日目は沢沿いを少し歩いて昼に解散します。</textarea>
+                <div class="group group--between"><p class="field__help" id="g-desc-help">200 文字まで。プランの内容を書きます。連絡先や外部サービスへの誘導は書けません。</p><p class="trv05-count">41 / 200</p></div>
+              </div>
+            </section>
+
+            <div class="form-actions">
+              <a class="btn btn--ghost" href="group-list.html">キャンセル</a>
+              <button class="btn btn--primary btn--lg" type="submit">作成する</button>
+            </div>
+          </form>
+
+          <hr class="divider">
+
+          <!-- ===== 表示例: 入力エラー ===== -->
+          <section class="stack" aria-labelledby="ex-errors">
+            <h2 id="ex-errors" class="title-section">表示例: 入力エラー(送信後)</h2>
+            <div class="card stack">
+              <div class="alert alert--error trv05-summary" role="alert">
+                <span class="alert__icon" aria-hidden="true">!</span>
+                <div>
+                  <p class="alert__title">入力内容を確認してください(3 件)</p>
+                  <ul>
+                    <li><a href="#e-name">名称</a></li>
+                    <li><a href="#e-start">開始日</a></li>
+                    <li><a href="#e-min">最少人数</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="field">
+                <label class="field__label" for="e-name">名称<span class="field__required" aria-hidden="true">*</span></label>
+                <input class="input" id="e-name" type="text" value="" aria-invalid="true" aria-describedby="e-name-err">
+                <p class="field__error" id="e-name-err">名称は 1〜30 文字で入力してください。</p>
+              </div>
+              <div class="grid grid--2">
+                <div class="field">
+                  <label class="field__label" for="e-start">開始日<span class="field__required" aria-hidden="true">*</span></label>
+                  <input class="input" id="e-start" type="date" value="2026-12-01" aria-invalid="true" aria-describedby="e-start-err">
+                </div>
+                <div class="field">
+                  <label class="field__label" for="e-end">終了日<span class="field__required" aria-hidden="true">*</span></label>
+                  <input class="input" id="e-end" type="date" value="2026-12-20" aria-invalid="true" aria-describedby="e-start-err">
+                </div>
+              </div>
+              <p class="field__error" id="e-start-err" style="margin-top:-8px">開始日は締切日(12/12)より後、期間は 14 日以内にしてください。</p>
+              <div class="grid grid--2">
+                <div class="field">
+                  <label class="field__label" for="e-min">最少人数<span class="field__required" aria-hidden="true">*</span></label>
+                  <input class="input" id="e-min" type="number" value="5" aria-invalid="true" aria-describedby="e-min-err">
+                  <p class="field__error" id="e-min-err">最少人数は 2 人以上、上限(4 人)以下にしてください。</p>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="e-deadline">締切日<span class="field__required" aria-hidden="true">*</span></label>
+                  <input class="input" id="e-deadline" type="date" value="2026-12-12">
+                </div>
+              </div>
+              <p class="text-xs text-dimmed">エラーは各項目の下に表示したままにし、先頭のエラー項目へフォーカスを移します。</p>
+            </div>
+          </section>
+
+          <!-- ===== 表示例: 禁止表現 ===== -->
+          <section class="stack" aria-labelledby="ex-text">
+            <h2 id="ex-text" class="title-section">表示例: 使えない表現</h2>
+            <div class="card stack">
+              <div class="field">
+                <label class="field__label" for="t-tag">タグ(任意)</label>
+                <div class="trv05-tag-add">
+                  <input class="input" id="t-tag" type="text" value="20代限定" aria-invalid="true" aria-describedby="t-tag-err">
+                  <button class="btn btn--secondary" type="button">追加</button>
+                </div>
+                <p class="field__error" id="t-tag-err" role="alert">タグに「<span class="trv05-hit">20代限定</span>」は入力できません。条件で人を選ぶ表現は使えません。旅の内容や日程を書いてください。</p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="t-desc">説明(任意)</label>
+                <textarea class="textarea" id="t-desc" aria-invalid="true" aria-describedby="t-desc-err">谷の遊歩道を歩きます。詳しくは sample@example.com に連絡してください。</textarea>
+                <p class="field__error" id="t-desc-err" role="alert">説明に「<span class="trv05-hit">sample@example.com</span>」は入力できません。連絡は参加成立後にグループ内のチャットを使ってください。</p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="t-note">日程の幅(任意)</label>
+                <input class="input" id="t-note" type="text" value="詳細は https://example.com を参照" aria-describedby="t-note-warn">
+                <div class="alert alert--warning" id="t-note-warn" aria-live="polite">
+                  <span class="alert__icon" aria-hidden="true">?</span>
+                  <div class="stack stack--xs">
+                    <p>確認してください。「<span class="trv05-hit">https://example.com</span>」は外部サイトへの誘導と受け取られる場合があります。</p>
+                    <div class="btn-row"><button class="btn btn--secondary btn--sm" type="button">このまま使う</button><a class="btn btn--ghost btn--sm" href="#t-note">書き直す</a></div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs text-dimmed">入力中に警告し、送信時にサーバーでも判定します。該当部分は色に加えて波線で示し、入力した語だけを表示します(辞書のほかの語は表示しない)。共通の表示は <a href="../safety/prohibited-text.html">SAF-06</a>。</p>
+            </div>
+          </section>
+
+          <!-- ===== 表示例: 送信エラー ===== -->
+          <section class="stack" aria-labelledby="ex-server">
+            <h2 id="ex-server" class="title-section">表示例: 作成できなかったとき</h2>
+            <div class="alert alert--error" role="alert">
+              <span class="alert__icon" aria-hidden="true">!</span>
+              <div>進行中のグループが上限(5 件)に達しています。終了または中止の後に作成できます。</div>
+            </div>
+            <div class="alert alert--warning">
+              <span class="alert__icon" aria-hidden="true">!</span>
+              <div>グループの作成には本人確認(モック)が必要です。<a href="../safety/verification.html">本人確認の手順へ</a></div>
+            </div>
+            <div class="alert alert--warning">
+              <span class="alert__icon" aria-hidden="true">!</span>
+              <div>しばらく待ってからもう一度作成してください。入力した内容は残っています。</div>
+            </div>
+            <div class="alert alert--error">
+              <span class="alert__icon" aria-hidden="true">!</span>
+              <div>問題が発生しました。画面を再読み込みしてください。解決しないときは、デモ操作から初期化してください。</div>
+            </div>
+          </section>
+
+          <!-- ===== 表示例: 1 対 1 ===== -->
+          <section class="stack" aria-labelledby="ex-pair">
+            <h2 id="ex-pair" class="title-section">表示例: 上限 2(1 対 1)を選んだとき</h2>
+            <div class="card stack">
+              <fieldset class="fieldset">
+                <legend>人数の上限(定員)<span class="field__required" aria-hidden="true">*</span></legend>
+                <ul class="trv05-seg">
+                  <li><label>2<span class="text-xs">(1対1)</span><input type="radio" name="capacity-pair" value="2" checked></label></li>
+                  <li><label>3<input type="radio" name="capacity-pair" value="3"></label></li>
+                  <li><label>4<input type="radio" name="capacity-pair" value="4"></label></li>
+                  <li><label>5<input type="radio" name="capacity-pair" value="5"></label></li>
+                  <li><label>6<input type="radio" name="capacity-pair" value="6"></label></li>
+                </ul>
+              </fieldset>
+              <div class="field">
+                <label class="field__label" for="p-min">最少人数</label>
+                <input class="input" id="p-min" type="number" value="2" disabled aria-describedby="p-min-help">
+                <p class="field__help" id="p-min-help">1 対 1 の同行では、最少人数は 2 人に固定されます。</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===== 表示例: 編集(幹事) ===== -->
+          <section class="stack" aria-labelledby="ex-edit">
+            <h2 id="ex-edit" class="title-section">表示例: 編集(幹事。月灯集落 灯りの夕べ(再企画)、募集中)</h2>
+            <p class="text-xs text-dimmed">実装パス <code>/[campaign]/groups/g-007/edit</code>。ヘッダーの画面名は「グループを編集」、送信ボタンは「保存する」。変更した項目だけを送ります。</p>
+            <div class="card stack">
+              <div class="group"><span class="status status--recruiting">募集中</span><span class="text-sm">現在 1 人</span></div>
+              <div class="field">
+                <label class="field__label" for="ed-name">名称<span class="field__required" aria-hidden="true">*</span></label>
+                <input class="input" id="ed-name" type="text" value="月灯集落 灯りの夕べ(再企画)">
+              </div>
+              <fieldset class="fieldset">
+                <legend>人数の上限(定員)<span class="field__required" aria-hidden="true">*</span></legend>
+                <ul class="trv05-seg">
+                  <li><label>2<span class="text-xs">(1対1)</span><input type="radio" name="capacity-edit" value="2" checked></label></li>
+                  <li><label>3<input type="radio" name="capacity-edit" value="3"></label></li>
+                  <li><label>4<input type="radio" name="capacity-edit" value="4"></label></li>
+                  <li><label>5<input type="radio" name="capacity-edit" value="5"></label></li>
+                  <li><label>6<input type="radio" name="capacity-edit" value="6"></label></li>
+                </ul>
+                <p class="field__error" role="alert">現在 1 人、最少 3 人のため、上限は 3 人以上にしてください。</p>
+              </fieldset>
+              <div class="grid grid--2">
+                <div class="field">
+                  <label class="field__label" for="ed-min">最少人数</label>
+                  <input class="input" id="ed-min" type="number" value="3" disabled aria-describedby="ed-fixed">
+                </div>
+                <div class="field">
+                  <label class="field__label" for="ed-deadline">締切日</label>
+                  <input class="input" id="ed-deadline" type="date" value="2026-11-30" disabled aria-describedby="ed-fixed">
+                </div>
+              </div>
+              <p class="field__help" id="ed-fixed">最少人数と締切日は表示のみです。変更は条件の変更の画面から行います(締切の延長など)。</p>
+              <fieldset class="fieldset" aria-describedby="ed-vis-help">
+                <legend>公開範囲</legend>
+                <ul class="trv05-seg">
+                  <li><label>公開<input type="radio" name="visibility-edit" value="public" checked></label></li>
+                  <li><label>非公開<input type="radio" name="visibility-edit" value="private"></label></li>
+                </ul>
+                <p class="field__help" id="ed-vis-help">非公開に切り替えると一覧から外れ、招待コードを発行します。申請中の人には影響しません。</p>
+              </fieldset>
+              <div class="form-actions">
+                <a class="btn btn--ghost" href="group-hub.html">キャンセル</a>
+                <button class="btn btn--primary" type="button">保存する</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="table">
+                <caption>状態ごとに編集できる項目(01 §7.2)。編集できない項目は無効にし、理由を表示する</caption>
+                <thead><tr><th scope="col">状態</th><th scope="col">編集できる項目</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="status status--recruiting">募集中</span></td><td>名称、地方、行き先、日程、人数の上限、公開設定、タグ、説明</td></tr>
+                  <tr><td><span class="status status--min-reached">最少人数到達</span></td><td>名称、地方、公開設定、タグ、説明(日程と人数の上限は、申請済みの人の前提を変えないため変更できない)</td></tr>
+                  <tr><td><span class="status status--withdrawal">辞退期間</span></td><td>名称、タグ、説明</td></tr>
+                  <tr><td><span class="status status--confirmed">実行確定</span></td><td>タグ、説明</td></tr>
+                  <tr><td><span class="status status--in-progress">実施中</span></td><td>説明</td></tr>
+                  <tr><td>完了・中止・再企画済み</td><td>なし(編集の導線を出さない)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a> / <a href="../components.html">部品カタログ</a>
+    </footer>
+
+    <!-- ===== 下部ナビ(スマートフォン幅) ===== -->
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="group-list.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>グループ
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v4H3z"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 8 12 8s3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>GET特典履歴
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

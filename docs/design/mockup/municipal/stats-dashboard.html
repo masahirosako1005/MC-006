@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>集計ダッシュボード | 画面モック</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    /* MUN-01 固有(base.css の延長。共通化の候補は報告に記載) */
+    .mun01-filter { display: grid; gap: var(--sp-sm); grid-template-columns: minmax(0, 1fr); align-items: end; }
+    .mun01-range { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 6px; }
+    .mun01-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mun01-few { color: var(--text-dimmed); font-weight: var(--fw-bold); }
+    .mun01-hatch { background: repeating-linear-gradient(45deg, var(--gray-5) 0 2px, var(--gray-1) 2px 6px) !important; }
+    /* 月別の縦棒(系列ごとに色+模様で区別し、値を直接ラベルで表示) */
+    .mun01-gchart { display: flex; align-items: flex-end; gap: var(--sp-md); height: 170px; margin: 0; padding: 20px 4px 0; border-bottom: 1px solid var(--gray-5); list-style: none; }
+    .mun01-gchart__month { flex: 1; display: flex; align-items: flex-end; justify-content: center; gap: 4px; height: 100%; }
+    .mun01-gchart__bar { position: relative; width: 24px; border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
+    .mun01-gchart__val { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); padding-bottom: 2px; font-size: 10px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .mun01-s-created { background: var(--main-color); }
+    .mun01-s-confirmed { background: var(--success-color); background-image: radial-gradient(rgba(255, 255, 255, .55) 1px, transparent 1.5px); background-size: 5px 5px; }
+    .mun01-s-cancelled { background: var(--red-6); background-image: repeating-linear-gradient(0deg, rgba(255, 255, 255, .5) 0 1px, transparent 1px 4px); }
+    .mun01-gaxis { display: flex; gap: var(--sp-md); margin: 4px 0 0; padding: 0 4px; list-style: none; font-size: var(--fz-xs); color: var(--text-dimmed); }
+    .mun01-gaxis li { flex: 1; text-align: center; }
+    .mun01-funnel .bar-chart__row, .mun01-wide-label .bar-chart__row { grid-template-columns: 8.5em minmax(0, 1fr) 4.5em; }
+    @media (min-width: 768px) { .mun01-wide-label .bar-chart__row { grid-template-columns: 11em minmax(0, 1fr) 4.5em; } }
+    .mun01-step { font-size: var(--fz-xs); color: var(--text-dimmed); padding-left: 8.5em; }
+    details.mun01-alt > summary { cursor: pointer; font-size: var(--fz-xs); color: var(--link); }
+    details.mun01-alt[open] > summary { margin-bottom: 6px; }
+    @media (max-width: 767px) {
+      .mun01-wide { display: none; }
+    }
+    @media (max-width: 400px) {
+      .mun01-funnel .bar-chart__row, .mun01-wide-label .bar-chart__row { grid-template-columns: 7em minmax(0, 1fr) 4em; }
+      .mun01-step { padding-left: 0; }
+      .mun01-gchart, .mun01-gaxis { gap: var(--sp-xs); }
+      .mun01-gchart__bar { width: 20px; }
+    }
+    @media (min-width: 768px) {
+      .mun01-filter { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr); }
+      .mun01-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <!-- ===== デモバー(00 CMN-UI-01) ===== -->
+  <div class="demo-bar" role="region" aria-label="デモ操作">
+    <span class="badge badge--mock">モック</span>
+    <nav aria-label="ロールの切り替え">
+      <ul class="demo-bar__roles">
+        <li><a class="demo-bar__role" href="../traveler/group-list.html">旅行者</a></li>
+        <li><a class="demo-bar__role" href="stats-dashboard.html" aria-current="true">自治体</a></li>
+        <li><a class="demo-bar__role" href="../business/demand-forecast.html">観光事業オーナー</a></li>
+        <li><a class="demo-bar__role" href="../index.html#role-host">地元の担い手</a></li>
+      </ul>
+    </nav>
+    <div class="demo-bar__group">
+      <label class="demo-bar__label" for="demo-user">ユーザー</label>
+      <select id="demo-user">
+        <option>ミサキ(旅行者)</option>
+        <option>ケンタ(旅行者)</option>
+        <option>ダイスケ(旅行者)</option>
+        <option>リク(旅行者・本人確認前)</option>
+        <option selected>タナカ(自治体担当)</option>
+        <option>ミナト(観光事業オーナー)</option>
+        <option>ゲン(地元の担い手)</option>
+      </select>
+    </div>
+    <span>日付: 2026-11-09</span>
+    <span class="demo-bar__spacer"></span>
+    <details class="demo-bar__tools">
+      <summary>デモ操作</summary>
+      <div class="demo-bar__menu">
+        <button class="demo-bar__btn" type="button">日付を +1 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +3 日進める</button>
+        <button class="demo-bar__btn" type="button">日付を +7 日進める</button>
+        <button class="demo-bar__btn" type="button">デモを初期化</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="icon-btn app-header__back" href="../index.html" aria-label="前の画面へ戻る">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg>
+      </a>
+      <a class="app-header__logo" href="../index.html">Raund</a>
+      <h1>集計ダッシュボード</h1>
+      <nav class="app-header__nav" aria-label="メインメニュー(デスクトップ)">
+        <a href="#">ホーム</a>
+        <a href="stats-dashboard.html" aria-current="page">集計</a>
+        <a href="#">スポット</a>
+      </nav>
+      <div class="app-header__actions">
+        <a class="icon-btn" href="../safety/notifications.html" aria-label="通知(未読 1 件)">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+          <span class="icon-btn__dot" aria-hidden="true"></span>
+        </a>
+        <span class="app-header__user"><span class="avatar avatar--sm" aria-hidden="true">タ</span>タナカ</span>
+      </div>
+    </header>
+
+    <aside class="mock-info" aria-label="画面情報">
+      <dl>
+        <dt>画面ID</dt><dd>MUN-01</dd>
+        <dt>画面名</dt><dd>自治体向け集計ダッシュボード</dd>
+        <dt>対象ロール</dt><dd>自治体(デモユーザー タナカ、<code>mun-demo-a</code>。担当地方 虹帆町・星凪諸島・鈴風高原)</dd>
+        <dt>実装パス</dt><dd><code>/[campaign]/admin/stats</code>(API <code>GET /api/stats?from&amp;to&amp;region&amp;official</code>)</dd>
+        <dt>参照設計書</dt><dd><code>docs/feature/12-municipal-stats.md</code> §3(指標 M-01〜M-17)、§5(K=5・補完秘匿)、§8(MUN-UI-01〜14)、§12(エラー)、§13(合成データ)。<code>docs/feature/_unified-contracts.md</code> 7.12</dd>
+        <dt>遷移先</dt><dd><a href="../index.html">画面モック一覧</a>、<a href="../safety/notifications.html">通知一覧(SAF-01)</a>、<a href="#mun01-forbidden">権限なしの表示例</a></dd>
+      </dl>
+    </aside>
+
+    <main id="main" class="app-main">
+      <div class="page">
+        <nav aria-label="パンくずリスト">
+          <ol class="breadcrumb">
+            <li><a href="../index.html">画面モック一覧</a></li>
+            <li><a href="../index.html#role-municipal">自治体</a></li>
+            <li><span aria-current="page">集計ダッシュボード</span></li>
+          </ol>
+        </nav>
+        <p class="page-title-lg" aria-hidden="true">集計ダッシュボード</p>
+
+        <!-- ① PrivacyNote(MUN-UI-12) -->
+        <div class="alert alert--info" role="status">
+          <span class="alert__icon" aria-hidden="true">i</span>
+          <div class="stack stack--xs">
+            <p class="alert__title">担当地方のみを集計しています</p>
+            <p>タナカさんの担当地方(虹帆町・星凪諸島・鈴風高原)のグループだけを数えています。担当外の地方は選択肢に表示されません。</p>
+            <p>個人が特定できないよう、5 件未満の値は「少数」と表示しています。デモ用の過去実績(合成データ)を含みます。</p>
+          </div>
+        </div>
+
+        <!-- ② FilterBar(MUN-UI-04) -->
+        <section class="card card--sm stack" aria-labelledby="mun01-h-filter">
+          <h2 id="mun01-h-filter" class="title-section">集計の条件</h2>
+          <div class="mun01-filter">
+            <div class="field">
+              <span class="field__label" id="mun01-period-label">期間(暦月)</span>
+              <div class="segmented" role="group" aria-labelledby="mun01-period-label">
+                <a class="segmented__item" href="#" aria-current="page">直近 3 か月</a>
+                <a class="segmented__item" href="#">6 か月</a>
+                <a class="segmented__item" href="#">12 か月</a>
+              </div>
+              <div class="mun01-range">
+                <label class="visually-hidden" for="mun01-from">開始月</label>
+                <input class="input" id="mun01-from" type="month" value="2026-09" aria-describedby="mun01-period-help">
+                <span aria-hidden="true">〜</span>
+                <label class="visually-hidden" for="mun01-to">終了月</label>
+                <input class="input" id="mun01-to" type="month" value="2026-11" aria-describedby="mun01-period-help">
+              </div>
+              <p class="field__help" id="mun01-period-help">2026-09-01〜2026-11-30(当月を含む)。最大 12 か月。</p>
+            </div>
+            <div class="field">
+              <label class="field__label" for="mun01-region">地方</label>
+              <select class="select" id="mun01-region">
+                <option selected>担当地方すべて</option>
+                <option>虹帆町</option>
+                <option>星凪諸島</option>
+                <option>鈴風高原</option>
+              </select>
+              <p class="field__help">担当地方のみ選べます。</p>
+            </div>
+            <div class="field">
+              <span class="field__label" id="mun01-official-label">公式枠</span>
+              <div class="segmented" role="group" aria-labelledby="mun01-official-label">
+                <a class="segmented__item" href="#" aria-current="page">すべて</a>
+                <a class="segmented__item" href="#">公式枠</a>
+                <a class="segmented__item" href="#">一般</a>
+              </div>
+              <p class="field__help">流入の集計には適用しません。</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ③ 指標カード(MUN-UI-05) -->
+        <section class="stack" aria-labelledby="mun01-h-metrics">
+          <h2 id="mun01-h-metrics" class="title-section">主な指標(2026年9月〜11月)</h2>
+          <div class="stat-grid mun01-stats">
+            <div class="stat"><span class="stat__label">グループ作成数(M-01)</span><span class="stat__value">48 件</span><span class="stat__note">再企画で作ったグループを含む</span></div>
+            <div class="stat"><span class="stat__label">参加申請数(M-02)</span><span class="stat__value">201 件</span><span class="stat__note">申請中・取り下げ・失効を含む</span></div>
+            <div class="stat"><span class="stat__label">承認率(M-03)</span><span class="stat__value">86%</span><span class="stat__note">承認 121 件 /(承認+見送り)141 件</span></div>
+            <div class="stat"><span class="stat__label">実行確定率(M-04)</span><span class="stat__value">68%</span><span class="stat__note">確定 23 件 /(確定+中止)34 件</span></div>
+            <div class="stat"><span class="stat__label">中止率・再企画率(M-05・M-06)</span><span class="stat__value">32%</span><span class="stat__note">中止 11 件。うち再企画 45%</span></div>
+            <div class="stat"><span class="stat__label">再訪率(M-11)</span><span class="stat__value">18%</span><span class="stat__note">確定グループの参加者のうち 2 回以上</span></div>
+          </div>
+        </section>
+
+        <div class="grid grid--2">
+          <!-- ④ 月別推移(MUN-UI-06) -->
+          <section class="card stack" aria-labelledby="mun01-h-trend">
+            <h2 id="mun01-h-trend" class="title-section">月別の推移</h2>
+            <ul class="legend">
+              <li><span class="legend__swatch mun01-s-created"></span>作成</li>
+              <li><span class="legend__swatch mun01-s-confirmed"></span>実行確定(点)</li>
+              <li><span class="legend__swatch mun01-s-cancelled"></span>中止(横線)</li>
+              <li><span class="legend__swatch mun01-hatch"></span>少数</li>
+            </ul>
+            <div role="img" aria-label="月別のグループ数。作成は 9 月 18 件、10 月 19 件、11 月 11 件(途中)。実行確定は 11、7、5 件。中止は 9 月と 11 月が少数、10 月 5 件。">
+              <ol class="mun01-gchart" aria-hidden="true">
+                <li class="mun01-gchart__month">
+                  <span class="mun01-gchart__bar mun01-s-created" style="height:90%"><span class="mun01-gchart__val">18</span></span>
+                  <span class="mun01-gchart__bar mun01-s-confirmed" style="height:55%"><span class="mun01-gchart__val">11</span></span>
+                  <span class="mun01-gchart__bar mun01-hatch" style="height:8%"><span class="mun01-gchart__val">少数</span></span>
+                </li>
+                <li class="mun01-gchart__month">
+                  <span class="mun01-gchart__bar mun01-s-created" style="height:95%"><span class="mun01-gchart__val">19</span></span>
+                  <span class="mun01-gchart__bar mun01-s-confirmed" style="height:35%"><span class="mun01-gchart__val">7</span></span>
+                  <span class="mun01-gchart__bar mun01-s-cancelled" style="height:25%"><span class="mun01-gchart__val">5</span></span>
+                </li>
+                <li class="mun01-gchart__month">
+                  <span class="mun01-gchart__bar mun01-s-created" style="height:55%"><span class="mun01-gchart__val">11</span></span>
+                  <span class="mun01-gchart__bar mun01-s-confirmed" style="height:25%"><span class="mun01-gchart__val">5</span></span>
+                  <span class="mun01-gchart__bar mun01-hatch" style="height:8%"><span class="mun01-gchart__val">少数</span></span>
+                </li>
+              </ol>
+              <ol class="mun01-gaxis" aria-hidden="true"><li>9月</li><li>10月</li><li>11月(途中)</li></ol>
+            </div>
+            <details class="mun01-alt">
+              <summary>表で見る</summary>
+              <div class="table-wrap">
+                <table class="table">
+                  <caption>月別のグループ数・申請数</caption>
+                  <thead><tr><th scope="col">月</th><th scope="col" class="num">作成</th><th scope="col" class="num">申請</th><th scope="col" class="num">実行確定</th><th scope="col" class="num">中止</th></tr></thead>
+                  <tbody>
+                    <tr><th scope="row">2026年9月</th><td class="num">18</td><td class="num">78</td><td class="num">11</td><td class="num"><span class="mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></td></tr>
+                    <tr><th scope="row">2026年10月</th><td class="num">19</td><td class="num">84</td><td class="num">7</td><td class="num">5</td></tr>
+                    <tr><th scope="row">2026年11月(〜9日)</th><td class="num">11</td><td class="num">39</td><td class="num">5</td><td class="num"><span class="mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          </section>
+
+          <!-- 成立人数の分布(M-07、MUN-UI-09) -->
+          <section class="card stack" aria-labelledby="mun01-h-size">
+            <h2 id="mun01-h-size" class="title-section">成立人数の分布(M-07)</h2>
+            <p class="card__meta">実行確定した 23 グループの参加者数ごとのグループ数</p>
+            <ul class="bar-chart" aria-label="成立人数ごとのグループ数">
+              <li class="bar-chart__row"><span class="bar-chart__label">2 人</span><span class="bar-chart__track"><span class="bar-chart__bar mun01-hatch" style="display:block;width:6%"></span></span><span class="bar-chart__value mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">3 人</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:100%"></span></span><span class="bar-chart__value">8 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">4 人</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:88%"></span></span><span class="bar-chart__value">7 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">5 人</span><span class="bar-chart__track"><span class="bar-chart__bar mun01-hatch" style="display:block;width:6%"></span></span><span class="bar-chart__value mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">6 人</span><span class="bar-chart__track"><span class="bar-chart__bar mun01-hatch" style="display:block;width:6%"></span></span><span class="bar-chart__value mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></li>
+            </ul>
+            <p class="text-xs text-dimmed">棒の数値はラベルで示します。斜線は「少数」(5 件未満)です。</p>
+          </section>
+        </div>
+
+        <!-- ⑤ 地方別の表(MUN-UI-07、M-10) -->
+        <section class="card stack" aria-labelledby="mun01-h-region">
+          <h2 id="mun01-h-region" class="title-section">地方別(M-10)</h2>
+          <div class="table-wrap">
+            <table class="table">
+              <caption class="visually-hidden">地方別のグループ作成数・申請数・確定数・中止率</caption>
+              <thead>
+                <tr><th scope="col">地方</th><th scope="col" class="num">作成</th><th scope="col" class="num">申請</th><th scope="col" class="num mun01-wide">承認率</th><th scope="col" class="num">確定</th><th scope="col" class="num">中止率</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">虹帆町</th><td class="num">22</td><td class="num">96</td><td class="num mun01-wide">88%</td><td class="num">11</td><td class="num">31%</td></tr>
+                <tr><th scope="row">星凪諸島</th><td class="num">17</td><td class="num">71</td><td class="num mun01-wide">85%</td><td class="num"><span class="mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></td><td class="num">42% 未満</td></tr>
+                <tr><th scope="row">鈴風高原</th><td class="num">9</td><td class="num">34</td><td class="num mun01-wide">82%</td><td class="num"><span class="mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></td><td class="num">84% 未満</td></tr>
+              </tbody>
+              <tfoot>
+                <tr><th scope="row">合計</th><td class="num">48</td><td class="num">201</td><td class="num mun01-wide">86%</td><td class="num">23</td><td class="num">32%</td></tr>
+              </tfoot>
+            </table>
+          </div>
+          <p class="text-xs text-dimmed">「N% 未満」は、該当数が 5 件未満のため上限だけを示しています。確定の列は、合計から逆算できないよう 2 地方を「少数」にしています。スマートフォン幅では承認率の列を省略します。</p>
+        </section>
+
+        <div class="grid grid--2">
+          <!-- ファネル(作成→申請→承認→確定)と中止・再企画(MUN-UI-08) -->
+          <section class="card stack" aria-labelledby="mun01-h-funnel">
+            <h2 id="mun01-h-funnel" class="title-section">作成から実行確定まで</h2>
+            <ul class="bar-chart mun01-funnel" aria-label="作成から実行確定までの件数">
+              <li class="bar-chart__row"><span class="bar-chart__label">グループ作成</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:24%"></span></span><span class="bar-chart__value">48 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">参加申請</span><span class="bar-chart__track"><span class="bar-chart__bar bar-chart__bar--sub" style="display:block;width:100%"></span></span><span class="bar-chart__value">201 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">承認</span><span class="bar-chart__track"><span class="bar-chart__bar bar-chart__bar--sub" style="display:block;width:60%"></span></span><span class="bar-chart__value">121 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">実行確定</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:11%"></span></span><span class="bar-chart__value">23 件</span></li>
+            </ul>
+            <p class="text-xs text-dimmed">作成・実行確定はグループ数(濃い色)、申請・承認は申請の件数(薄い色)です。単位が異なるため、段の間の割合は示しません。</p>
+            <hr class="divider">
+            <h3 class="text-sm">中止と再企画(M-05・M-06)</h3>
+            <ul class="bar-chart mun01-funnel" aria-label="中止から再企画、再企画後の確定までの件数">
+              <li class="bar-chart__row"><span class="bar-chart__label">中止</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:100%"></span></span><span class="bar-chart__value">11 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">再企画</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:45%"></span></span><span class="bar-chart__value">5 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">再企画後の確定</span><span class="bar-chart__track"><span class="bar-chart__bar mun01-hatch" style="display:block;width:6%"></span></span><span class="bar-chart__value mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></li>
+            </ul>
+            <div class="table-wrap">
+              <table class="table">
+                <caption>中止の理由別</caption>
+                <thead><tr><th scope="col">理由</th><th scope="col" class="num">件数</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">締切までに最少人数に達しなかった</th><td class="num">7</td></tr>
+                  <tr><th scope="row">幹事による中止・幹事の不在</th><td class="num"><span class="mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></td></tr>
+                  <tr><th scope="row">辞退で人数が下回った</th><td class="num"><span class="mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- ⑥ 流入(M-08) -->
+          <section class="card stack" aria-labelledby="mun01-h-inflow">
+            <h2 id="mun01-h-inflow" class="title-section">流入(M-08)</h2>
+            <p class="card__meta">キャンペーン全体の件数です(地方・公式枠の絞り込みは適用しません)。</p>
+            <h3 class="text-sm">入口別</h3>
+            <ul class="bar-chart mun01-wide-label" aria-label="入口別の件数">
+              <li class="bar-chart__row"><span class="bar-chart__label">入口 A(一覧)</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:100%"></span></span><span class="bar-chart__value">412 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">入口 B(外部リンク)</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:65%"></span></span><span class="bar-chart__value">268 件</span></li>
+            </ul>
+            <h3 class="text-sm">入口 B の流入元別</h3>
+            <ul class="bar-chart mun01-wide-label" aria-label="入口 B の流入元別の件数">
+              <li class="bar-chart__row"><span class="bar-chart__label">自治体の公式観光サイト</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:100%"></span></span><span class="bar-chart__value">98 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">自治体の広報</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:55%"></span></span><span class="bar-chart__value">54 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">SNS</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:48%"></span></span><span class="bar-chart__value">47 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">検索</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:37%"></span></span><span class="bar-chart__value">36 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">旅行メディア</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:15%"></span></span><span class="bar-chart__value">15 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">交通事業者</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:9%"></span></span><span class="bar-chart__value">9 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">その他</span><span class="bar-chart__track"><span class="bar-chart__bar mun01-hatch" style="display:block;width:4%"></span></span><span class="bar-chart__value mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">流入元の指定なし</span><span class="bar-chart__track"><span class="bar-chart__bar mun01-hatch" style="display:block;width:4%"></span></span><span class="bar-chart__value mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">不明な流入元</span><span class="bar-chart__track"></span><span class="bar-chart__value">0 件</span></li>
+            </ul>
+            <h3 class="text-sm">イベント種別</h3>
+            <div class="table-wrap">
+              <table class="table">
+                <caption class="visually-hidden">イベント種別の件数</caption>
+                <thead><tr><th scope="col">イベント</th><th scope="col" class="num">件数</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">入口 B に着地</th><td class="num">268</td></tr>
+                  <tr><th scope="row">条件の引き継ぎを無視</th><td class="num"><span class="mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></td></tr>
+                  <tr><th scope="row">一覧を表示</th><td class="num">412</td></tr>
+                  <tr><th scope="row">公式枠を表示</th><td class="num">57</td></tr>
+                  <tr><th scope="row">公式枠に申請</th><td class="num"><span class="mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- ⑧ 分布(年代帯・人気スポット) -->
+        <div class="grid grid--2">
+          <section class="card stack" aria-labelledby="mun01-h-age">
+            <h2 id="mun01-h-age" class="title-section">参加者の年代帯(M-12)</h2>
+            <p class="card__meta">確定グループの参加者(重複なし 88 人)</p>
+            <ul class="bar-chart" aria-label="年代帯別の参加者数">
+              <li class="bar-chart__row"><span class="bar-chart__label">30 歳未満</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:82%"></span></span><span class="bar-chart__value">31 人</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">30〜49 歳</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:100%"></span></span><span class="bar-chart__value">38 人</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">50 歳以上</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:50%"></span></span><span class="bar-chart__value">19 人</span></li>
+            </ul>
+            <p class="text-xs text-dimmed">年代は 3 区分のみで集計します。性別は扱いません。</p>
+          </section>
+          <section class="card stack" aria-labelledby="mun01-h-spot">
+            <h2 id="mun01-h-spot" class="title-section">スタンプ取得とスポット(M-09)</h2>
+            <p class="card__meta">スタンプ取得 162 件。スポット別の取得グループ数 上位 5</p>
+            <ul class="bar-chart mun01-wide-label" aria-label="スポット別の取得グループ数">
+              <li class="bar-chart__row"><span class="bar-chart__label">虹帆港の朝市</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:100%"></span></span><span class="bar-chart__value">14 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">星凪の灯台</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:79%"></span></span><span class="bar-chart__value">11 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">鈴風の牧場</span><span class="bar-chart__track"><span class="bar-chart__bar" style="display:block;width:64%"></span></span><span class="bar-chart__value">9 件</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">白波の浜</span><span class="bar-chart__track"><span class="bar-chart__bar mun01-hatch" style="display:block;width:6%"></span></span><span class="bar-chart__value mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></li>
+              <li class="bar-chart__row"><span class="bar-chart__label">高原の展望台</span><span class="bar-chart__track"><span class="bar-chart__bar mun01-hatch" style="display:block;width:6%"></span></span><span class="bar-chart__value mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- ⑨ アンケート(SurveyPanel、MUN-UI-14) -->
+        <section class="card stack" aria-labelledby="mun01-h-survey">
+          <h2 id="mun01-h-survey" class="title-section">アンケート(M-13〜M-17)</h2>
+          <p class="card__meta">完了したグループの回答のみ。回答 74 件(回答率 71%、対象メンバー 104 人)</p>
+          <div class="stat-grid">
+            <div class="stat"><span class="stat__label">満足度(4 以上)</span><span class="stat__value">68%</span><span class="stat__note">M-13</span></div>
+            <div class="stat"><span class="stat__label">再訪意向(はい)</span><span class="stat__value">54%</span><span class="stat__note">M-14</span></div>
+            <div class="stat"><span class="stat__label">地元との交流(4 以上)</span><span class="stat__value">58%</span><span class="stat__note">M-15</span></div>
+            <div class="stat"><span class="stat__label">滞在中の回遊(4 以上)</span><span class="stat__value">64%</span><span class="stat__note">M-16</span></div>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <caption>回答の分布(件数。1 = 低い、5 = 高い)</caption>
+              <thead><tr><th scope="col">項目</th><th scope="col" class="num">1</th><th scope="col" class="num">2</th><th scope="col" class="num">3</th><th scope="col" class="num">4</th><th scope="col" class="num">5</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">満足度</th><td class="num"><span class="mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></td><td class="num"><span class="mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></td><td class="num">18</td><td class="num">29</td><td class="num">21</td></tr>
+                <tr><th scope="row">地元との交流</th><td class="num"><span class="mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></td><td class="num"><span class="mun01-few" aria-label="少数(5 件未満のため非表示)">少数</span></td><td class="num">21</td><td class="num">25</td><td class="num">18</td></tr>
+                <tr><th scope="row">滞在中の回遊</th><td class="num">0</td><td class="num">6</td><td class="num">21</td><td class="num">27</td><td class="num">20</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <caption>再訪意向の分布(件数)</caption>
+              <thead><tr><th scope="col">はい</th><th scope="col">たぶん</th><th scope="col">いいえ</th></tr></thead>
+              <tbody><tr><td>40</td><td>27</td><td>7</td></tr></tbody>
+            </table>
+          </div>
+          <p class="text-xs text-dimmed">平均値は表示しません。分布と割合で示します。</p>
+        </section>
+
+        <!-- 空状態・エラーの見本 -->
+        <section class="stack" aria-labelledby="mun01-h-states">
+          <h2 id="mun01-h-states" class="title-section">表示の見本(空状態・入力エラー・権限なし)</h2>
+          <div class="grid grid--3">
+            <div class="empty">
+              <p class="empty__title">この期間の実績はありません</p>
+              <p>件数は 0、率は「—」と表示します。</p>
+            </div>
+            <div class="field">
+              <label class="field__label" for="mun01-to-err">終了月</label>
+              <input class="input" id="mun01-to-err" type="month" value="2027-12" aria-invalid="true" aria-describedby="mun01-to-err-msg">
+              <p class="field__error" id="mun01-to-err-msg" role="alert">期間は 12 か月以内で指定してください</p>
+            </div>
+            <div class="alert alert--error" id="mun01-forbidden" role="alert">
+              <span class="alert__icon" aria-hidden="true">!</span>
+              <div>
+                <p class="alert__title">自治体担当者のみ閲覧できます</p>
+                <p>デモバーのユーザーで自治体担当者を選んでください。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      画面モック(静的 HTML。データはすべて架空)。<a href="../index.html">画面モック一覧へ</a>
+    </footer>
+
+    <nav class="app-nav" aria-label="メインメニュー">
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>ホーム
+      </a>
+      <a href="stats-dashboard.html" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>集計
+      </a>
+      <a href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13M15 7v13"/></svg>スポット
+      </a>
+      <a href="../safety/notifications.html">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>通知
+      </a>
+    </nav>
+  </div>
+</body>
+</html>
