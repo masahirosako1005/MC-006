@@ -1,0 +1,2814 @@
+{
+  "schemaVersion": 2,
+  "meta": {
+    "demoNow": "2026-11-09T09:00:00+09:00",
+    "defaultUserId": "u-001",
+    "campaign": "nttw-demo",
+    "tagCatalog": [
+      "温泉",
+      "食べ歩き",
+      "写真",
+      "ハイキング",
+      "歴史",
+      "離島",
+      "ゆっくり",
+      "朝活"
+    ]
+  },
+  "users": [
+    {
+      "id": "u-001",
+      "displayName": "ミサキ",
+      "role": "traveler"
+    },
+    {
+      "id": "u-002",
+      "displayName": "ケンタ",
+      "role": "traveler"
+    },
+    {
+      "id": "u-003",
+      "displayName": "ユイ",
+      "role": "traveler"
+    },
+    {
+      "id": "u-004",
+      "displayName": "ダイスケ",
+      "role": "traveler"
+    },
+    {
+      "id": "u-005",
+      "displayName": "ハルカ",
+      "role": "traveler"
+    },
+    {
+      "id": "u-006",
+      "displayName": "ソウタ",
+      "role": "traveler"
+    },
+    {
+      "id": "u-007",
+      "displayName": "ナナミ",
+      "role": "traveler"
+    },
+    {
+      "id": "u-008",
+      "displayName": "ヒナタ",
+      "role": "traveler"
+    },
+    {
+      "id": "u-009",
+      "displayName": "タナカ",
+      "role": "municipal",
+      "municipalityId": "mun-demo-a"
+    },
+    {
+      "id": "u-010",
+      "displayName": "リク",
+      "role": "traveler"
+    },
+    {
+      "id": "u-011",
+      "displayName": "アオイ",
+      "role": "municipal",
+      "municipalityId": "mun-demo-b"
+    },
+    {
+      "id": "u-012",
+      "displayName": "ゲン",
+      "role": "host",
+      "hostId": "host-demo-a"
+    },
+    {
+      "id": "u-013",
+      "displayName": "カオル",
+      "role": "business_owner",
+      "businessId": "biz-demo-a"
+    },
+    {
+      "id": "u-014",
+      "displayName": "シオリ",
+      "role": "business_owner",
+      "businessId": "biz-demo-b"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "u-001",
+      "userId": "u-001",
+      "displayName": "ミサキ",
+      "ageBand": "30s",
+      "bio": "ゆっくり歩く旅が好きです。",
+      "travelPurposes": [
+        "nature",
+        "relax"
+      ],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "reviewer",
+        "bio": "reviewer",
+        "travelPurposes": "reviewer",
+        "realName": "self",
+        "contact": "self"
+      }
+    },
+    {
+      "id": "u-002",
+      "userId": "u-002",
+      "displayName": "ケンタ",
+      "ageBand": "20s",
+      "bio": "写真を撮りながら歩きます。",
+      "travelPurposes": [
+        "photo",
+        "sightseeing"
+      ],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "reviewer",
+        "bio": "reviewer",
+        "travelPurposes": "reviewer",
+        "realName": "self",
+        "contact": "self"
+      }
+    },
+    {
+      "id": "u-003",
+      "userId": "u-003",
+      "displayName": "ユイ",
+      "ageBand": "40s",
+      "bio": "食べ歩きが楽しみです。",
+      "travelPurposes": [
+        "food"
+      ],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "reviewer",
+        "bio": "reviewer",
+        "travelPurposes": "reviewer",
+        "realName": "self",
+        "contact": "self"
+      }
+    },
+    {
+      "id": "u-004",
+      "userId": "u-004",
+      "displayName": "ダイスケ",
+      "ageBand": "50s",
+      "bio": "歴史の話を聞くのが好きです。",
+      "travelPurposes": [
+        "history",
+        "stamp_rally"
+      ],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "reviewer",
+        "bio": "reviewer",
+        "travelPurposes": "reviewer",
+        "realName": "self",
+        "contact": "self"
+      }
+    },
+    {
+      "id": "u-005",
+      "userId": "u-005",
+      "displayName": "ハルカ",
+      "ageBand": "60s",
+      "bio": "少人数の静かな旅が好みです。",
+      "travelPurposes": [
+        "relax"
+      ],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "reviewer",
+        "bio": "reviewer",
+        "travelPurposes": "reviewer",
+        "realName": "self",
+        "contact": "self"
+      }
+    },
+    {
+      "id": "u-006",
+      "userId": "u-006",
+      "displayName": "ソウタ",
+      "ageBand": "20s",
+      "bio": "はじめての旅ラリーです。",
+      "travelPurposes": [
+        "stamp_rally",
+        "food"
+      ],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "members",
+        "bio": "reviewer",
+        "travelPurposes": "reviewer",
+        "realName": "self",
+        "contact": "self"
+      }
+    },
+    {
+      "id": "u-007",
+      "userId": "u-007",
+      "displayName": "ナナミ",
+      "ageBand": "30s",
+      "bio": "朝の散歩が好きです。",
+      "travelPurposes": [
+        "nature",
+        "photo"
+      ],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "reviewer",
+        "bio": "reviewer",
+        "travelPurposes": "reviewer",
+        "realName": "self",
+        "contact": "self"
+      }
+    },
+    {
+      "id": "u-008",
+      "userId": "u-008",
+      "displayName": "ヒナタ",
+      "ageBand": "18-19",
+      "bio": "",
+      "travelPurposes": [],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "self",
+        "bio": "self",
+        "travelPurposes": "self",
+        "realName": "self",
+        "contact": "self"
+      }
+    },
+    {
+      "id": "u-009",
+      "userId": "u-009",
+      "displayName": "タナカ",
+      "ageBand": "40s",
+      "bio": "自治体の担当として参加します。",
+      "travelPurposes": [
+        "sightseeing"
+      ],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "reviewer",
+        "bio": "reviewer",
+        "travelPurposes": "reviewer",
+        "realName": "self",
+        "contact": "self"
+      }
+    },
+    {
+      "id": "u-010",
+      "userId": "u-010",
+      "displayName": "リク",
+      "ageBand": "20s",
+      "bio": "",
+      "travelPurposes": [
+        "food"
+      ],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "reviewer",
+        "bio": "reviewer",
+        "travelPurposes": "reviewer",
+        "realName": "self",
+        "contact": "self"
+      }
+    },
+    {
+      "id": "u-011",
+      "userId": "u-011",
+      "displayName": "アオイ",
+      "ageBand": "30s",
+      "bio": "自治体の担当です。",
+      "travelPurposes": [
+        "sightseeing"
+      ],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "reviewer",
+        "bio": "reviewer",
+        "travelPurposes": "reviewer",
+        "realName": "self",
+        "contact": "self"
+      }
+    },
+    {
+      "id": "u-012",
+      "userId": "u-012",
+      "displayName": "ゲン",
+      "ageBand": "50s",
+      "bio": "地元の案内をしています。",
+      "travelPurposes": [
+        "history"
+      ],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "reviewer",
+        "bio": "reviewer",
+        "travelPurposes": "reviewer",
+        "realName": "self",
+        "contact": "self"
+      }
+    },
+    {
+      "id": "u-013",
+      "userId": "u-013",
+      "displayName": "カオル",
+      "ageBand": "40s",
+      "bio": "宿を営んでいます。",
+      "travelPurposes": [
+        "relax"
+      ],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "reviewer",
+        "bio": "reviewer",
+        "travelPurposes": "reviewer",
+        "realName": "self",
+        "contact": "self"
+      }
+    },
+    {
+      "id": "u-014",
+      "userId": "u-014",
+      "displayName": "シオリ",
+      "ageBand": "50s",
+      "bio": "食堂を営んでいます。",
+      "travelPurposes": [
+        "food"
+      ],
+      "realName": "氏名(ダミー)",
+      "contact": "連絡手段メモ(ダミー)",
+      "visibility": {
+        "displayName": "public",
+        "ageBand": "reviewer",
+        "bio": "reviewer",
+        "travelPurposes": "reviewer",
+        "realName": "self",
+        "contact": "self"
+      }
+    }
+  ],
+  "verifications": [
+    {
+      "id": "u-001",
+      "userId": "u-001",
+      "status": "verified",
+      "method": "mock_self_declaration",
+      "confirmedAt": "2026-11-01T10:00:00+09:00"
+    },
+    {
+      "id": "u-002",
+      "userId": "u-002",
+      "status": "verified",
+      "method": "mock_self_declaration",
+      "confirmedAt": "2026-11-01T10:00:00+09:00"
+    },
+    {
+      "id": "u-003",
+      "userId": "u-003",
+      "status": "verified",
+      "method": "mock_self_declaration",
+      "confirmedAt": "2026-11-01T10:00:00+09:00"
+    },
+    {
+      "id": "u-004",
+      "userId": "u-004",
+      "status": "verified",
+      "method": "mock_self_declaration",
+      "confirmedAt": "2026-11-01T10:00:00+09:00"
+    },
+    {
+      "id": "u-005",
+      "userId": "u-005",
+      "status": "verified",
+      "method": "mock_self_declaration",
+      "confirmedAt": "2026-11-01T10:00:00+09:00"
+    },
+    {
+      "id": "u-006",
+      "userId": "u-006",
+      "status": "verified",
+      "method": "mock_self_declaration",
+      "confirmedAt": "2026-11-01T10:00:00+09:00"
+    },
+    {
+      "id": "u-007",
+      "userId": "u-007",
+      "status": "verified",
+      "method": "mock_self_declaration",
+      "confirmedAt": "2026-11-01T10:00:00+09:00"
+    },
+    {
+      "id": "u-008",
+      "userId": "u-008",
+      "status": "underage",
+      "method": "mock_self_declaration",
+      "confirmedAt": null
+    },
+    {
+      "id": "u-009",
+      "userId": "u-009",
+      "status": "verified",
+      "method": "mock_self_declaration",
+      "confirmedAt": "2026-11-01T10:00:00+09:00"
+    },
+    {
+      "id": "u-010",
+      "userId": "u-010",
+      "status": "unverified",
+      "method": "mock_self_declaration",
+      "confirmedAt": null
+    },
+    {
+      "id": "u-011",
+      "userId": "u-011",
+      "status": "verified",
+      "method": "mock_self_declaration",
+      "confirmedAt": "2026-11-01T10:00:00+09:00"
+    },
+    {
+      "id": "u-012",
+      "userId": "u-012",
+      "status": "verified",
+      "method": "mock_self_declaration",
+      "confirmedAt": "2026-11-01T10:00:00+09:00"
+    },
+    {
+      "id": "u-013",
+      "userId": "u-013",
+      "status": "verified",
+      "method": "mock_self_declaration",
+      "confirmedAt": "2026-11-01T10:00:00+09:00"
+    },
+    {
+      "id": "u-014",
+      "userId": "u-014",
+      "status": "verified",
+      "method": "mock_self_declaration",
+      "confirmedAt": "2026-11-01T10:00:00+09:00"
+    }
+  ],
+  "blocks": [
+    {
+      "id": "bl-001",
+      "blockerId": "u-001",
+      "blockedId": "u-006",
+      "createdAt": "2026-11-06T10:00:00+09:00",
+      "releasedAt": null,
+      "sourceGroupId": "g-012"
+    }
+  ],
+  "reports": [
+    {
+      "id": "rp-001",
+      "reporterId": "u-002",
+      "targetType": "message",
+      "targetId": "msg-011",
+      "targetUserId": "u-005",
+      "groupId": "g-005",
+      "reason": "off_purpose",
+      "body": "旅の内容と関係が薄いように感じました。",
+      "snapshot": "持ち物は歩きやすい靴で大丈夫でしょうか。",
+      "status": "received",
+      "createdAt": "2026-11-06T12:00:00+09:00"
+    }
+  ],
+  "regions": [
+    {
+      "id": "r-mizukoto",
+      "name": "水琴地方",
+      "campaign": "nttw-demo",
+      "spotAreas": [
+        "月灯集落",
+        "雫森谷"
+      ]
+    },
+    {
+      "id": "r-suzukaze",
+      "name": "鈴風高原",
+      "campaign": "nttw-demo",
+      "spotAreas": [
+        "鈴風高原"
+      ]
+    },
+    {
+      "id": "r-hoshinagi",
+      "name": "星凪諸島",
+      "campaign": "nttw-demo",
+      "spotAreas": [
+        "星凪諸島",
+        "星綴港",
+        "白波離島"
+      ]
+    },
+    {
+      "id": "r-nijiho",
+      "name": "虹帆町",
+      "campaign": "nttw-demo",
+      "spotAreas": [
+        "虹帆町"
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "id": "g-001",
+      "name": "鈴風高原のんびり歩き",
+      "campaign": "nttw-demo",
+      "region": "r-suzukaze",
+      "trip": {
+        "destination": "雪雫の音楽堂",
+        "startDate": "2026-12-05",
+        "endDate": "2026-12-06",
+        "dateNote": ""
+      },
+      "capacity": 4,
+      "visibility": "public",
+      "tags": [
+        "ハイキング",
+        "ゆっくり"
+      ],
+      "description": "ゆっくり歩いて音楽堂へ向かいます。",
+      "official": false,
+      "organizerId": "u-001",
+      "inviteCode": null,
+      "lifecycle": {
+        "status": "recruiting",
+        "minMembers": 3,
+        "deadlineDate": "2026-11-20",
+        "deadlineAt": "2026-11-21T00:00:00+09:00",
+        "deadlineExtendedCount": 0,
+        "withdrawalStartedAt": null,
+        "withdrawalEndsAt": null,
+        "confirmedAt": null,
+        "startedAt": null,
+        "completedAt": null,
+        "cancelledAt": null,
+        "cancelReason": null,
+        "organizerCancelReason": null,
+        "replanOfGroupId": null,
+        "replannedToGroupId": null,
+        "replannedAt": null,
+        "deadlineSoonNoticeSent": false,
+        "withdrawalEndingNoticeSent": false,
+        "revision": 1
+      },
+      "createdAt": "2026-11-01T10:00:00+09:00",
+      "updatedAt": "2026-11-01T10:00:00+09:00"
+    },
+    {
+      "id": "g-002",
+      "name": "虹帆町 夜市めぐり(公式)",
+      "campaign": "nttw-demo",
+      "region": "r-nijiho",
+      "trip": {
+        "destination": "虹灯りの夜市",
+        "startDate": "2026-12-12",
+        "endDate": "2026-12-13",
+        "dateNote": ""
+      },
+      "capacity": 6,
+      "visibility": "public",
+      "tags": [
+        "食べ歩き",
+        "写真"
+      ],
+      "description": "自治体おすすめの夜市を歩くプランです。",
+      "official": true,
+      "organizerId": "u-009",
+      "inviteCode": null,
+      "lifecycle": {
+        "status": "recruiting",
+        "minMembers": 4,
+        "deadlineDate": "2026-11-25",
+        "deadlineAt": "2026-11-26T00:00:00+09:00",
+        "deadlineExtendedCount": 0,
+        "withdrawalStartedAt": null,
+        "withdrawalEndsAt": null,
+        "confirmedAt": null,
+        "startedAt": null,
+        "completedAt": null,
+        "cancelledAt": null,
+        "cancelReason": null,
+        "organizerCancelReason": null,
+        "replanOfGroupId": null,
+        "replannedToGroupId": null,
+        "replannedAt": null,
+        "deadlineSoonNoticeSent": false,
+        "withdrawalEndingNoticeSent": false,
+        "revision": 1
+      },
+      "createdAt": "2026-11-02T10:00:00+09:00",
+      "updatedAt": "2026-11-02T10:00:00+09:00"
+    },
+    {
+      "id": "g-003",
+      "name": "星綴港 朝市さんぽ",
+      "campaign": "nttw-demo",
+      "region": "r-hoshinagi",
+      "trip": {
+        "destination": "灯雲の石畳通り",
+        "startDate": "2026-11-30",
+        "endDate": "2026-11-30",
+        "dateNote": ""
+      },
+      "capacity": 4,
+      "visibility": "public",
+      "tags": [
+        "朝活",
+        "食べ歩き"
+      ],
+      "description": "朝市をのんびり見て回ります。",
+      "official": false,
+      "organizerId": "u-003",
+      "inviteCode": null,
+      "lifecycle": {
+        "status": "min_reached",
+        "minMembers": 3,
+        "deadlineDate": "2026-11-14",
+        "deadlineAt": "2026-11-15T00:00:00+09:00",
+        "deadlineExtendedCount": 0,
+        "withdrawalStartedAt": null,
+        "withdrawalEndsAt": null,
+        "confirmedAt": null,
+        "startedAt": null,
+        "completedAt": null,
+        "cancelledAt": null,
+        "cancelReason": null,
+        "organizerCancelReason": null,
+        "replanOfGroupId": null,
+        "replannedToGroupId": null,
+        "replannedAt": null,
+        "deadlineSoonNoticeSent": false,
+        "withdrawalEndingNoticeSent": false,
+        "revision": 1
+      },
+      "createdAt": "2026-10-25T10:00:00+09:00",
+      "updatedAt": "2026-10-25T10:00:00+09:00"
+    },
+    {
+      "id": "g-004",
+      "name": "雫森谷 紅葉ハイク",
+      "campaign": "nttw-demo",
+      "region": "r-mizukoto",
+      "trip": {
+        "destination": "瑠璃凪の水鏡湖",
+        "startDate": "2026-11-29",
+        "endDate": "2026-11-30",
+        "dateNote": ""
+      },
+      "capacity": 4,
+      "visibility": "public",
+      "tags": [
+        "ハイキング",
+        "写真"
+      ],
+      "description": "紅葉の水鏡湖まで歩きます。",
+      "official": false,
+      "organizerId": "u-007",
+      "inviteCode": null,
+      "lifecycle": {
+        "status": "withdrawal_period",
+        "minMembers": 3,
+        "deadlineDate": "2026-11-07",
+        "deadlineAt": "2026-11-08T00:00:00+09:00",
+        "deadlineExtendedCount": 0,
+        "withdrawalStartedAt": "2026-11-08T00:00:00+09:00",
+        "withdrawalEndsAt": "2026-11-11T00:00:00+09:00",
+        "confirmedAt": null,
+        "startedAt": null,
+        "completedAt": null,
+        "cancelledAt": null,
+        "cancelReason": null,
+        "organizerCancelReason": null,
+        "replanOfGroupId": null,
+        "replannedToGroupId": null,
+        "replannedAt": null,
+        "deadlineSoonNoticeSent": false,
+        "withdrawalEndingNoticeSent": true,
+        "revision": 4
+      },
+      "createdAt": "2026-10-20T10:00:00+09:00",
+      "updatedAt": "2026-11-08T00:00:00+09:00"
+    },
+    {
+      "id": "g-005",
+      "name": "星凪諸島 島時間(公式)",
+      "campaign": "nttw-demo",
+      "region": "r-hoshinagi",
+      "trip": {
+        "destination": "星綾の潮見台",
+        "startDate": "2026-11-28",
+        "endDate": "2026-11-29",
+        "dateNote": ""
+      },
+      "capacity": 6,
+      "visibility": "public",
+      "tags": [
+        "離島",
+        "ゆっくり"
+      ],
+      "description": "潮見台と港を巡る島時間のプランです。",
+      "official": true,
+      "organizerId": "u-009",
+      "inviteCode": null,
+      "lifecycle": {
+        "status": "confirmed",
+        "minMembers": 4,
+        "deadlineDate": "2026-11-01",
+        "deadlineAt": "2026-11-02T00:00:00+09:00",
+        "deadlineExtendedCount": 0,
+        "withdrawalStartedAt": "2026-11-02T00:00:00+09:00",
+        "withdrawalEndsAt": "2026-11-05T00:00:00+09:00",
+        "confirmedAt": "2026-11-05T00:00:00+09:00",
+        "startedAt": null,
+        "completedAt": null,
+        "cancelledAt": null,
+        "cancelReason": null,
+        "organizerCancelReason": null,
+        "replanOfGroupId": null,
+        "replannedToGroupId": null,
+        "replannedAt": null,
+        "deadlineSoonNoticeSent": false,
+        "withdrawalEndingNoticeSent": false,
+        "revision": 4
+      },
+      "createdAt": "2026-10-15T10:00:00+09:00",
+      "updatedAt": "2026-11-05T00:00:00+09:00"
+    },
+    {
+      "id": "g-006",
+      "name": "月灯集落 灯りの夕べ",
+      "campaign": "nttw-demo",
+      "region": "r-mizukoto",
+      "trip": {
+        "destination": "月花の風車丘",
+        "startDate": "2026-11-22",
+        "endDate": "2026-11-22",
+        "dateNote": ""
+      },
+      "capacity": 4,
+      "visibility": "public",
+      "tags": [
+        "写真",
+        "歴史"
+      ],
+      "description": "灯りの夕べを見に行きます。",
+      "official": false,
+      "organizerId": "u-004",
+      "inviteCode": null,
+      "lifecycle": {
+        "status": "replanned",
+        "minMembers": 4,
+        "deadlineDate": "2026-11-05",
+        "deadlineAt": "2026-11-06T00:00:00+09:00",
+        "deadlineExtendedCount": 0,
+        "withdrawalStartedAt": null,
+        "withdrawalEndsAt": null,
+        "confirmedAt": null,
+        "startedAt": null,
+        "completedAt": null,
+        "cancelledAt": "2026-11-06T00:00:00+09:00",
+        "cancelReason": "min_not_reached",
+        "organizerCancelReason": null,
+        "replanOfGroupId": null,
+        "replannedToGroupId": "g-007",
+        "replannedAt": "2026-11-07T10:00:00+09:00",
+        "deadlineSoonNoticeSent": false,
+        "withdrawalEndingNoticeSent": false,
+        "revision": 3
+      },
+      "createdAt": "2026-10-20T12:00:00+09:00",
+      "updatedAt": "2026-11-07T10:00:00+09:00"
+    },
+    {
+      "id": "g-007",
+      "name": "月灯集落 灯りの夕べ(再企画)",
+      "campaign": "nttw-demo",
+      "region": "r-mizukoto",
+      "trip": {
+        "destination": "月花の風車丘",
+        "startDate": "2026-12-20",
+        "endDate": "2026-12-20",
+        "dateNote": ""
+      },
+      "capacity": 4,
+      "visibility": "public",
+      "tags": [
+        "写真",
+        "歴史"
+      ],
+      "description": "日程を変えて再企画しました。",
+      "official": false,
+      "organizerId": "u-004",
+      "inviteCode": null,
+      "lifecycle": {
+        "status": "recruiting",
+        "minMembers": 3,
+        "deadlineDate": "2026-11-30",
+        "deadlineAt": "2026-12-01T00:00:00+09:00",
+        "deadlineExtendedCount": 0,
+        "withdrawalStartedAt": null,
+        "withdrawalEndsAt": null,
+        "confirmedAt": null,
+        "startedAt": null,
+        "completedAt": null,
+        "cancelledAt": null,
+        "cancelReason": null,
+        "organizerCancelReason": null,
+        "replanOfGroupId": "g-006",
+        "replannedToGroupId": null,
+        "replannedAt": null,
+        "deadlineSoonNoticeSent": false,
+        "withdrawalEndingNoticeSent": false,
+        "revision": 1
+      },
+      "createdAt": "2026-11-07T10:00:00+09:00",
+      "updatedAt": "2026-11-07T10:00:00+09:00"
+    },
+    {
+      "id": "g-008",
+      "name": "白波離島 少人数の島旅",
+      "campaign": "nttw-demo",
+      "region": "r-hoshinagi",
+      "trip": {
+        "destination": "風詠みの灯台",
+        "startDate": "2026-12-08",
+        "endDate": "2026-12-08",
+        "dateNote": ""
+      },
+      "capacity": 3,
+      "visibility": "private",
+      "tags": [
+        "離島",
+        "ゆっくり"
+      ],
+      "description": "少人数で静かに灯台を目指します。",
+      "official": false,
+      "organizerId": "u-005",
+      "inviteCode": {
+        "code": "SEED8PRIV2",
+        "issuedAt": "2026-11-08T10:00:00+09:00",
+        "expiresAt": "2026-11-15T10:00:00+09:00",
+        "revokedAt": null
+      },
+      "lifecycle": {
+        "status": "recruiting",
+        "minMembers": 2,
+        "deadlineDate": "2026-11-27",
+        "deadlineAt": "2026-11-28T00:00:00+09:00",
+        "deadlineExtendedCount": 0,
+        "withdrawalStartedAt": null,
+        "withdrawalEndsAt": null,
+        "confirmedAt": null,
+        "startedAt": null,
+        "completedAt": null,
+        "cancelledAt": null,
+        "cancelReason": null,
+        "organizerCancelReason": null,
+        "replanOfGroupId": null,
+        "replannedToGroupId": null,
+        "replannedAt": null,
+        "deadlineSoonNoticeSent": false,
+        "withdrawalEndingNoticeSent": false,
+        "revision": 1
+      },
+      "createdAt": "2026-11-05T10:00:00+09:00",
+      "updatedAt": "2026-11-05T10:00:00+09:00"
+    },
+    {
+      "id": "g-009",
+      "name": "星凪諸島 灯台めぐり(1対1)",
+      "campaign": "nttw-demo",
+      "region": "r-hoshinagi",
+      "trip": {
+        "destination": "風詠みの灯台",
+        "startDate": "2026-12-02",
+        "endDate": "2026-12-02",
+        "dateNote": ""
+      },
+      "capacity": 2,
+      "visibility": "public",
+      "tags": [
+        "離島",
+        "写真"
+      ],
+      "description": "1対1でゆっくり灯台を巡ります。",
+      "official": false,
+      "organizerId": "u-002",
+      "inviteCode": null,
+      "lifecycle": {
+        "status": "recruiting",
+        "minMembers": 2,
+        "deadlineDate": "2026-11-22",
+        "deadlineAt": "2026-11-23T00:00:00+09:00",
+        "deadlineExtendedCount": 0,
+        "withdrawalStartedAt": null,
+        "withdrawalEndsAt": null,
+        "confirmedAt": null,
+        "startedAt": null,
+        "completedAt": null,
+        "cancelledAt": null,
+        "cancelReason": null,
+        "organizerCancelReason": null,
+        "replanOfGroupId": null,
+        "replannedToGroupId": null,
+        "replannedAt": null,
+        "deadlineSoonNoticeSent": false,
+        "withdrawalEndingNoticeSent": false,
+        "revision": 1
+      },
+      "createdAt": "2026-11-03T10:00:00+09:00",
+      "updatedAt": "2026-11-03T10:00:00+09:00"
+    },
+    {
+      "id": "g-010",
+      "name": "鈴風高原 音楽堂の朝",
+      "campaign": "nttw-demo",
+      "region": "r-suzukaze",
+      "trip": {
+        "destination": "雪雫の音楽堂",
+        "startDate": "2026-10-18",
+        "endDate": "2026-10-19",
+        "dateNote": ""
+      },
+      "capacity": 4,
+      "visibility": "public",
+      "tags": [
+        "朝活",
+        "ハイキング"
+      ],
+      "description": "朝の演奏会を聴きに行きました。",
+      "official": false,
+      "organizerId": "u-001",
+      "inviteCode": null,
+      "lifecycle": {
+        "status": "completed",
+        "minMembers": 3,
+        "deadlineDate": "2026-10-10",
+        "deadlineAt": "2026-10-11T00:00:00+09:00",
+        "deadlineExtendedCount": 0,
+        "withdrawalStartedAt": "2026-10-11T00:00:00+09:00",
+        "withdrawalEndsAt": "2026-10-14T00:00:00+09:00",
+        "confirmedAt": "2026-10-14T00:00:00+09:00",
+        "startedAt": "2026-10-18T00:00:00+09:00",
+        "completedAt": "2026-10-20T00:00:00+09:00",
+        "cancelledAt": null,
+        "cancelReason": null,
+        "organizerCancelReason": null,
+        "replanOfGroupId": null,
+        "replannedToGroupId": null,
+        "replannedAt": null,
+        "deadlineSoonNoticeSent": false,
+        "withdrawalEndingNoticeSent": false,
+        "revision": 6
+      },
+      "createdAt": "2026-09-25T10:00:00+09:00",
+      "updatedAt": "2026-10-20T00:00:00+09:00"
+    },
+    {
+      "id": "g-011",
+      "name": "虹帆町 夜明けの港",
+      "campaign": "nttw-demo",
+      "region": "r-nijiho",
+      "trip": {
+        "destination": "虹灯りの夜市",
+        "startDate": "2026-11-08",
+        "endDate": "2026-11-10",
+        "dateNote": ""
+      },
+      "capacity": 4,
+      "visibility": "public",
+      "tags": [
+        "食べ歩き",
+        "朝活"
+      ],
+      "description": "夜明けの港と夜市を巡る旅です。",
+      "official": false,
+      "organizerId": "u-003",
+      "inviteCode": null,
+      "lifecycle": {
+        "status": "in_progress",
+        "minMembers": 3,
+        "deadlineDate": "2026-10-30",
+        "deadlineAt": "2026-10-31T00:00:00+09:00",
+        "deadlineExtendedCount": 0,
+        "withdrawalStartedAt": "2026-10-31T00:00:00+09:00",
+        "withdrawalEndsAt": "2026-11-03T00:00:00+09:00",
+        "confirmedAt": "2026-11-03T00:00:00+09:00",
+        "startedAt": "2026-11-08T00:00:00+09:00",
+        "completedAt": null,
+        "cancelledAt": null,
+        "cancelReason": null,
+        "organizerCancelReason": null,
+        "replanOfGroupId": null,
+        "replannedToGroupId": null,
+        "replannedAt": null,
+        "deadlineSoonNoticeSent": false,
+        "withdrawalEndingNoticeSent": false,
+        "revision": 5
+      },
+      "createdAt": "2026-10-10T10:00:00+09:00",
+      "updatedAt": "2026-11-08T00:00:00+09:00"
+    },
+    {
+      "id": "g-012",
+      "name": "雫森谷 小さな森歩き",
+      "campaign": "nttw-demo",
+      "region": "r-mizukoto",
+      "trip": {
+        "destination": "瑠璃凪の水鏡湖",
+        "startDate": "2026-12-01",
+        "endDate": "2026-12-01",
+        "dateNote": ""
+      },
+      "capacity": 3,
+      "visibility": "public",
+      "tags": [
+        "ハイキング",
+        "ゆっくり"
+      ],
+      "description": "小さな森をゆっくり歩きます。",
+      "official": false,
+      "organizerId": "u-007",
+      "inviteCode": null,
+      "lifecycle": {
+        "status": "min_reached",
+        "minMembers": 2,
+        "deadlineDate": "2026-11-18",
+        "deadlineAt": "2026-11-19T00:00:00+09:00",
+        "deadlineExtendedCount": 0,
+        "withdrawalStartedAt": null,
+        "withdrawalEndsAt": null,
+        "confirmedAt": null,
+        "startedAt": null,
+        "completedAt": null,
+        "cancelledAt": null,
+        "cancelReason": null,
+        "organizerCancelReason": null,
+        "replanOfGroupId": null,
+        "replannedToGroupId": null,
+        "replannedAt": null,
+        "deadlineSoonNoticeSent": false,
+        "withdrawalEndingNoticeSent": false,
+        "revision": 1
+      },
+      "createdAt": "2026-10-28T10:00:00+09:00",
+      "updatedAt": "2026-10-28T10:00:00+09:00"
+    },
+    {
+      "id": "g-013",
+      "name": "星凪諸島 夕暮れの浜歩き",
+      "campaign": "nttw-demo",
+      "region": "r-hoshinagi",
+      "trip": {
+        "destination": "星綾の潮見台",
+        "startDate": "2026-11-23",
+        "endDate": "2026-11-23",
+        "dateNote": ""
+      },
+      "capacity": 4,
+      "visibility": "public",
+      "tags": [
+        "写真",
+        "離島"
+      ],
+      "description": "夕暮れの浜を歩く予定でした。",
+      "official": false,
+      "organizerId": "u-007",
+      "inviteCode": null,
+      "lifecycle": {
+        "status": "cancelled",
+        "minMembers": 3,
+        "deadlineDate": "2026-11-06",
+        "deadlineAt": "2026-11-07T00:00:00+09:00",
+        "deadlineExtendedCount": 0,
+        "withdrawalStartedAt": null,
+        "withdrawalEndsAt": null,
+        "confirmedAt": null,
+        "startedAt": null,
+        "completedAt": null,
+        "cancelledAt": "2026-11-07T00:00:00+09:00",
+        "cancelReason": "min_not_reached",
+        "organizerCancelReason": null,
+        "replanOfGroupId": null,
+        "replannedToGroupId": null,
+        "replannedAt": null,
+        "deadlineSoonNoticeSent": false,
+        "withdrawalEndingNoticeSent": false,
+        "revision": 3
+      },
+      "createdAt": "2026-10-22T10:00:00+09:00",
+      "updatedAt": "2026-11-07T00:00:00+09:00"
+    }
+  ],
+  "members": [
+    {
+      "id": "m-001",
+      "groupId": "g-001",
+      "userId": "u-001",
+      "role": "organizer",
+      "status": "active",
+      "joinedAt": "2026-11-01T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-002",
+      "groupId": "g-001",
+      "userId": "u-002",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-11-03T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-003",
+      "groupId": "g-002",
+      "userId": "u-009",
+      "role": "organizer",
+      "status": "active",
+      "joinedAt": "2026-11-02T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-004",
+      "groupId": "g-002",
+      "userId": "u-003",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-11-04T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-005",
+      "groupId": "g-002",
+      "userId": "u-005",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-11-05T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-006",
+      "groupId": "g-003",
+      "userId": "u-003",
+      "role": "organizer",
+      "status": "active",
+      "joinedAt": "2026-10-25T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-007",
+      "groupId": "g-003",
+      "userId": "u-002",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-10-27T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-008",
+      "groupId": "g-003",
+      "userId": "u-007",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-10-28T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-009",
+      "groupId": "g-004",
+      "userId": "u-007",
+      "role": "organizer",
+      "status": "active",
+      "joinedAt": "2026-10-20T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-010",
+      "groupId": "g-004",
+      "userId": "u-001",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-10-22T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-011",
+      "groupId": "g-004",
+      "userId": "u-005",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-10-24T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-012",
+      "groupId": "g-004",
+      "userId": "u-006",
+      "role": "member",
+      "status": "left",
+      "joinedAt": "2026-10-25T10:00:00+09:00",
+      "leftAt": "2026-11-08T15:00:00+09:00"
+    },
+    {
+      "id": "m-013",
+      "groupId": "g-005",
+      "userId": "u-009",
+      "role": "organizer",
+      "status": "active",
+      "joinedAt": "2026-10-15T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-014",
+      "groupId": "g-005",
+      "userId": "u-001",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-10-16T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-015",
+      "groupId": "g-005",
+      "userId": "u-002",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-10-17T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-016",
+      "groupId": "g-005",
+      "userId": "u-004",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-10-18T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-017",
+      "groupId": "g-005",
+      "userId": "u-005",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-10-19T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-018",
+      "groupId": "g-006",
+      "userId": "u-004",
+      "role": "organizer",
+      "status": "active",
+      "joinedAt": "2026-10-20T12:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-019",
+      "groupId": "g-006",
+      "userId": "u-006",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-10-22T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-020",
+      "groupId": "g-007",
+      "userId": "u-004",
+      "role": "organizer",
+      "status": "active",
+      "joinedAt": "2026-11-07T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-021",
+      "groupId": "g-008",
+      "userId": "u-005",
+      "role": "organizer",
+      "status": "active",
+      "joinedAt": "2026-11-05T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-022",
+      "groupId": "g-009",
+      "userId": "u-002",
+      "role": "organizer",
+      "status": "active",
+      "joinedAt": "2026-11-03T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-023",
+      "groupId": "g-010",
+      "userId": "u-001",
+      "role": "organizer",
+      "status": "active",
+      "joinedAt": "2026-09-25T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-024",
+      "groupId": "g-010",
+      "userId": "u-003",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-09-27T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-025",
+      "groupId": "g-010",
+      "userId": "u-007",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-09-28T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-026",
+      "groupId": "g-011",
+      "userId": "u-003",
+      "role": "organizer",
+      "status": "active",
+      "joinedAt": "2026-10-10T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-027",
+      "groupId": "g-011",
+      "userId": "u-004",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-10-11T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-028",
+      "groupId": "g-011",
+      "userId": "u-002",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-10-12T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-029",
+      "groupId": "g-011",
+      "userId": "u-006",
+      "role": "member",
+      "status": "left",
+      "joinedAt": "2026-10-13T10:00:00+09:00",
+      "leftAt": "2026-11-04T12:00:00+09:00"
+    },
+    {
+      "id": "m-030",
+      "groupId": "g-012",
+      "userId": "u-007",
+      "role": "organizer",
+      "status": "active",
+      "joinedAt": "2026-10-28T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-031",
+      "groupId": "g-012",
+      "userId": "u-001",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-10-30T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-032",
+      "groupId": "g-012",
+      "userId": "u-006",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-11-01T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-033",
+      "groupId": "g-013",
+      "userId": "u-007",
+      "role": "organizer",
+      "status": "active",
+      "joinedAt": "2026-10-22T10:00:00+09:00",
+      "leftAt": null
+    },
+    {
+      "id": "m-034",
+      "groupId": "g-013",
+      "userId": "u-002",
+      "role": "member",
+      "status": "active",
+      "joinedAt": "2026-10-24T10:00:00+09:00",
+      "leftAt": null
+    }
+  ],
+  "joinRequests": [
+    {
+      "id": "jr-001",
+      "groupId": "g-001",
+      "applicantId": "u-004",
+      "note": "よろしくお願いします。",
+      "status": "pending",
+      "consentMinMembers": true,
+      "consentAt": "2026-11-08T10:00:00+09:00",
+      "consentedMinMembers": 3,
+      "viaInviteCode": false,
+      "reentryOfGroupId": null,
+      "reasonId": null,
+      "createdAt": "2026-11-08T10:00:00+09:00",
+      "decidedAt": null,
+      "decidedBy": null
+    },
+    {
+      "id": "jr-002",
+      "groupId": "g-001",
+      "applicantId": "u-002",
+      "note": "よろしくお願いします。",
+      "status": "approved",
+      "consentMinMembers": true,
+      "consentAt": "2026-11-02T10:00:00+09:00",
+      "consentedMinMembers": 3,
+      "viaInviteCode": false,
+      "reentryOfGroupId": null,
+      "reasonId": null,
+      "createdAt": "2026-11-02T10:00:00+09:00",
+      "decidedAt": "2026-11-03T10:00:00+09:00",
+      "decidedBy": "u-001"
+    },
+    {
+      "id": "jr-003",
+      "groupId": "g-002",
+      "applicantId": "u-003",
+      "note": "よろしくお願いします。",
+      "status": "approved",
+      "consentMinMembers": true,
+      "consentAt": "2026-11-03T10:00:00+09:00",
+      "consentedMinMembers": 4,
+      "viaInviteCode": false,
+      "reentryOfGroupId": null,
+      "reasonId": null,
+      "createdAt": "2026-11-03T10:00:00+09:00",
+      "decidedAt": "2026-11-04T10:00:00+09:00",
+      "decidedBy": "u-009"
+    },
+    {
+      "id": "jr-004",
+      "groupId": "g-003",
+      "applicantId": "u-005",
+      "note": "よろしくお願いします。",
+      "status": "rejected",
+      "consentMinMembers": true,
+      "consentAt": "2026-10-29T10:00:00+09:00",
+      "consentedMinMembers": 3,
+      "viaInviteCode": false,
+      "reentryOfGroupId": null,
+      "reasonId": "schedule_mismatch",
+      "createdAt": "2026-10-29T10:00:00+09:00",
+      "decidedAt": "2026-10-30T10:00:00+09:00",
+      "decidedBy": "u-003"
+    },
+    {
+      "id": "jr-005",
+      "groupId": "g-009",
+      "applicantId": "u-001",
+      "note": "よろしくお願いします。",
+      "status": "withdrawn",
+      "consentMinMembers": true,
+      "consentAt": "2026-11-05T10:00:00+09:00",
+      "consentedMinMembers": 2,
+      "viaInviteCode": false,
+      "reentryOfGroupId": null,
+      "reasonId": null,
+      "createdAt": "2026-11-05T10:00:00+09:00",
+      "decidedAt": "2026-11-06T10:00:00+09:00",
+      "decidedBy": "u-001"
+    },
+    {
+      "id": "jr-006",
+      "groupId": "g-004",
+      "applicantId": "u-003",
+      "note": "よろしくお願いします。",
+      "status": "expired",
+      "consentMinMembers": true,
+      "consentAt": "2026-11-06T10:00:00+09:00",
+      "consentedMinMembers": 3,
+      "viaInviteCode": false,
+      "reentryOfGroupId": null,
+      "reasonId": null,
+      "createdAt": "2026-11-06T10:00:00+09:00",
+      "decidedAt": "2026-11-08T00:00:00+09:00",
+      "decidedBy": "system"
+    },
+    {
+      "id": "jr-007",
+      "groupId": "g-007",
+      "applicantId": "u-006",
+      "note": "よろしくお願いします。",
+      "status": "pending",
+      "consentMinMembers": true,
+      "consentAt": "2026-11-08T11:00:00+09:00",
+      "consentedMinMembers": 3,
+      "viaInviteCode": false,
+      "reentryOfGroupId": "g-006",
+      "reasonId": null,
+      "createdAt": "2026-11-08T11:00:00+09:00",
+      "decidedAt": null,
+      "decidedBy": null
+    },
+    {
+      "id": "jr-008",
+      "groupId": "g-005",
+      "applicantId": "u-004",
+      "note": "よろしくお願いします。",
+      "status": "approved",
+      "consentMinMembers": true,
+      "consentAt": "2026-10-17T10:00:00+09:00",
+      "consentedMinMembers": 4,
+      "viaInviteCode": false,
+      "reentryOfGroupId": null,
+      "reasonId": null,
+      "createdAt": "2026-10-17T10:00:00+09:00",
+      "decidedAt": "2026-10-18T10:00:00+09:00",
+      "decidedBy": "u-009"
+    }
+  ],
+  "withdrawals": [
+    {
+      "id": "wd-001",
+      "groupId": "g-004",
+      "userId": "u-006",
+      "withdrawnAt": "2026-11-08T15:00:00+09:00",
+      "phase": "withdrawal_period",
+      "countAfter": 3,
+      "causedTransition": null
+    },
+    {
+      "id": "wd-002",
+      "groupId": "g-011",
+      "userId": "u-006",
+      "withdrawnAt": "2026-11-04T12:00:00+09:00",
+      "phase": "confirmed",
+      "countAfter": 3,
+      "causedTransition": null
+    }
+  ],
+  "groupStatusLogs": [
+    {
+      "id": "sl-001",
+      "groupId": "g-001",
+      "seq": 1,
+      "from": null,
+      "to": "recruiting",
+      "event": "created",
+      "effectiveAt": "2026-11-01T10:00:00+09:00",
+      "evaluatedAt": "2026-11-01T10:00:00+09:00",
+      "actor": "u-001",
+      "meta": null
+    },
+    {
+      "id": "sl-002",
+      "groupId": "g-002",
+      "seq": 1,
+      "from": null,
+      "to": "recruiting",
+      "event": "created",
+      "effectiveAt": "2026-11-02T10:00:00+09:00",
+      "evaluatedAt": "2026-11-02T10:00:00+09:00",
+      "actor": "u-009",
+      "meta": null
+    },
+    {
+      "id": "sl-003",
+      "groupId": "g-003",
+      "seq": 1,
+      "from": null,
+      "to": "recruiting",
+      "event": "created",
+      "effectiveAt": "2026-10-25T10:00:00+09:00",
+      "evaluatedAt": "2026-10-25T10:00:00+09:00",
+      "actor": "u-003",
+      "meta": null
+    },
+    {
+      "id": "sl-004",
+      "groupId": "g-003",
+      "seq": 2,
+      "from": "recruiting",
+      "to": "min_reached",
+      "event": "count_reached",
+      "effectiveAt": "2026-10-28T10:00:00+09:00",
+      "evaluatedAt": "2026-10-28T10:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-005",
+      "groupId": "g-004",
+      "seq": 1,
+      "from": null,
+      "to": "recruiting",
+      "event": "created",
+      "effectiveAt": "2026-10-20T10:00:00+09:00",
+      "evaluatedAt": "2026-10-20T10:00:00+09:00",
+      "actor": "u-007",
+      "meta": null
+    },
+    {
+      "id": "sl-006",
+      "groupId": "g-004",
+      "seq": 2,
+      "from": "recruiting",
+      "to": "min_reached",
+      "event": "count_reached",
+      "effectiveAt": "2026-10-24T10:00:00+09:00",
+      "evaluatedAt": "2026-10-24T10:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-007",
+      "groupId": "g-004",
+      "seq": 3,
+      "from": "min_reached",
+      "to": "withdrawal_period",
+      "event": "deadline_met",
+      "effectiveAt": "2026-11-08T00:00:00+09:00",
+      "evaluatedAt": "2026-11-08T00:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-008",
+      "groupId": "g-005",
+      "seq": 1,
+      "from": null,
+      "to": "recruiting",
+      "event": "created",
+      "effectiveAt": "2026-10-15T10:00:00+09:00",
+      "evaluatedAt": "2026-10-15T10:00:00+09:00",
+      "actor": "u-009",
+      "meta": null
+    },
+    {
+      "id": "sl-009",
+      "groupId": "g-005",
+      "seq": 2,
+      "from": "recruiting",
+      "to": "min_reached",
+      "event": "count_reached",
+      "effectiveAt": "2026-10-17T10:00:00+09:00",
+      "evaluatedAt": "2026-10-17T10:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-010",
+      "groupId": "g-005",
+      "seq": 3,
+      "from": "min_reached",
+      "to": "withdrawal_period",
+      "event": "deadline_met",
+      "effectiveAt": "2026-11-02T00:00:00+09:00",
+      "evaluatedAt": "2026-11-02T00:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-011",
+      "groupId": "g-005",
+      "seq": 4,
+      "from": "withdrawal_period",
+      "to": "confirmed",
+      "event": "withdrawal_ended",
+      "effectiveAt": "2026-11-05T00:00:00+09:00",
+      "evaluatedAt": "2026-11-05T00:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-012",
+      "groupId": "g-006",
+      "seq": 1,
+      "from": null,
+      "to": "recruiting",
+      "event": "created",
+      "effectiveAt": "2026-10-20T12:00:00+09:00",
+      "evaluatedAt": "2026-10-20T12:00:00+09:00",
+      "actor": "u-004",
+      "meta": null
+    },
+    {
+      "id": "sl-013",
+      "groupId": "g-006",
+      "seq": 2,
+      "from": "recruiting",
+      "to": "cancelled",
+      "event": "deadline_missed",
+      "effectiveAt": "2026-11-06T00:00:00+09:00",
+      "evaluatedAt": "2026-11-06T00:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-014",
+      "groupId": "g-006",
+      "seq": 3,
+      "from": "cancelled",
+      "to": "replanned",
+      "event": "replanned",
+      "effectiveAt": "2026-11-07T10:00:00+09:00",
+      "evaluatedAt": "2026-11-07T10:00:00+09:00",
+      "actor": "u-004",
+      "meta": null
+    },
+    {
+      "id": "sl-015",
+      "groupId": "g-007",
+      "seq": 1,
+      "from": null,
+      "to": "recruiting",
+      "event": "created",
+      "effectiveAt": "2026-11-07T10:00:00+09:00",
+      "evaluatedAt": "2026-11-07T10:00:00+09:00",
+      "actor": "u-004",
+      "meta": null
+    },
+    {
+      "id": "sl-016",
+      "groupId": "g-008",
+      "seq": 1,
+      "from": null,
+      "to": "recruiting",
+      "event": "created",
+      "effectiveAt": "2026-11-05T10:00:00+09:00",
+      "evaluatedAt": "2026-11-05T10:00:00+09:00",
+      "actor": "u-005",
+      "meta": null
+    },
+    {
+      "id": "sl-017",
+      "groupId": "g-009",
+      "seq": 1,
+      "from": null,
+      "to": "recruiting",
+      "event": "created",
+      "effectiveAt": "2026-11-03T10:00:00+09:00",
+      "evaluatedAt": "2026-11-03T10:00:00+09:00",
+      "actor": "u-002",
+      "meta": null
+    },
+    {
+      "id": "sl-018",
+      "groupId": "g-010",
+      "seq": 1,
+      "from": null,
+      "to": "recruiting",
+      "event": "created",
+      "effectiveAt": "2026-09-25T10:00:00+09:00",
+      "evaluatedAt": "2026-09-25T10:00:00+09:00",
+      "actor": "u-001",
+      "meta": null
+    },
+    {
+      "id": "sl-019",
+      "groupId": "g-010",
+      "seq": 2,
+      "from": "recruiting",
+      "to": "min_reached",
+      "event": "count_reached",
+      "effectiveAt": "2026-09-28T10:00:00+09:00",
+      "evaluatedAt": "2026-09-28T10:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-020",
+      "groupId": "g-010",
+      "seq": 3,
+      "from": "min_reached",
+      "to": "withdrawal_period",
+      "event": "deadline_met",
+      "effectiveAt": "2026-10-11T00:00:00+09:00",
+      "evaluatedAt": "2026-10-11T00:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-021",
+      "groupId": "g-010",
+      "seq": 4,
+      "from": "withdrawal_period",
+      "to": "confirmed",
+      "event": "withdrawal_ended",
+      "effectiveAt": "2026-10-14T00:00:00+09:00",
+      "evaluatedAt": "2026-10-14T00:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-022",
+      "groupId": "g-010",
+      "seq": 5,
+      "from": "confirmed",
+      "to": "in_progress",
+      "event": "trip_started",
+      "effectiveAt": "2026-10-18T00:00:00+09:00",
+      "evaluatedAt": "2026-10-18T00:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-023",
+      "groupId": "g-010",
+      "seq": 6,
+      "from": "in_progress",
+      "to": "completed",
+      "event": "trip_ended",
+      "effectiveAt": "2026-10-20T00:00:00+09:00",
+      "evaluatedAt": "2026-10-20T00:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-024",
+      "groupId": "g-011",
+      "seq": 1,
+      "from": null,
+      "to": "recruiting",
+      "event": "created",
+      "effectiveAt": "2026-10-10T10:00:00+09:00",
+      "evaluatedAt": "2026-10-10T10:00:00+09:00",
+      "actor": "u-003",
+      "meta": null
+    },
+    {
+      "id": "sl-025",
+      "groupId": "g-011",
+      "seq": 2,
+      "from": "recruiting",
+      "to": "min_reached",
+      "event": "count_reached",
+      "effectiveAt": "2026-10-12T10:00:00+09:00",
+      "evaluatedAt": "2026-10-12T10:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-026",
+      "groupId": "g-011",
+      "seq": 3,
+      "from": "min_reached",
+      "to": "withdrawal_period",
+      "event": "deadline_met",
+      "effectiveAt": "2026-10-31T00:00:00+09:00",
+      "evaluatedAt": "2026-10-31T00:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-027",
+      "groupId": "g-011",
+      "seq": 4,
+      "from": "withdrawal_period",
+      "to": "confirmed",
+      "event": "withdrawal_ended",
+      "effectiveAt": "2026-11-03T00:00:00+09:00",
+      "evaluatedAt": "2026-11-03T00:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-028",
+      "groupId": "g-011",
+      "seq": 5,
+      "from": "confirmed",
+      "to": "in_progress",
+      "event": "trip_started",
+      "effectiveAt": "2026-11-08T00:00:00+09:00",
+      "evaluatedAt": "2026-11-08T00:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-029",
+      "groupId": "g-012",
+      "seq": 1,
+      "from": null,
+      "to": "recruiting",
+      "event": "created",
+      "effectiveAt": "2026-10-28T10:00:00+09:00",
+      "evaluatedAt": "2026-10-28T10:00:00+09:00",
+      "actor": "u-007",
+      "meta": null
+    },
+    {
+      "id": "sl-030",
+      "groupId": "g-012",
+      "seq": 2,
+      "from": "recruiting",
+      "to": "min_reached",
+      "event": "count_reached",
+      "effectiveAt": "2026-10-30T10:00:00+09:00",
+      "evaluatedAt": "2026-10-30T10:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    },
+    {
+      "id": "sl-031",
+      "groupId": "g-013",
+      "seq": 1,
+      "from": null,
+      "to": "recruiting",
+      "event": "created",
+      "effectiveAt": "2026-10-22T10:00:00+09:00",
+      "evaluatedAt": "2026-10-22T10:00:00+09:00",
+      "actor": "u-007",
+      "meta": null
+    },
+    {
+      "id": "sl-032",
+      "groupId": "g-013",
+      "seq": 2,
+      "from": "recruiting",
+      "to": "cancelled",
+      "event": "deadline_missed",
+      "effectiveAt": "2026-11-07T00:00:00+09:00",
+      "evaluatedAt": "2026-11-07T00:00:00+09:00",
+      "actor": "system",
+      "meta": null
+    }
+  ],
+  "notifications": [
+    {
+      "id": "n-001",
+      "userId": "u-001",
+      "kind": "confirmed",
+      "groupId": "g-005",
+      "params": {
+        "groupTitle": "星凪諸島 島時間(公式)",
+        "count": 5
+      },
+      "dedupeKey": "confirmed:g-005:u-001:confirmed",
+      "createdAt": "2026-11-05T00:00:00+09:00",
+      "readAt": null
+    },
+    {
+      "id": "n-002",
+      "userId": "u-001",
+      "kind": "withdraw_period_started",
+      "groupId": "g-004",
+      "params": {
+        "groupTitle": "雫森谷 紅葉ハイク",
+        "count": 4,
+        "withdrawUntil": "2026-11-11T00:00:00+09:00"
+      },
+      "dedupeKey": "withdraw_period_started:g-004:u-001:wp-start",
+      "createdAt": "2026-11-08T00:00:00+09:00",
+      "readAt": null
+    },
+    {
+      "id": "n-003",
+      "userId": "u-007",
+      "kind": "withdrawal_received",
+      "groupId": "g-004",
+      "params": {
+        "groupTitle": "雫森谷 紅葉ハイク",
+        "count": 3,
+        "minParticipants": 3
+      },
+      "dedupeKey": "withdrawal_received:g-004:u-007:wd:wd-001",
+      "createdAt": "2026-11-08T15:00:00+09:00",
+      "readAt": null
+    },
+    {
+      "id": "n-004",
+      "userId": "u-002",
+      "kind": "join_approved",
+      "groupId": "g-001",
+      "params": {
+        "groupTitle": "鈴風高原のんびり歩き"
+      },
+      "dedupeKey": "join_approved:g-001:u-002:ja:jr-002",
+      "createdAt": "2026-11-03T10:00:00+09:00",
+      "readAt": "2026-11-03T12:00:00+09:00"
+    },
+    {
+      "id": "n-005",
+      "userId": "u-001",
+      "kind": "join_requested",
+      "groupId": "g-001",
+      "params": {
+        "groupTitle": "鈴風高原のんびり歩き",
+        "pendingCount": 1
+      },
+      "dedupeKey": "join_requested:g-001:u-001:jr:jr-001",
+      "createdAt": "2026-11-08T10:00:00+09:00",
+      "readAt": null
+    },
+    {
+      "id": "n-006",
+      "userId": "u-006",
+      "kind": "replan_invited",
+      "groupId": "g-006",
+      "params": {
+        "groupTitle": "月灯集落 灯りの夕べ",
+        "newGroupId": "g-007"
+      },
+      "dedupeKey": "replan_invited:g-006:u-006:replan:g-007",
+      "createdAt": "2026-11-07T10:00:00+09:00",
+      "readAt": null
+    },
+    {
+      "id": "n-007",
+      "userId": "u-004",
+      "kind": "cancelled",
+      "groupId": "g-006",
+      "params": {
+        "groupTitle": "月灯集落 灯りの夕べ",
+        "reason": "min_not_reached",
+        "minParticipants": 4
+      },
+      "dedupeKey": "cancelled:g-006:u-004:cancelled",
+      "createdAt": "2026-11-06T00:00:00+09:00",
+      "readAt": "2026-11-06T09:00:00+09:00"
+    },
+    {
+      "id": "n-008",
+      "userId": "u-002",
+      "kind": "cancelled",
+      "groupId": "g-013",
+      "params": {
+        "groupTitle": "星凪諸島 夕暮れの浜歩き",
+        "reason": "min_not_reached",
+        "minParticipants": 3
+      },
+      "dedupeKey": "cancelled:g-013:u-002:cancelled",
+      "createdAt": "2026-11-07T00:00:00+09:00",
+      "readAt": null
+    },
+    {
+      "id": "n-009",
+      "userId": "u-003",
+      "kind": "min_reached",
+      "groupId": "g-003",
+      "params": {
+        "groupTitle": "星綴港 朝市さんぽ",
+        "minParticipants": 3,
+        "count": 3
+      },
+      "dedupeKey": "min_reached:g-003:u-003:reached",
+      "createdAt": "2026-10-28T10:00:00+09:00",
+      "readAt": "2026-10-28T12:00:00+09:00"
+    },
+    {
+      "id": "n-010",
+      "userId": "u-005",
+      "kind": "withdraw_period_ending",
+      "groupId": "g-004",
+      "params": {
+        "groupTitle": "雫森谷 紅葉ハイク",
+        "count": 3
+      },
+      "dedupeKey": "withdraw_period_ending:g-004:u-005:wp-end",
+      "createdAt": "2026-11-09T08:00:00+09:00",
+      "readAt": null
+    },
+    {
+      "id": "n-011",
+      "userId": "u-001",
+      "kind": "conditions_changed",
+      "groupId": "g-004",
+      "params": {
+        "groupTitle": "雫森谷 紅葉ハイク",
+        "minParticipants": {
+          "from": 4,
+          "to": 3
+        }
+      },
+      "dedupeKey": "conditions_changed:g-004:u-001:cond:3",
+      "createdAt": "2026-11-04T10:00:00+09:00",
+      "readAt": "2026-11-04T12:00:00+09:00"
+    },
+    {
+      "id": "n-012",
+      "userId": "u-005",
+      "kind": "join_rejected",
+      "groupId": "g-003",
+      "params": {
+        "groupTitle": "星綴港 朝市さんぽ"
+      },
+      "dedupeKey": "join_rejected:g-003:u-005:jx:jr-004",
+      "createdAt": "2026-10-30T10:00:00+09:00",
+      "readAt": "2026-10-30T12:00:00+09:00"
+    },
+    {
+      "id": "n-013",
+      "userId": "u-003",
+      "kind": "join_expired",
+      "groupId": "g-004",
+      "params": {
+        "groupTitle": "雫森谷 紅葉ハイク"
+      },
+      "dedupeKey": "join_expired:g-004:u-003:je:jr-006",
+      "createdAt": "2026-11-08T00:00:00+09:00",
+      "readAt": null
+    }
+  ],
+  "plans": [
+    {
+      "id": "g-005",
+      "groupId": "g-005",
+      "meeting": {
+        "text": "星綾の潮見台の入口ベンチ前",
+        "spotId": 2,
+        "date": "2026-11-28",
+        "time": "09:30",
+        "version": 1,
+        "updatedBy": "u-009",
+        "updatedAt": "2026-11-05T12:00:00+09:00"
+      },
+      "scheduleMemo": {
+        "text": "午前に潮見台、午後は港周辺を散策します。",
+        "version": 1,
+        "updatedBy": "u-009",
+        "updatedAt": "2026-11-05T12:00:00+09:00"
+      },
+      "items": [
+        {
+          "id": "pi-001",
+          "groupId": "g-005",
+          "date": "2026-11-28",
+          "time": "10:00",
+          "title": "潮見台を見学",
+          "spotId": 2,
+          "note": "",
+          "seq": 1,
+          "version": 1,
+          "createdBy": "u-009",
+          "createdAt": "2026-11-05T12:10:00+09:00",
+          "updatedBy": "u-009",
+          "updatedAt": "2026-11-05T12:10:00+09:00"
+        },
+        {
+          "id": "pi-002",
+          "groupId": "g-005",
+          "date": "2026-11-28",
+          "time": "12:30",
+          "title": "港でお昼",
+          "spotId": null,
+          "note": "海沿いの店で昼食。",
+          "seq": 2,
+          "version": 1,
+          "createdBy": "u-009",
+          "createdAt": "2026-11-05T12:12:00+09:00",
+          "updatedBy": "u-009",
+          "updatedAt": "2026-11-05T12:12:00+09:00"
+        },
+        {
+          "id": "pi-003",
+          "groupId": "g-005",
+          "date": "2026-11-29",
+          "time": "09:00",
+          "title": "島の散策",
+          "spotId": null,
+          "note": "",
+          "seq": 1,
+          "version": 1,
+          "createdBy": "u-009",
+          "createdAt": "2026-11-05T12:15:00+09:00",
+          "updatedBy": "u-009",
+          "updatedAt": "2026-11-05T12:15:00+09:00"
+        }
+      ],
+      "itemsRevision": 3
+    },
+    {
+      "id": "g-011",
+      "groupId": "g-011",
+      "meeting": {
+        "text": "港の入口の時計台前",
+        "spotId": null,
+        "date": "2026-11-08",
+        "time": "06:00",
+        "version": 1,
+        "updatedBy": "u-003",
+        "updatedAt": "2026-11-05T20:00:00+09:00"
+      },
+      "scheduleMemo": {
+        "text": "夜明けの港を見てから夜市へ向かいます。",
+        "version": 1,
+        "updatedBy": "u-003",
+        "updatedAt": "2026-11-05T20:00:00+09:00"
+      },
+      "items": [
+        {
+          "id": "pi-004",
+          "groupId": "g-011",
+          "date": "2026-11-08",
+          "time": "06:00",
+          "title": "夜明けの港を歩く",
+          "spotId": null,
+          "note": "",
+          "seq": 1,
+          "version": 1,
+          "createdBy": "u-003",
+          "createdAt": "2026-11-05T20:10:00+09:00",
+          "updatedBy": "u-003",
+          "updatedAt": "2026-11-05T20:10:00+09:00"
+        },
+        {
+          "id": "pi-005",
+          "groupId": "g-011",
+          "date": "2026-11-09",
+          "time": "18:00",
+          "title": "夜市めぐり",
+          "spotId": 3,
+          "note": "屋台を順番に回ります。",
+          "seq": 1,
+          "version": 1,
+          "createdBy": "u-003",
+          "createdAt": "2026-11-05T20:12:00+09:00",
+          "updatedBy": "u-003",
+          "updatedAt": "2026-11-05T20:12:00+09:00"
+        }
+      ],
+      "itemsRevision": 2
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg-001",
+      "groupId": "g-011",
+      "senderId": null,
+      "kind": "system",
+      "body": "",
+      "templateId": null,
+      "systemEvent": "group_created",
+      "systemSubjectUserId": null,
+      "systemPhase": null,
+      "createdAt": "2026-10-10T10:00:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    },
+    {
+      "id": "msg-002",
+      "groupId": "g-011",
+      "senderId": null,
+      "kind": "system",
+      "body": "",
+      "templateId": null,
+      "systemEvent": "member_joined",
+      "systemSubjectUserId": "u-006",
+      "systemPhase": null,
+      "createdAt": "2026-10-13T10:00:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    },
+    {
+      "id": "msg-003",
+      "groupId": "g-005",
+      "senderId": null,
+      "kind": "system",
+      "body": "",
+      "templateId": null,
+      "systemEvent": "group_created",
+      "systemSubjectUserId": null,
+      "systemPhase": null,
+      "createdAt": "2026-10-15T10:00:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    },
+    {
+      "id": "msg-004",
+      "groupId": "g-005",
+      "senderId": null,
+      "kind": "system",
+      "body": "",
+      "templateId": null,
+      "systemEvent": "member_joined",
+      "systemSubjectUserId": "u-001",
+      "systemPhase": null,
+      "createdAt": "2026-10-16T10:00:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    },
+    {
+      "id": "msg-005",
+      "groupId": "g-011",
+      "senderId": "u-006",
+      "kind": "normal",
+      "body": "集合場所は港の入口で良さそうです。",
+      "templateId": null,
+      "systemEvent": null,
+      "systemSubjectUserId": null,
+      "systemPhase": null,
+      "createdAt": "2026-11-03T21:00:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    },
+    {
+      "id": "msg-006",
+      "groupId": "g-011",
+      "senderId": null,
+      "kind": "system",
+      "body": "",
+      "templateId": null,
+      "systemEvent": "member_left",
+      "systemSubjectUserId": "u-006",
+      "systemPhase": "leave",
+      "createdAt": "2026-11-04T12:00:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    },
+    {
+      "id": "msg-007",
+      "groupId": "g-005",
+      "senderId": null,
+      "kind": "system",
+      "body": "",
+      "templateId": null,
+      "systemEvent": "state_confirmed",
+      "systemSubjectUserId": null,
+      "systemPhase": null,
+      "createdAt": "2026-11-05T00:00:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    },
+    {
+      "id": "msg-008",
+      "groupId": "g-005",
+      "senderId": "u-009",
+      "kind": "normal",
+      "body": "集合時間について相談させてください。",
+      "templateId": null,
+      "systemEvent": null,
+      "systemSubjectUserId": null,
+      "systemPhase": null,
+      "createdAt": "2026-11-05T10:00:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    },
+    {
+      "id": "msg-009",
+      "groupId": "g-005",
+      "senderId": "u-001",
+      "kind": "template",
+      "body": "集合時間を相談したい",
+      "templateId": "tpl-01",
+      "systemEvent": null,
+      "systemSubjectUserId": null,
+      "systemPhase": null,
+      "createdAt": "2026-11-05T11:00:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    },
+    {
+      "id": "msg-010",
+      "groupId": "g-005",
+      "senderId": "u-002",
+      "kind": "template",
+      "body": "了解です",
+      "templateId": "tpl-05",
+      "systemEvent": null,
+      "systemSubjectUserId": null,
+      "systemPhase": null,
+      "createdAt": "2026-11-05T11:30:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    },
+    {
+      "id": "msg-011",
+      "groupId": "g-005",
+      "senderId": "u-005",
+      "kind": "normal",
+      "body": "持ち物は歩きやすい靴で大丈夫でしょうか。",
+      "templateId": null,
+      "systemEvent": null,
+      "systemSubjectUserId": null,
+      "systemPhase": null,
+      "createdAt": "2026-11-06T09:00:00+09:00",
+      "reportState": "reported",
+      "reportedBy": [
+        "u-002"
+      ]
+    },
+    {
+      "id": "msg-012",
+      "groupId": "g-011",
+      "senderId": null,
+      "kind": "system",
+      "body": "",
+      "templateId": null,
+      "systemEvent": "state_started",
+      "systemSubjectUserId": null,
+      "systemPhase": null,
+      "createdAt": "2026-11-08T00:00:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    },
+    {
+      "id": "msg-013",
+      "groupId": "g-011",
+      "senderId": "u-003",
+      "kind": "template",
+      "body": "集合場所を確認したい",
+      "templateId": "tpl-02",
+      "systemEvent": null,
+      "systemSubjectUserId": null,
+      "systemPhase": null,
+      "createdAt": "2026-11-08T05:30:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    },
+    {
+      "id": "msg-014",
+      "groupId": "g-011",
+      "senderId": "u-004",
+      "kind": "normal",
+      "body": "到着しました。よろしくお願いします。",
+      "templateId": null,
+      "systemEvent": null,
+      "systemSubjectUserId": null,
+      "systemPhase": null,
+      "createdAt": "2026-11-08T05:55:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    },
+    {
+      "id": "msg-015",
+      "groupId": "g-011",
+      "senderId": "u-002",
+      "kind": "template",
+      "body": "ありがとうございます",
+      "templateId": "tpl-06",
+      "systemEvent": null,
+      "systemSubjectUserId": null,
+      "systemPhase": null,
+      "createdAt": "2026-11-08T06:10:00+09:00",
+      "reportState": "none",
+      "reportedBy": []
+    }
+  ],
+  "chatReads": [
+    {
+      "id": "g-005:u-001",
+      "groupId": "g-005",
+      "userId": "u-001",
+      "lastReadSeq": 10,
+      "updatedAt": "2026-11-06T10:00:00+09:00"
+    },
+    {
+      "id": "g-011:u-003",
+      "groupId": "g-011",
+      "userId": "u-003",
+      "lastReadSeq": 14,
+      "updatedAt": "2026-11-08T06:00:00+09:00"
+    }
+  ],
+  "expenses": [
+    {
+      "id": "ex-001",
+      "groupId": "g-011",
+      "title": "宿の予約手付",
+      "amount": 6000,
+      "payerId": "u-006",
+      "targetIds": [
+        "u-002",
+        "u-003",
+        "u-004",
+        "u-006"
+      ],
+      "spentOn": "2026-11-03",
+      "memo": "",
+      "version": 1,
+      "createdBy": "u-006",
+      "createdAt": "2026-11-03T20:00:00+09:00",
+      "updatedBy": "u-006",
+      "updatedAt": "2026-11-03T20:00:00+09:00"
+    },
+    {
+      "id": "ex-002",
+      "groupId": "g-011",
+      "title": "夜市の食べ歩き",
+      "amount": 4800,
+      "payerId": "u-003",
+      "targetIds": [
+        "u-002",
+        "u-003",
+        "u-004"
+      ],
+      "spentOn": "2026-11-08",
+      "memo": "屋台3軒分。",
+      "version": 1,
+      "createdBy": "u-003",
+      "createdAt": "2026-11-08T20:00:00+09:00",
+      "updatedBy": "u-003",
+      "updatedAt": "2026-11-08T20:00:00+09:00"
+    }
+  ],
+  "groupStamps": [
+    {
+      "id": "gs-001",
+      "groupId": "g-010",
+      "spotId": 1,
+      "acquiredBy": "u-001",
+      "method": "keyword",
+      "at": "2026-10-18T08:00:00+09:00"
+    },
+    {
+      "id": "gs-002",
+      "groupId": "g-010",
+      "spotId": 6,
+      "acquiredBy": "u-003",
+      "method": "keyword",
+      "at": "2026-10-18T14:00:00+09:00"
+    },
+    {
+      "id": "gs-003",
+      "groupId": "g-010",
+      "spotId": 4,
+      "acquiredBy": "u-007",
+      "method": "keyword",
+      "at": "2026-10-19T10:00:00+09:00"
+    },
+    {
+      "id": "gs-004",
+      "groupId": "g-011",
+      "spotId": 3,
+      "acquiredBy": "u-003",
+      "method": "keyword",
+      "at": "2026-11-08T18:00:00+09:00"
+    },
+    {
+      "id": "gs-005",
+      "groupId": "g-011",
+      "spotId": 4,
+      "acquiredBy": "u-004",
+      "method": "keyword",
+      "at": "2026-11-09T07:30:00+09:00"
+    }
+  ],
+  "rallyMemos": [
+    {
+      "id": "rm-001",
+      "groupId": "g-010",
+      "userId": "u-001",
+      "body": "朝の音楽堂がとても良かったです。",
+      "updatedAt": "2026-10-20T10:00:00+09:00"
+    },
+    {
+      "id": "rm-002",
+      "groupId": "g-010",
+      "userId": "u-003",
+      "body": "歩く速さがちょうどよかったです。",
+      "updatedAt": "2026-10-20T11:00:00+09:00"
+    },
+    {
+      "id": "rm-003",
+      "groupId": "g-011",
+      "userId": "u-003",
+      "body": "夜明けの港がきれいでした。",
+      "updatedAt": "2026-11-09T07:00:00+09:00"
+    }
+  ],
+  "rallySurveys": [
+    {
+      "id": "rs-001",
+      "groupId": "g-010",
+      "userId": "u-001",
+      "satisfaction": 5,
+      "planClarity": 4,
+      "wantAgain": "yes",
+      "localInteraction": 4,
+      "localExploration": 4,
+      "answeredAt": "2026-10-20T12:00:00+09:00"
+    },
+    {
+      "id": "rs-002",
+      "groupId": "g-010",
+      "userId": "u-003",
+      "satisfaction": 4,
+      "planClarity": 4,
+      "wantAgain": "yes",
+      "localInteraction": 3,
+      "localExploration": 5,
+      "answeredAt": "2026-10-20T12:00:00+09:00"
+    },
+    {
+      "id": "rs-003",
+      "groupId": "g-010",
+      "userId": "u-007",
+      "satisfaction": 5,
+      "planClarity": 5,
+      "wantAgain": "maybe",
+      "localInteraction": 4,
+      "localExploration": 3,
+      "answeredAt": "2026-10-20T12:00:00+09:00"
+    }
+  ],
+  "rallyPhotos": [
+    {
+      "id": "ph-001",
+      "groupId": "g-010",
+      "userId": "u-001",
+      "spotId": 1,
+      "caption": "音楽堂の朝",
+      "createdAt": "2026-10-18T09:00:00+09:00"
+    },
+    {
+      "id": "ph-002",
+      "groupId": "g-010",
+      "userId": "u-007",
+      "spotId": 4,
+      "caption": "石畳の通り",
+      "createdAt": "2026-10-19T11:00:00+09:00"
+    }
+  ],
+  "rallyRewardGrants": [
+    {
+      "id": "rg-001",
+      "userId": "u-001",
+      "rewardId": 1,
+      "groupId": "g-010",
+      "at": "2026-10-19T10:00:00+09:00"
+    },
+    {
+      "id": "rg-002",
+      "userId": "u-003",
+      "rewardId": 1,
+      "groupId": "g-010",
+      "at": "2026-10-19T10:00:00+09:00"
+    },
+    {
+      "id": "rg-003",
+      "userId": "u-007",
+      "rewardId": 1,
+      "groupId": "g-010",
+      "at": "2026-10-19T10:00:00+09:00"
+    }
+  ],
+  "municipalities": [
+    {
+      "id": "mun-demo-a",
+      "campaign": "nttw-demo",
+      "displayName": "星凪広域 観光課(ダミー)",
+      "regionIds": [
+        "r-nijiho",
+        "r-hoshinagi",
+        "r-suzukaze"
+      ]
+    },
+    {
+      "id": "mun-demo-b",
+      "campaign": "nttw-demo",
+      "displayName": "水琴地方 観光協会(ダミー)",
+      "regionIds": [
+        "r-mizukoto"
+      ]
+    }
+  ],
+  "hosts": [
+    {
+      "id": "host-demo-a",
+      "campaign": "nttw-demo",
+      "displayName": "ゲン",
+      "intro": "地元の案内をしています。港まわりを一緒に歩きます。"
+    }
+  ],
+  "listings": [
+    {
+      "id": "g-002",
+      "kind": "official_plan",
+      "sponsor": {
+        "type": "municipality",
+        "id": "mun-demo-a"
+      },
+      "summary": "虹帆町の夜市を歩く、自治体おすすめのプランです。",
+      "highlights": [
+        "夜市の屋台めぐり",
+        "灯りの散策路"
+      ],
+      "approvalMode": "organizer",
+      "createdAt": "2026-11-02T10:00:00+09:00"
+    },
+    {
+      "id": "g-005",
+      "kind": "gathering_event",
+      "sponsor": {
+        "type": "municipality",
+        "id": "mun-demo-a"
+      },
+      "summary": "星凪諸島の島時間を楽しむ、日程固定のイベントです。",
+      "highlights": [
+        "潮見台からの眺め",
+        "港のお昼"
+      ],
+      "approvalMode": "organizer",
+      "createdAt": "2026-10-15T10:00:00+09:00"
+    }
+  ],
+  "funnelEvents": [
+    {
+      "id": "fe-001",
+      "type": "entry_landed",
+      "day": "2026-11-05",
+      "campaign": "nttw-demo",
+      "channel": "B",
+      "source": "muni-site",
+      "region": "r-nijiho",
+      "listingKind": null,
+      "groupId": null
+    },
+    {
+      "id": "fe-002",
+      "type": "list_viewed",
+      "day": "2026-11-05",
+      "campaign": "nttw-demo",
+      "channel": "A",
+      "source": "none",
+      "region": null,
+      "listingKind": null,
+      "groupId": null
+    },
+    {
+      "id": "fe-003",
+      "type": "official_viewed",
+      "day": "2026-11-06",
+      "campaign": "nttw-demo",
+      "channel": "B",
+      "source": "muni-pr",
+      "region": null,
+      "listingKind": "official_plan",
+      "groupId": "g-002"
+    },
+    {
+      "id": "fe-004",
+      "type": "official_requested",
+      "day": "2026-11-07",
+      "campaign": "nttw-demo",
+      "channel": "B",
+      "source": "sns",
+      "region": null,
+      "listingKind": "gathering_event",
+      "groupId": "g-005"
+    }
+  ],
+  "businesses": [
+    {
+      "id": "biz-demo-a",
+      "campaign": "nttw-demo",
+      "displayName": "そよかぜ荘",
+      "category": "lodging",
+      "regionIds": [
+        "r-suzukaze",
+        "r-hoshinagi"
+      ]
+    },
+    {
+      "id": "biz-demo-b",
+      "campaign": "nttw-demo",
+      "displayName": "虹帆食堂",
+      "category": "food",
+      "regionIds": [
+        "r-nijiho"
+      ]
+    }
+  ]
+}
