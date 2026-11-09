@@ -9,6 +9,10 @@ export const SURVEY_QUESTIONS = {
   localExploration: { label: "滞在中に、いろいろな場所を回ることができましたか。", scale: ["ほとんど回れなかった", "あまり回れなかった", "どちらともいえない", "やや回れた", "十分に回れた"] },
 } as const;
 
+export const INVALID_CODE_MESSAGE = "合言葉が正しくありません。もう一度確認してください。";
+export const ALREADY_ACQUIRED_MESSAGE = "このスポットはすでにグループで取得済みです。";
+export const FORMER_MEMBER_LABEL = "元メンバー";
+
 export const UNAVAILABLE_MESSAGES: Record<RallyUnavailableReason, string> = {
   recruiting: "募集中のためスタンプはまだ押せません。",
   not_started: "旅行が始まるとスタンプや振り返りが使えます。",
