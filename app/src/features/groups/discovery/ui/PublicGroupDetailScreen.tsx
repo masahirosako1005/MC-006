@@ -4,6 +4,7 @@ import { Alert, Badge, Box, Button, Card, Group, Stack, Text, Title } from "@man
 import { JoinRequestPanel } from "@/features/groups/join/components/JoinRequestPanel";
 import type { PublicGroupDetail } from "../types";
 import { fmtDate, fmtRange } from "./format";
+import { GroupTripMap } from "./GroupTripMap";
 import { GroupBadges } from "./GroupBadges";
 import { HeadcountLine } from "./HeadcountLine";
 import { MemberSummaryLabel } from "./MemberSummaryLabel";
@@ -58,6 +59,7 @@ export function PublicGroupDetailScreen({ campaign, group: g, onApply }: PublicG
               <Text size="sm" style={{ whiteSpace: "pre-wrap" }}>{g.description}</Text>
             </Stack>
           </Card>
+          <GroupTripMap groupId={g.id} regionId={g.region.id} destination={g.trip.destination} />
           <Card withBorder component="section" aria-labelledby="sec-count">
             <Stack gap="xs">
               <Title order={3} id="sec-count" size="h4">人数</Title>
