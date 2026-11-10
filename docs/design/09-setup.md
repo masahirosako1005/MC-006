@@ -21,3 +21,11 @@
 ## 未決
 - Node.js のバージョン、ポート番号、seed 生成コマンドの記載。 [要確認] Vitest が対応する Node.js のバージョンも合わせて確認する。
 - 本番ビルド(`next start`)での起動を標準とするか。
+
+## 追記(P-4-2): 確定した起動手順
+詳細は [docs/plan/demo.md](../plan/demo.md)。
+- 環境: `mise trust` → `mise install` → `app/` で `mise exec -- npm ci`(Node.js 24.21.0、`mise.toml`)。
+- seed: `mise exec -- npm run seed`(`build-seed.mjs` と `build-future-trips.mjs`)。
+- 起動(標準): `NEXT_TELEMETRY_DISABLED=1` を設定し、`npm run build` → `npx next start -p 3200`。`next dev` は SentinelOne / WDAC が SWC のネイティブ版をブロックするため不安定(F-020)。
+- 入口: `http://localhost:3200/`(`/nttw-demo` へ遷移)。ユーザー切替は DemoBar(Cookie `demoUser=u-NNN`、既定 u-001、自治体 u-009、観光事業オーナー u-013)。時計は `+1/+3/+7日`、初期化は `/api/demo/reset`。
+- 停止: ポート指定で PID を調べて停止する。
