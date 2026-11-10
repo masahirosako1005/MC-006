@@ -109,7 +109,7 @@ export function computeForecast(input: {
     input.weeks.map((w) => facts
       .filter((f) => f.regionId === r.id && overlaps(f, w))
       .reduce((s, f) => s + f.ages.length, 0)));
-  const areaTable: AreaWeekRow[] = regions.map((r, ri) => ({
+  const areaTable: AreaWeekRow[] = regions.map((r) => ({
     regionId: r.id, regionName: r.name, weeks: [],
   }));
   input.weeks.forEach((w, wi) => {

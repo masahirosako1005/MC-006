@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Button, Card, Group, Modal, Progress, Stack, Text } from "@mantine/core";
-import { IconBook, IconKey, IconUser } from "@tabler/icons-react";
+import { IconBookmark, IconHelp, IconKey, IconUser } from "@tabler/icons-react";
 import { Activity, Spot, useApi } from "@/lib/api";
 
 type Campaign = { name: string; sheetSize: number; lap: number };
@@ -23,15 +23,20 @@ export default function Home() {
 
   return (
     <>
-      <div className="hero" role="img" aria-label="キャンペーン画像">{c?.name ?? "読み込み中…"}</div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/top/mv.webp" alt={c?.name ?? "キャンペーンメインビジュアル"} style={{ width: "100%", height: "auto", display: "block" }} />
       <Stack gap="md" p="md">
+        <div style={{ border: "1px solid #ccc", borderRadius: 8, background: "#fff", textAlign: "center", padding: "8px 12px", fontSize: 14 }}>
+          開催期間：2026年09月16日〜2027年03月31日
+        </div>
         <Group justify="flex-end" gap="lg">
-          {[{ href: "qr", icon: <IconKey />, l: "スタンプ" }, { href: "mypage", icon: <IconUser />, l: "マイページ" }, { href: "rule", icon: <IconBook />, l: "ルール" }].map((a) => (
+          {[{ href: "service", icon: <IconBookmark />, l: "概要" }, { href: "rule", icon: <IconHelp />, l: "遊び方" }, { href: "qr", icon: <IconKey />, l: "スタンプ" }, { href: "mypage", icon: <IconUser />, l: "マイページ" }].map((a) => (
             <Link key={a.href} href={`${base}/${a.href}`} style={{ textAlign: "center", fontSize: 11, color: "inherit", textDecoration: "none" }}>
               <div>{a.icon}</div>{a.l}
             </Link>
           ))}
         </Group>
+        <Button component={Link} href={`${base}/groups`} size="lg" fullWidth color="var(--main-color)">参加する</Button>
         <Card withBorder radius="md">
           <Group justify="space-between" mb="xs">
             <Text fw={700}>スタンプカード（{c?.lap ?? 1}周目）</Text>
@@ -41,6 +46,8 @@ export default function Home() {
           <div className="stamp-grid">
             {(spots ?? []).map((s) => (
               <Link key={s.id} href={`${base}/spots/detail?id=${s.id}`} className="stamp" data-on={s.acquired} style={{ textDecoration: "none" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                {!s.acquired && <img src="/top/non-stamp.webp" alt="" width={32} height={32} />}
                 {s.acquired ? "✔ " : ""}{s.stampName}
               </Link>
             ))}

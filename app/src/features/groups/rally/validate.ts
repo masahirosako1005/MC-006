@@ -3,7 +3,7 @@ import { INVALID, v, type Schema } from "@/lib/validation";
 import { LIMITS } from "@/lib/limits";
 
 const CODE_MSG = "合言葉が正しくありません。もう一度確認してください。";
-// eslint-disable-next-line no-control-regex
+ 
 const CTRL = /[\u0000-\u001f\u007f]/;
 
 /** 合言葉: 文字列・制御文字なし・trim 後 1〜64 文字。sanitizeText は通さず拒否する。 */

@@ -17,9 +17,9 @@ const fail = (issues: Issues, path: string, msg: string): typeof INVALID => {
 const key = (path: string, k: string | number) => (path ? `${path}.${k}` : String(k));
 const absent = (input: unknown) => input === undefined;
 
-// eslint-disable-next-line no-control-regex
+ 
 const CTRL_KEEP_WS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/g;
-// eslint-disable-next-line no-control-regex
+ 
 const CTRL_ALL = /[\u0000-\u001F\u007F-\u009F]/g;
 const INVIS = /[​-‏‪-‮⁦-⁩﻿]/g;
 

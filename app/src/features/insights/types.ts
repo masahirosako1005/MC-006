@@ -110,11 +110,20 @@ export interface InsightMeta {
   includesDemoTrips: boolean;
   generatedAt: IsoDateTime;
 }
+export interface TrendWeek {
+  kind: "past" | "future";            // past=実績の来訪者、future=予定の参加者
+  weekStart: DateStr; weekEnd: DateStr; label: string;
+  total: CountCell;
+  byAge: { age: CoarseAgeBand; label: string; cell: CountCell }[];
+  ageChart: "ok" | "hidden" | "empty"; // hidden=公開人数が少なく円グラフを出さない
+  partial: boolean;                    // 7 日に満たない週
+}
 export interface InsightForecastResponse {
   meta: InsightMeta;
   weeks: WeekForecast[];
   areaTable: AreaWeekRow[];
   pastProfile: PastAgeProfile[];
+  trend: TrendWeek[];
   limitations: string[];
 }
 export interface InsightSuggestionsResponse { meta: InsightMeta; cards: SuggestionCard[] }

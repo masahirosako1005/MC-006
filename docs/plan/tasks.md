@@ -330,91 +330,91 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: 共通部品と `GroupForm`(作成・編集・再企画で共用)、`TextRejectNotice` の表示、review の再送(`ackReview`)。設計: 01 GRP-TASK-14・15
   - 画面: `traveler/group-form.html`、`safety/prohibited-text.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-2 01 詳細シェル・メンバー一覧・招待コード表示(M)
+- [*] P-3-2 01 詳細シェル・メンバー一覧・招待コード表示(M)
   - ブランチ: `agent/w3-ui-group-shell` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/core/components/`(`GroupDetailShell`、`MemberList`、`InviteCodePanel`)、`A/[campaign]/groups/[groupId]/page.tsx`、`.../members/page.tsx`
   - 内容: `kind` による出し分け、`?tab=` のタブ(05〜08 の部品を配置)、04 の `LifecyclePanel`・`WithdrawButton` の配置、`NotificationBell` の配置、元メンバーの表示。設計: 01 GRP-TASK-16・17
   - 画面: `traveler/group-hub.html`、`group-members.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-3 02 グループ一覧(M)
+- [*] P-3-3 02 グループ一覧(M)
   - ブランチ: `agent/w3-ui-group-list` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/discovery/ui/`(一覧・絞り込みの部品とフック)、`A/[campaign]/groups/page.tsx`
   - 内容: カード、地方・日程・空き・公式・タグ・キーワードの絞り込み、URL 状態、空状態。年代・提案・ページネーションは余力。設計: 02 DSC-TASK-13〜15
   - 画面: `traveler/group-list.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-4 02 参加前詳細・招待コード入力(M)
+- [*] P-3-4 02 参加前詳細・招待コード入力(M)
   - ブランチ: `agent/w3-ui-group-public` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/discovery/ui/PublicGroupDetailScreen.tsx`・`InviteCodeScreen` ほか、`A/[campaign]/invite/page.tsx`
   - 内容: 参加前詳細(`JoinRequestPanel` を配置)、コード入力 → プレビュー → 申請(コードは state のみ。契約 7.2)。設計: 02 DSC-TASK-16・17
   - 画面: `traveler/group-detail-public.html`、`invite-code.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-5 03 申請パネル・幹事の承認画面(M)
+- [*] P-3-5 03 申請パネル・幹事の承認画面(M)
   - ブランチ: `agent/w3-ui-join` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/join/components/*`、`A/[campaign]/groups/[groupId]/requests/page.tsx`
   - 内容: `JoinRequestPanel`・申請ダイアログ(最少人数への同意)・申請状況、承認・見送り。設計: 03 JOIN-TASK-13・14
   - 画面: `traveler/join-request-dialog.html`、`organizer-requests.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-6 04 状態表示・辞退・中止・再企画(M)
+- [*] P-3-6 04 状態表示・辞退・中止・再企画(M)
   - ブランチ: `agent/w3-ui-lifecycle` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/lifecycle/ui/*`、`A/[campaign]/groups/[groupId]/replan/page.tsx`
   - 内容: `GroupStatusBadge`・メーター、`LifecyclePanel`、`WithdrawButton`(差額は `GET G/expense-summary`)、`OrganizerActions`(中止・条件変更)、`ReplanPage`(`GroupForm` を利用)。設計: 04 LCY-TASK-14〜16
   - 画面: `traveler/group-states.html`、`withdraw-dialog.html`、`group-cancelled.html`、`group-replan.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-7 05 旅程タブ(M)
+- [*] P-3-7 05 旅程タブ(M)
   - ブランチ: `agent/w3-ui-plan` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/plan/ui/*`
   - 内容: 表示と編集(集合場所・日程メモ・項目の追加・削除)、読み取り専用、409 の後の再取得。並び替え UI・競合ダイアログは余力。設計: 05 PLN-TASK-09〜12
   - 画面: `traveler/group-plan.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-8 06 チャットタブ(M)
+- [*] P-3-8 06 チャットタブ(M)
   - ブランチ: `agent/w3-ui-chat` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/chat/ui/*`
   - 内容: `useChat`(固定間隔のポーリング)、一覧・投稿・定型文、システムメッセージ、通報(`ReportDialog`)、読み取り専用。設計: 06 CHT-TASK-08・09
   - 画面: `traveler/group-chat.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-9 07 費用タブ(M)
+- [*] P-3-9 07 費用タブ(M)
   - ブランチ: `agent/w3-ui-expense` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/expense/ui/*`
   - 内容: 一覧・追加・編集・削除、分担のまとめ(目安)、元メンバーの表示。設計: 07 EXP-TASK-13〜16
   - 画面: `traveler/group-expenses.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-10 08 ラリータブ・振り返り(M)
+- [*] P-3-10 08 ラリータブ・振り返り(M)
   - ブランチ: `agent/w3-ui-rally` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/rally/ui/*`、`A/[campaign]/groups/[groupId]/review/page.tsx`
   - 内容: 合言葉入力 → グループの進捗・個人特典、振り返り(メモ・アンケート 5 項目・ダミー写真)。設計: 08 RLY-TASK-11・12
   - 画面: `traveler/group-rally.html`、`group-review.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-11 09 プロフィール・ブロック・本人確認・通報(M)
+- [*] P-3-11 09 プロフィール・ブロック・本人確認・通報(M)
   - ブランチ: `agent/w3-ui-safety` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/safety/components/*`、`A/[campaign]/mypage/profile/`・`blocks/`・`verification/` の `page.tsx`
   - 内容: `ProfileForm`(公開範囲)、ブロック一覧、本人確認(モック)、`ReportDialog`(3 種)、`BlockMenuItem`、`TextRejectNotice`・`useTextCheck`。設計: 09 SAF-TASK-15〜18(部品のみ)
   - 画面: `safety/profile-visibility.html`、`block-list.html`、`verification.html`、`report-dialog.html`、`prohibited-text.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-12 10 通知画面・ベル(S)
+- [*] P-3-12 10 通知画面・ベル(S)
   - ブランチ: `agent/w3-ui-notify` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/notify/ui/*`、`A/[campaign]/notifications/page.tsx`
   - 内容: `NotificationBell`(未読数、`ntf:refresh`)、一覧、開いたときの既読化。設計: 10 NTF-TASK-11・12
   - 画面: `safety/notifications.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-13 11 着地ページ・外部リンク集・公式バッジ(S)
+- [*] P-3-13 11 着地ページ・外部リンク集・公式バッジ(S)
   - ブランチ: `agent/w3-ui-entry` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/entry/components/*`、`F/official/components/*`、`A/[campaign]/entry/page.tsx`、`A/[campaign]/external-links/page.tsx`
   - 内容: 無視した項目があるときだけ着地ページ、それ以外は一覧へ遷移。ダミー外部リンク集。`OfficialBadge`・`OfficialNotice`。設計: 11 ENT-TASK-10〜12
   - 画面: モックなし(01 の一覧のモックの部品に合わせる)
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-14 12 自治体向け集計(M)
+- [*] P-3-14 12 自治体向け集計(M)
   - ブランチ: `agent/w3-ui-stats` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/stats/ui/*`、`A/[campaign]/admin/stats/page.tsx`
   - 内容: `CellText`・`ChartTableToggle`・`MetricCard`・`FilterBar`・`RegionTable`・`BarList`、カード 6 枚・地方別表・流入元。時系列グラフ・ファネル・アンケートは余力。設計: 12 MUN-TASK-10〜12
   - 画面: `municipal/stats-dashboard.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-15 13 需要見込みと提案(M)
+- [*] P-3-15 13 需要見込みと提案(M)
   - ブランチ: `agent/w3-ui-insights` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/insights/ui/*`、`A/[campaign]/business/insights/page.tsx`
   - 内容: エリアの選択、提案カード、週別の見込み(表)。グラフ・年代別・エリア別の表は余力。設計: 13 INS-TASK-11・12
   - 画面: `business/demand-forecast.html`、`proposal-detail.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-16 API の通し試験(主ルート)(M)
+- [*] P-3-16 API の通し試験(主ルート)(M)
   - ブランチ: `agent/w3-api-scenario` / 並行: 並行可 / 前提: Wave 2
   - 対象: `app/src/test/scenario/*.test.ts`(新規)
   - 内容: `callRoute` で主ルートを通す: 作成 → 一覧 → 申請 → 承認(最少人数到達)→ 時計を進めて辞退期間 → 実行確定 → 実施中(旅程・チャット・費用・スタンプ・振り返り)→ 完了 → `/api/stats`・`/api/insights`。中止 → 再企画 → 再申請も 1 本。主な通知の発生を確かめる。主ルートが止まる不具合だけを直し、他は FollowUp に記録する。設計: 契約 16.1、03 JOIN-T-39、04 LCY-T-73、07 EXP-T-45
@@ -422,12 +422,12 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
 
 ## Wave 4(3:25〜4:00)結合と提示の準備
 
-- [ ] P-4-1 画面の通し確認と主ルート停止の修正(M)
+- [*] P-4-1 画面の通し確認と主ルート停止の修正(M)
   - ブランチ: `agent/w4-ui-walkthrough` / 並行: P-4-2 と並行可 / 前提: Wave 3
   - 対象: 主ルートが止まる箇所の最小修正のみ(修正したファイルを報告する)
   - 内容: `npm run dev` で DemoBar のユーザー切替を使い、主ルートを画面で通す(旅行者 → 幹事 → 自治体 u-009 → 観光事業オーナー u-013)。スマホ幅を 1 画面確認。見た目・エッジの不具合は FollowUp に記録する
   - 完了条件: 主ルートを最後まで操作できた記録(手順と結果)、G-B
-- [ ] P-4-2 起動手順・デモ手順の作成(S。文書)
+- [*] P-4-2 起動手順・デモ手順の作成(S。文書)
   - ブランチ: `agent/w4-demo-guide` / 並行: P-4-1 と並行可 / 前提: Wave 3
   - 対象: `docs/design/09-setup.md`、`docs/plan/demo.md`(新規)
   - 内容: `npm ci`・`npm run dev`・`npm test`・`npm run seed`・`/api/demo/reset` の手順、デモのシナリオ(ユーザー切替の順と見せる画面)、モックであることの明示

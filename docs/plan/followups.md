@@ -13,17 +13,17 @@
 
 ### 高(主ルートの体験に影響)
 
-- [ ] F-001 通し試験の skip を有効化する: 中止 → 再企画 → 再申請、lifecycle の GET、通知 API 経由の確認。04 の handlers・view・replan と 11 の getOfficialBadges は、P-3-16 の実行後にマージ済みなので、skip を外して実物で通す / P-3-16 / 高
-- [ ] F-002 `replan` が呼ぶ `recordCreated` と、01 の `createGroupInternal` が内部で呼ぶ `recordCreated` が二重になる可能性。通し試験で確認 / P-2-12 / 高
-- [ ] F-003 04 の `register.ts` が `beforeRequest` で `evaluateAll` を実行する。本体が揃った統合状態で、route() 経由の全試験が通るか確認(LCY-T-73: seed が評価で変わらない) / P-2-10 / 高
-- [ ] F-004 統合後の全体試験(`npm test`)と G-B を 1 回通す。各タスクは他モジュールを `vi.mock` で代替して試験したため、実物同士の結合は未確認 / 全体 / 高
-- [ ] F-005 画面は未実装(Wave 3 の P-3-2、3-4〜3-15 が未着手。P-3-1、P-3-3 は実行中または未マージ)。`/groups`、`/new-group`、`/notifications` は 404 のまま / Wave 3 / 高
+- [x] F-001 通し試験の skip を有効化する: 中止 → 再企画 → 再申請、lifecycle の GET、通知 API 経由の確認。04 の handlers・view・replan と 11 の getOfficialBadges は、P-3-16 の実行後にマージ済みなので、skip を外して実物で通す / P-3-16 / 高
+- [x] F-002 `replan` が呼ぶ `recordCreated` と、01 の `createGroupInternal` が内部で呼ぶ `recordCreated` が二重になる可能性。通し試験で確認 / P-2-12 / 高
+- [x] F-003 04 の `register.ts` が `beforeRequest` で `evaluateAll` を実行する。本体が揃った統合状態で、route() 経由の全試験が通るか確認(LCY-T-73: seed が評価で変わらない) / P-2-10 / 高
+- [x] F-004 統合後の全体試験(`npm test`)と G-B を 1 回通す。各タスクは他モジュールを `vi.mock` で代替して試験したため、実物同士の結合は未確認 / 全体 / 高
+- [x] F-005 画面は未実装(Wave 3 の P-3-2、3-4〜3-15 が未着手。P-3-1、P-3-3 は実行中または未マージ)。`/groups`、`/new-group`、`/notifications` は 404 のまま / Wave 3 / 高
 
-- [ ] F-028 `GET /api/groups` が `internal` を返した(P-3-3 の確認時。マージ前の古い状態での結果の可能性)。再開時に最初に再確認し、一覧画面(`/nttw-demo/groups`)に実データが出ることを確認 / P-3-3 / 高
+- [x] F-028 `GET /api/groups` が `internal` を返した(P-3-3 の確認時。マージ前の古い状態での結果の可能性)。再開時に最初に再確認し、一覧画面(`/nttw-demo/groups`)に実データが出ることを確認 / P-3-3 / 高
 
 ### 中
 
-- [ ] F-006 `service.ts`(notify)に残るスタブは publish.ts の再エクスポートに置換済み(P-3-16)。P-2-14 のマージ内容と矛盾がないか確認 / P-2-13・P-2-14 / 中
+- [x] F-006 `service.ts`(notify)に残るスタブは publish.ts の再エクスポートに置換済み(P-3-16)。P-2-14 のマージ内容と矛盾がないか確認 / P-2-13・P-2-14 / 中
 - [ ] F-007 `visibleProfile` は P-2-2 のマージで本体が入った。05・06・07・08 の自前の表示名取得(db().profiles / users を直接引く)を `visibleProfile` に統一 / P-2-15・17・18・19・21 / 中
 - [ ] F-008 `GET /api/stats` の合成履歴は規模・分布が概算(約 150/190 グループに未調整)。`F/stats/messages.ts`(指標名・区分表示名・検証メッセージ)が不足 / P-2-24・P-1-6 / 中
 - [ ] F-009 要望テーマの辞書が分析値と不一致(案内 58/目標 33、交通 39/48、特典 58/42、スポット説明 33/10、なし 96/112)。CSV を見ずに調整できなかった / P-0-4 / 中
@@ -45,7 +45,71 @@
 - [ ] F-022 `npm ci` の並行実行が競合する(ENOTEMPTY)。各 worktree に、他 worktree の `node_modules` のコピーまたは junction がある。junction は元の worktree を削除すると壊れる。`app/node_modules_bad` が 1 つの worktree に残っている / 環境 / 中
 - [ ] F-023 提出物に Chrome DevTools MCP の設定を含めない(local スコープ `C:\Users\Jisui_share006\.claude.json`)。OSS ライセンス一覧に vitest、chrome-devtools-mcp の扱いを追記 / 環境 / 低
 - [ ] F-024 `vitest.config.ts` が CommonJS として読まれる警告 / P-1-9 ほか / 低
-- [ ] F-025 lint 警告 約 90〜120 件(未使用引数など) / 全体 / 低
+- [x] F-025 lint 警告 約 90〜120 件(未使用引数など) / 全体 / 低
 - [ ] F-026 seed 再生成で `src/data/*.json` に差分(改行コードの可能性)。`.gitattributes` の LF 固定を検討 / W1-gate / 低
 - [ ] F-027 `docs/plan/tasks.md` の件数表記: 作成済みモックは 25 画面 + BIZ-02 で、依頼文の「22 画面」と合わない / P-0-8 / 低
 
+- [x] F-030 lint 警告 6 件(未使用 eslint-disable 5 件、forecast.ts:112 の未使用 `ri`)。エラーは 0 / F-004 全体確認 / 低
+- [ ] F-060 見送り理由 UI がモックの却下ダイアログと文言未照合 / P-3-5 / 低
+- [ ] F-061 モックの「通報・ブロック」ボタン・「N 日経過」・本人確認済みバッジ未実装 / P-3-5 / 低
+- [ ] F-062 申請が多い場合のページング未対応 / P-3-5 / 低
+- [ ] F-063 条件変更時の再同意フロー(condition_changed)未実装、エラー表示のみ / P-3-5 / 中
+- [ ] F-064 幹事以外が /requests を開いたときの 403 説明が汎用文のまま / P-3-5 / 低
+- [ ] F-040 元メンバー(辞退・退会者)の一覧が API に無く、MemberList は注記のみ表示 / P-3-2 / 低
+- [ ] F-041 PublicGroupDetailScreen の onApply 遷移先 /apply は仮(P-3-4 で確認) / P-3-2 / 中
+- [x] F-042 notify.test.ts「confirmed は summaryText を付ける」が失敗(P-3-2 無関係) / P-3-2 / 中
+- [ ] F-050 参加前詳細: モックの席(seat)表示・ヘッダー用パンくず・通報ボタン・申請済み/参加済みの見本バリアントは未実装。参加中(kind=member)は暫定の1行表示で、参加後ハブ(TRV-12)で置換が必要 / P-3-4 / 低
+- [x] F-051 `app/src/features/notify/notify.test.ts` の「confirmed は summaryText を付ける」が失敗(memberSummary の文言期待値の不一致)。P-3-4 の変更とは無関係 / P-3-4 / 中
+- [ ] F-052 `groups/[groupId]/page.tsx` を P-3-4 が新設(参加前詳細のみ)。ハブ担当のタスクと同じパスで衝突する場合は kind で出し分けて統合 / P-3-4 / 中
+- [x] F-029 notify.test の confirmed 期待値を修正(3 人は 4 人未満のため年代を出さないのが契約どおり) / P-3-16 / 低
+- [x] F-031 seed の confirmed 通知(n-001)が summaryText を持たず GET /api/me/notifications が 500 になった。render.ts で補完して修正 / P-3-16 / 高
+- [ ] F-032 seed 通知の params を build 側で summaryText 付きに揃える(render の補完は暫定) / P-3-16 / 低
+- [ ] F-090 12 集計の時系列グラフ・ファネル・アンケート・流入(種別/入口)・スポット・年代・人数分布は未実装(余力)。ChartTableToggle は未使用 / P-3-14 / 低
+- [ ] F-091 12 集計の指標名・ヒント文言を messages.ts に未集約(直書き)。期間クイック切替(3/6/12か月)未実装 / P-3-14 / 低
+- [ ] F-092 /admin/stats は自治体ユーザー以外だと 403 の ForbiddenNotice のみ(ロール切替導線なし) / P-3-14 / 低
+- [ ] F-100 insights UI は週別の表・提案カード・エリア選択のみ。グラフ(WeeklyForecastChart)・年代別・エリア別・過去プロフィールはスタブのまま。画面は Mantine の標準部品で、モックの CSS(biz01-*)は未再現 / P-3-15 / 低
+- [ ] F-101 insights UI の見込み概要は表示期間の週合計から算出(モックの「実行確定/募集中の内訳」「最も多い年代帯」は未表示)。ブラウザでの描画確認は未実施(HTTP 200 と API 応答のみ確認) / P-3-15 / 低
+- [ ] F-130 費用タブ: モバイル用カード表示を作らずテーブル横スクロールのみ(モックは 768px 未満でカード) / P-3-9 / 低
+- [ ] F-131 費用タブ: 「一人あたりの目安」は合計÷メンバー数の単純計算(対象人数ベースではない)。追加/編集/削除のブラウザ操作は未確認(実行確定後のグループで要確認) / P-3-9 / 低
+- [ ] F-110 旅程タブ: 並び替え UI・競合ダイアログ(最新との比較)・ackReview の確認 UI は未実装(409 は再取得+文言のみ) / P-3-7 / 低
+- [ ] F-111 旅程タブ: モックの2カラム配置・ステータス表示の見た目は未調整、画面の目視確認は API/HTTP 200 までで未実施 / P-3-7 / 低
+- [ ] F-120 06 チャット: 10 行上限のクライアント検証・Enter 送信・「最下部のときだけ自動スクロール」・未読区切り・ポーリングのバックオフ(POLL_BACKOFF_MS)は未実装 / P-3-8 / 低
+- [ ] F-121 06 チャット: ReportDialog は P-3-11 のスタブのまま(本体が入るまで通報ボタンは開いても何も出ない)。通報済みの反映は次回ポーリングでなく再取得が必要 / P-3-8 / 中
+- [ ] F-122 06 チャット: 見た目はモックの chat__* クラスではなく Mantine の簡易スタイル。システムメッセージ文は API の text を表示 / P-3-8 / 低
+- [ ] F-140 ラリー/振り返り UI は Mantine 標準部品のみ。モックのスポットマップ・CSS(trv16/trv17)は未再現。ブラウザ描画は未確認(API と HTTP 200 のみ確認) / P-3-10 / 低
+- [ ] F-141 g-101 等の募集中グループでは /review は API が unavailable_state を返し、ErrorNotice のみ表示(読み取り専用の振り返りは出ない)。実施中(in_progress)のみ全機能 / P-3-10 / 低
+- [ ] F-142 スタンプ POST は /api/groups/{id}/stamps(設計書の rally/stamps ではない)。UI は実在パスに合わせた / P-3-10 / 低
+- [ ] F-160 着地ページ・外部リンク集・公式バッジは素の HTML+インラインスタイルで Mantine 未使用(モックの部品との見た目の統一は未調整)。一覧(discovery/ui)への OfficialBadge/OfficialNotice の組み込みは未実施(一覧は変更しない指示) / P-3-13 / 低
+- [ ] F-161 `/<不正な campaign>/entry` が 200 を返した(layout 側の挙動の可能性。resolveEntry は not_found を投げ notFound() 化済み)。ブラウザ目視は未実施、curl の HTTP 確認のみ / P-3-13 / 低
+- [ ] F-150 ブロック/通報の導線(BlockMenuItem・ReportDialog)を呼び出し元(メンバー一覧・チャット・グループ詳細)へ配線していない。部品のみ。ブロック一覧の「きっかけ」グループ名は未表示 / P-3-11 / 中
+- [ ] F-151 VerificationGate はスタブのまま。ブロック追加・通報・本人確認の操作(POST)はブラウザで未確認(API と画面表示のみ確認)。モックの「状態ごとの表示」見本は未実装 / P-3-11 / 低
+- [ ] F-152 プロフィールの2カラム・モバイル表示の見た目は未調整 / P-3-11 / 低
+- [x] F-170 lint が 2 件のエラー(react-hooks/set-state-in-effect): features/groups/plan/ui/PlanTab.tsx:39、features/safety/components/ProfileForm.tsx:77。動作は問題なし / P-4-1 / 低
+- [ ] F-171 /new-group の日付欄(年月日スピンボタン)は、ブラウザ自動操作(CDP の type_text)では入力できず、フォーム経由の作成は未確認(グループ作成は API で代替)。手入力での動作確認が必要 / P-4-1 / 中
+- [ ] F-172 AppShell の通知アイコンは従来 /news(お知らせ)へ。/notifications(グループ通知)へ変更した。お知らせ(/news)へのメニュー導線が無くなった / P-4-1 / 低
+- [ ] F-173 DemoBar の +N日 ボタンはページを再読込する。締切日当日(11/12)は min_reached のまま、+3日で confirmed まで進む(仕様どおりか未確認) / P-4-1 / 低
+- [ ] F-174 スマホ幅の確認は 501px(ブラウザの最小幅)で横スクロールなしを確認したのみ。見た目の細部は未確認 / P-4-1 / 低
+- [ ] F-190 ダミー地図の形は簡略(地方の外形・集合場所マーカーは地方中心に固定)。架空地方ID(r-mizukoto→近畿 等)は DummyJapanMap の DEMO_REGION_MAP の仮対応 / W5-dummy-map / 低
+- [ ] F-191 集合場所の地図はスポット座標を持たず中央付近の固定マーカー。実座標連携は未対応 / W5-dummy-map / 低
+- [ ] F-200 アプリ全体が約700px幅のモバイルシェルのため、一覧は広い画面でも2〜3列にならない(1〜2列程度)。DemoBar が二重表示される箇所あり / W5-list-overlay / 低
+- [ ] F-201 絞り込みドロワーの「適用」は閉じるだけ(条件は変更の都度URLに即時反映される) / W5-list-overlay / 低
+- [ ] F-170 lint が 2 件のエラー(react-hooks/set-state-in-effect): features/groups/plan/ui/PlanTab.tsx:39、features/safety/components/ProfileForm.tsx:77。動作は問題なし / P-4-1 / 低
+- [x] F-171 (W5-demo-check で解消: 画面フォームのみで作成を確認。GroupForm は DOM 値も取り込む) /new-group の日付欄(年月日スピンボタン)は、ブラウザ自動操作(CDP の type_text)では入力できず、フォーム経由の作成は未確認(グループ作成は API で代替)。手入力での動作確認が必要 / P-4-1 / 中
+- [ ] F-172 AppShell の通知アイコンは従来 /news(お知らせ)へ。/notifications(グループ通知)へ変更した。お知らせ(/news)へのメニュー導線が無くなった / P-4-1 / 低
+- [ ] F-173 DemoBar の +N日 ボタンはページを再読込する。締切日当日(11/12)は min_reached のまま、+3日で confirmed まで進む(仕様どおりか未確認) / P-4-1 / 低
+- [x] F-174 (W5-demo-check: 390px で主要画面の横スクロールなしを確認) スマホ幅の確認は 501px(ブラウザの最小幅)で横スクロールなしを確認したのみ。見た目の細部は未確認 / P-4-1 / 低
+- [ ] F-180 費用追加フォームの日付初期値が実時刻の今日(デモ時計ではない) / W5-demo-check / 低
+- [ ] F-181 390px で費用タブの表が表内で横スクロール(ページ全体は崩れない。F-130 と同件) / W5-demo-check / 低
+- [ ] F-182 スクロール領域内の下部ボタン(チャット送信など)は、自動操作の座標クリックだと下部ナビに隠れて誤クリックされる(スクロールすれば動く) / W5-demo-check / 低
+- [ ] F-220 本家トップの「スポットのカテゴリ別カード(達成数 n/m)」とカルーセル(ドット)は未再現。スタンプカード1枚で代替 / W5-top-page / 低
+- [ ] F-221 本家の「概要」「遊び方」は、こちらの /service /rule に仮対応。開催期間は固定文言(キャンペーンAPIに期間なし) / W5-top-page / 低
+- [ ] F-222 本家のヘッダー(ハンバーガー+ベル)・下部メニュー(中央GETボタン)の形は未寄せ(AppShell は主ルート維持のため不変更) / W5-top-page / 低
+- [ ] F-210 地図の見た目: 地方名ラベルが無い(ホバー title のみ)。沖縄の離島が小さく見えにくい(倍率拡大・枠線で囲う余地) / W5-real-map / 低
+- [ ] F-211 地図データの出典表記は国土地理院コンテンツ利用規約(PDL1.0)に基づく。測量法上の承認要否は未確認(デモ用途のため要件確認) / W5-real-map / 低
+- [ ] F-212 一部画面(新規グループ等)では地図の高さ固定(200px)で日本が小さく表示される。縦横比に合わせた高さ調整余地 / W5-real-map / 低
+- [ ] F-230 インサイトのグラフ: 過去の実績は集計済み3週(10/01〜10/20)のみで、11月初週までの空白がある。年代が1つだけ公開の週は円が100%になる(他は「少数」表記) / W5-insights-charts / 低
+
+- [ ] F-240 スポット地図のピン位置はダミー(エリア名→地方の対応+IDハッシュ)。ピン密集時のクラスタリング未実装、ピンチ操作は実機未確認 / W5-spot-map / 低
+- [ ] F-260 一覧カードを GroupSummary.description 追加でコンパクト化。HeadcountLine/GroupBadges は一覧では未使用(詳細で使用)。長いタイトルは2行折返し / W5-list-card / 低
+- [ ] F-250 グループ一覧の地図モードは表示中ページ(12件)のグループのみプロット(全ページ分ではない)。モードは URL 状態に未連動 / W5-group-map / 低
+- [ ] F-251 参加前の公開詳細は旅程を取得しないため旅行先ピンは1つのみ(参加後の概要タブは旅程の訪問先もピン化) / W5-group-map / 低

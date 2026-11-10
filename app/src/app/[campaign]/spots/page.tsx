@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Badge, Card, Group, SegmentedControl, Stack, Switch, Text } from "@mantine/core";
 import { Spot, useApi } from "@/lib/api";
+import { SpotMap } from "@/components/SpotMap";
 
 const WANT_KEY = "raund-mirror-want-";
 
@@ -13,6 +14,8 @@ export default function Spots() {
   const [view, setView] = useState("list");
   const [onlyWant, setOnlyWant] = useState(false);
   const [want, setWant] = useState<number[]>([]);
+  const [selId, setSelId] = useState<number | null>(null);
+  const sel = (spots ?? []).find((s) => s.id === selId);
 
   // localStorage は使えない環境（プライベートモード等）もあるので try で囲む。
   // SSR 時は localStorage が無く、初期値で読むと hydration が食い違うため、マウント後に読む。
@@ -34,13 +37,26 @@ export default function Spots() {
       {loading && <Text c="dimmed">読み込み中…</Text>}
       {error && <Text c="red">読み込みに失敗しました</Text>}
       {view === "map" ? (
-        <div className="map" role="group" aria-label="イラストマップ">
+        <>
+        <SpotMap spots={list} selectedId={selId} onSelect={setSelId} />
+        {sel && (
+          <Card withBorder radius="md" padding="sm" data-testid="spot-popover">
+            <Group justify="space-between" wrap="nowrap" align="flex-start">
+              <div>
+                <Text fw={700}>{sel.name}</Text>
+                <Text size="sm" c="dimmed">{sel.description}</Text>
+                <Link href={`/${slug}/spots/detail?id=${sel.id}`}>詳細を見る</Link>
+              </div>
+              <Badge color={sel.acquired ? "green" : "gray"}>{sel.acquired ? "獲得済み" : "未獲得"}</Badge>
+            </Group>
+          </Card>
+        )}
+        <Group gap={6}>
           {list.map((s) => (
-            <Link key={s.id} href={`/${slug}/spots/detail?id=${s.id}`} data-on={s.acquired} style={{ left: `${s.map.x}%`, top: `${s.map.y}%` }}>
-              <b />{s.stampName}
-            </Link>
+            <Badge key={s.id} component="button" type="button" variant={s.id === selId ? "filled" : "light"} color={s.acquired ? "green" : "orange"} style={{ cursor: "pointer" }} onClick={() => setSelId(s.id)}>{s.stampName}</Badge>
           ))}
-        </div>
+        </Group>
+        </>
       ) : (
         list.map((s) => (
           <Card key={s.id} withBorder radius="md" padding="sm">

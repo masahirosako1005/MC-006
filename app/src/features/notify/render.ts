@@ -27,6 +27,9 @@ export function renderNotification(n: GroupNotification): { title: string; body:
   for (const [k, val] of Object.entries(p)) if (typeof val === "string" || typeof val === "number") vals[k] = val;
   let linkGroupId = n.groupId;
   switch (n.kind) {
+    case "confirmed": // seed の通知は summaryText を持たないので補う(F-031)
+      if (vals.summaryText === undefined) vals.summaryText = `参加者 ${String(vals.count ?? "")} 人(年代は表示しません)`;
+      break;
     case "withdraw_period_started": vals.withdrawUntil = formatJst(p.withdrawUntil as string); break;
     case "deadline_near": vals.deadline = formatJst(p.deadlineDate as string); break;
     case "conditions_changed": vals.changes = formatChanges(n.params as ParamsOf<"conditions_changed">); break;

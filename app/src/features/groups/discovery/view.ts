@@ -30,6 +30,7 @@ export function toGroupSummary(viewer: DemoUser, g: Group, ctx: ViewContext): Gr
   return {
     id: g.id,
     name: g.name,
+    description: g.description,
     campaign: g.campaign,
     region: { id: g.region, name: region?.name ?? g.region },
     trip: { ...g.trip },

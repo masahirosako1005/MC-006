@@ -1,37 +1,32 @@
 "use client";
 import Link from "next/link";
-import { Badge, Card, Group, Stack, Text } from "@mantine/core";
-import { fmtDate, fmtRange } from "./format";
-import { GroupBadges } from "./GroupBadges";
-import { HeadcountLine } from "./HeadcountLine";
-import { MemberSummaryLabel } from "./MemberSummaryLabel";
+import { Badge, Card, Group, Progress, Stack, Text } from "@mantine/core";
+import { GroupStatusBadge } from "@/features/groups/lifecycle/ui/GroupStatusBadge";
+import { fmtRange } from "./format";
 import type { GroupSummary } from "../types";
 
 export interface GroupCardProps { group: GroupSummary; campaign: string }
 
 export function GroupCard({ group: g, campaign }: GroupCardProps) {
-  const shown = g.tags.slice(0, 4);
+  const h = g.headcount;
   return (
-    <Card withBorder padding="md" radius="md" component="article" aria-labelledby={`c-${g.id}`} pos="relative">
-      <Stack gap={6}>
-        <GroupBadges group={g} />
-        <h3 id={`c-${g.id}`} style={{ margin: 0, fontSize: "1rem" }}>
-          <Link href={`/${campaign}/groups/${g.id}`} style={{ color: "inherit", textDecoration: "none" }}>
+    <Card withBorder padding="sm" radius="md" component="article" aria-labelledby={`c-${g.id}`} pos="relative">
+      <Stack gap={4}>
+        <Group gap={4} wrap="wrap" style={{ whiteSpace: "nowrap" }}>
+          <span style={{ flexShrink: 0 }}><GroupStatusBadge status={g.status} full={g.flags.full} size="sm" /></span>
+          {g.flags.full && <Badge color="red" variant="outline" size="sm" style={{ flexShrink: 0 }}>満員</Badge>}
+        </Group>
+        <h3 id={`c-${g.id}`} style={{ margin: 0, fontSize: "0.95rem", lineHeight: 1.3 }}>
+          <Link href={`/${campaign}/groups/${g.id}`} style={{ color: "inherit", textDecoration: "none", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
             <span style={{ position: "absolute", inset: 0 }} aria-hidden="true" />
             {g.name}
           </Link>
         </h3>
-        <Text size="sm" c="dimmed">{g.trip.destination}({g.region.name})/ {fmtRange(g.trip.startDate, g.trip.endDate)}</Text>
-        <HeadcountLine h={g.headcount} />
-        <Text size="xs" c="dimmed">
-          締切 {fmtDate(g.deadlineDate)} / 幹事: {g.organizerName} / <MemberSummaryLabel summary={g.memberSummary} />
-        </Text>
-        {shown.length > 0 && (
-          <Group gap={4} aria-label="タグ">
-            {shown.map((t) => <Badge key={t} color="gray" variant="light" size="sm">{t}</Badge>)}
-            {g.tags.length > shown.length && <Badge color="gray" variant="light" size="sm">+{g.tags.length - shown.length}</Badge>}
-          </Group>
-        )}
+        <Text size="xs" c="dimmed" lineClamp={3}>{g.description}</Text>
+        <Progress value={(h.current / h.capacity) * 100} color={h.reachedMin ? "teal" : "blue"} size={6}
+          aria-label={`参加人数 定員${h.capacity}人中${h.current}人`} />
+        <Text size="xs">{h.current}/{h.capacity} 人<br />(最少 {h.min} 人)</Text>
+        <Text size="xs" c="dimmed">{fmtRange(g.trip.startDate, g.trip.endDate)}</Text>
       </Stack>
     </Card>
   );

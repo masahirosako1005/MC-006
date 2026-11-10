@@ -93,7 +93,7 @@ describe("regions", () => {
 });
 
 const sum = (o: Partial<GroupSummary> & { id: string }): GroupSummary => ({
-  name: "g", campaign: "nttw-demo", region: { id: "r-mizukoto", name: "水琴地方" },
+  name: "g", description: "", campaign: "nttw-demo", region: { id: "r-mizukoto", name: "水琴地方" },
   trip: { destination: "x", startDate: "2026-12-05", endDate: "2026-12-07", dateNote: "" },
   deadlineDate: "2026-11-20", deadlineAt: "2026-11-20T23:59:00+09:00", tags: ["温泉"], badge: null,
   organizerName: "o", headcount: { min: 2, capacity: 6, current: 3, vacancy: 3, shortfall: 0, isFull: false, reachedMin: true },
