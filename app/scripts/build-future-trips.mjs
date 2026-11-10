@@ -5,11 +5,12 @@ import { buildFutureTrips } from "./lib/future-trips.mjs";
 
 const out = fileURLToPath(new URL("../src/data/future-trips.json", import.meta.url));
 const data = buildFutureTrips();
-if (data.groups.length !== 100) {
-  console.error(`groups=${data.groups.length} (expected 100)`);
+const pub = data.groups.filter((g) => g.visibility === "public").length;
+if (pub !== 100) {
+  console.error(`public groups=${pub} (expected 100)`);
   process.exit(1);
 }
 writeFileSync(out, JSON.stringify(data, null, 2) + "\n");
 console.log(
-  `future-trips: users=${data.users.length} groups=${data.groups.length} members=${data.members.length} logs=${data.groupStatusLogs.length} listings=${data.listings.length}`,
+  `future-trips: users=${data.users.length} groups=${data.groups.length} (public ${pub}) members=${data.members.length} logs=${data.groupStatusLogs.length} listings=${data.listings.length}`,
 );
