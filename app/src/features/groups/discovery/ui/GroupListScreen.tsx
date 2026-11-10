@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Alert, Box, Button, Drawer, Group, Select, SimpleGrid, Skeleton, Stack, Text, TextInput, Title } from "@mantine/core";
+import { Alert, Badge, Box, Button, Drawer, Group, Select, SimpleGrid, Skeleton, Stack, Text, TextInput, Title } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useGroupsApi } from "@/lib/groups-api";
 import { DummyJapanMap } from "@/components/DummyJapanMap";
@@ -10,7 +10,7 @@ import { LoadingBlock } from "@/components/groups/common/LoadingBlock";
 import { ErrorNotice } from "@/components/groups/common/ErrorNotice";
 import { DemoBar } from "@/components/groups/common/DemoBar";
 import type { QueryContext } from "../query";
-import { SORT_OPTIONS } from "../types";
+import { DEFAULT_LIST_STATUSES, SORT_OPTIONS } from "../types";
 import type { GroupListFilter, Region, RelaxSuggestion, SortOption } from "../types";
 import { ActiveFilterChips } from "./ActiveFilterChips";
 import { FilterPanel } from "./FilterPanel";
@@ -67,6 +67,10 @@ export function GroupListScreen({ campaign }: GroupListScreenProps) {
     return () => clearTimeout(t);
   }, [qDraft, urlQ, update]);
 
+  const activeCount = filter
+    ? [filter.region, filter.dateFrom || filter.dateTo, filter.vacancy !== undefined, filter.tags.length > 0,
+      filter.ageBuckets.length > 0, filter.official, filter.statuses.length > DEFAULT_LIST_STATUSES.length].filter(Boolean).length
+    : 0;
   const setupError = regionsRes.error ?? me.error;
   const onClear = () => { setQDraft(null); clear(); };
   const panelProps = filter && regions ? {
@@ -76,7 +80,7 @@ export function GroupListScreen({ campaign }: GroupListScreenProps) {
   return (
     <div>
       <DemoBar />
-      <Box maw={1100} mx="auto" p="md">
+      <Box maw={1280} mx="auto" p="md">
         <Stack gap="md">
           <Group justify="space-between" wrap="wrap">
             <Title order={1} size="h2">グループを探す</Title>
@@ -95,7 +99,10 @@ export function GroupListScreen({ campaign }: GroupListScreenProps) {
                 <TextInput style={{ flex: 1 }} type="search" label="キーワード" placeholder="行き先・名称・タグ" description="部分一致で探します。"
                   value={draft} onChange={(e) => setQDraft(e.currentTarget.value)}
                   onKeyDown={(e) => { if (e.key === "Enter") { update({ q: draft.trim() || undefined }); setQDraft(null); } }} />
-                {!wide && <Button variant="default" onClick={() => setDrawer(true)} style={{ minHeight: 44 }}>絞り込み</Button>}
+                <Button variant="default" onClick={() => setDrawer(true)} style={{ minHeight: 44 }}
+                  rightSection={activeCount > 0 ? <Badge size="sm" circle>{activeCount}</Badge> : undefined}>
+                  絞り込み{activeCount > 0 ? `(${activeCount})` : ""}
+                </Button>
               </Group>
 
               {ignored.length > 0 && (
@@ -106,8 +113,7 @@ export function GroupListScreen({ campaign }: GroupListScreenProps) {
 
               <ActiveFilterChips filter={filter} regions={regions!} onChange={update} onClear={onClear} />
 
-              <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="md" style={{ gridTemplateColumns: wide ? "280px 1fr" : undefined }}>
-                {wide && <Box component="section" aria-labelledby="filter-title"><FilterPanel {...panelProps} /></Box>}
+              <Box>
                 <Stack component="section" aria-labelledby="result-title" gap="sm" aria-busy={loading}>
                   <Group justify="space-between">
                     <Title order={2} size="h4" id="result-title">結果</Title>
@@ -126,14 +132,14 @@ export function GroupListScreen({ campaign }: GroupListScreenProps) {
                       <ListEmptyState filter={filter} suggestions={data.suggestions} campaign={campaign}
                         onApplySuggestion={(s) => update(suggestionPatch(s))} />
                     ) : (
-                      <Stack component="ul" gap="sm" p={0} m={0} style={{ listStyle: "none", opacity: loading ? 0.6 : 1 }}>
+                      <SimpleGrid component="ul" cols={{ base: 1, sm: 2, lg: 3 }} spacing="sm" p={0} m={0} style={{ listStyle: "none", opacity: loading ? 0.6 : 1 }}>
                         {data?.items.map((g) => <li key={g.id}><GroupCard group={g} campaign={campaign} /></li>)}
-                      </Stack>
+                      </SimpleGrid>
                     )}
                 </Stack>
-              </SimpleGrid>
+              </Box>
 
-              <Drawer opened={!wide && drawer} onClose={() => setDrawer(false)} title="絞り込み" position="left" size="100%">
+              <Drawer opened={drawer} onClose={() => setDrawer(false)} title="絞り込み" position={wide ? "right" : "left"} size={wide ? 420 : "100%"}>
                 <FilterPanel {...panelProps} onClose={() => setDrawer(false)} />
               </Drawer>
             </>

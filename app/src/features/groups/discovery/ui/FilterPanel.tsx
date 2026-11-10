@@ -65,8 +65,8 @@ export function FilterPanel({ filter: f, regions, facets, resultCount, onChange,
         <Switch label="受付が終わったグループも表示" checked={includeClosed}
           onChange={(e) => onChange({ statuses: e.currentTarget.checked ? [...CLOSED_INCLUDED_STATUSES] : [...DEFAULT_LIST_STATUSES] })} />
         <Group justify="space-between">
-          <Button variant="subtle" onClick={onClear}>条件をクリア</Button>
-          {onClose && <Button onClick={onClose}>結果を見る{resultCount !== null ? `(${resultCount} 件)` : ""}</Button>}
+          <Button variant="subtle" onClick={onClear}>クリア</Button>
+          {onClose && <Button onClick={onClose}>適用{resultCount !== null ? `(${resultCount} 件)` : ""}</Button>}
         </Group>
       </Stack>
     </form>
