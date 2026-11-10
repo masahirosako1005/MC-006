@@ -49,3 +49,6 @@
 - [ ] F-026 seed 再生成で `src/data/*.json` に差分(改行コードの可能性)。`.gitattributes` の LF 固定を検討 / W1-gate / 低
 - [ ] F-027 `docs/plan/tasks.md` の件数表記: 作成済みモックは 25 画面 + BIZ-02 で、依頼文の「22 画面」と合わない / P-0-8 / 低
 
+- [ ] F-040 元メンバー(辞退・退会者)の一覧が API に無く、MemberList は注記のみ表示 / P-3-2 / 低
+- [ ] F-041 PublicGroupDetailScreen の onApply 遷移先 /apply は仮(P-3-4 で確認) / P-3-2 / 中
+- [ ] F-042 notify.test.ts「confirmed は summaryText を付ける」が失敗(P-3-2 無関係) / P-3-2 / 中
