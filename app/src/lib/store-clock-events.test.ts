@@ -41,7 +41,7 @@ describe("store", () => {
   });
   it("future trips 連結", () => {
     resetStore({ futureTrips: true });
-    expect(db().groups.count()).toBe(seed.groups.length + 100);
+    expect(db().groups.count()).toBe(seed.groups.length + 735); // 公開 100 + 非公開の背景グループ 635
     expect(newId("g")).toBe("g-201");
     resetStore();
   });
