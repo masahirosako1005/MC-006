@@ -21,7 +21,7 @@ param(
   [int]$TimeoutSec = 40,
   [ValidateSet("auto","voicevox","sapi")][string]$Engine = "auto",
   [string]$Speaker = "ずんだもん",
-  [double]$Speed = 1.2,
+  [double]$Speed = 1.3,
   [double]$Pitch = 0.0,
   [double]$Intonation = 1.0,
   [string]$VvUrl = "http://127.0.0.1:50021",
