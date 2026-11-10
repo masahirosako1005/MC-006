@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Alert, Badge, Button, Card, Group as MGroup, NumberInput, Radio, Select, Stack, Text, TextInput, Textarea, Title } from "@mantine/core";
 import type { Id } from "@/lib/groups-types";
 import { ApiError, gpatch, gpost, useGroupsApi } from "@/lib/groups-api";
@@ -28,7 +28,9 @@ const EMPTY: GroupFormValues = {
 const TITLES = { create: "グループを作る", edit: "グループを編集する", replan: "グループを再企画する" } as const;
 
 export function GroupForm({ mode, campaign, groupId, initial, onSubmit, onDone }: GroupFormProps) {
-  const [v, setV] = useState<GroupFormValues>(initial ?? EMPTY);
+  const [vState, setV] = useState<GroupFormValues>(initial ?? EMPTY);
+  const v = vState;
+  const formRef = useRef<HTMLFormElement>(null);
   const [tagInput, setTagInput] = useState("");
   const [err, setErr] = useState<unknown>(null);
   const [reviewMsg, setReviewMsg] = useState<string | null>(null);
@@ -46,7 +48,14 @@ export function GroupForm({ mode, campaign, groupId, initial, onSubmit, onDone }
     setTagInput("");
   };
 
-  const submit = async (ackReview: boolean) => {
+  const submit = async (ackReview: boolean, form?: HTMLFormElement | null) => {
+    // ブラウザ自動操作で date 欄が onChange を発火しない場合に備え、DOM の値を取り込む
+    let v = vState;
+    if (form) {
+      const fd = new FormData(form);
+      const pick = (n: string, cur: string | null | undefined) => ((fd.get(n) as string) || cur || null);
+      v = { ...vState, startDate: pick("startDate", vState.startDate), endDate: pick("endDate", vState.endDate), deadlineDate: pick("deadlineDate", vState.deadlineDate) };
+    }
     setBusy(true);
     setErr(null);
     setReviewMsg(null);
@@ -86,14 +95,14 @@ export function GroupForm({ mode, campaign, groupId, initial, onSubmit, onDone }
   const deniedMsg = err instanceof ApiError && err.reason === "text_denied" ? err.message : undefined;
 
   return (
-    <form noValidate onSubmit={(e) => { e.preventDefault(); void submit(false); }} aria-labelledby="form-title">
+    <form ref={formRef} noValidate onSubmit={(e) => { e.preventDefault(); void submit(false, e.currentTarget); }} aria-labelledby="form-title">
       <Stack gap="lg" p="md">
         <Title order={2} id="form-title">{TITLES[mode]}</Title>
         {mode === "create" && (
           <Alert color="blue" variant="light">作成すると、あなたが幹事になります。参加の申請を承認するのは幹事です。氏名や連絡先を入力する欄はありません。</Alert>
         )}
         {general && !reviewNeeded && !deniedMsg && <ErrorNotice error={err as Error} />}
-        <TextRejectNotice result={null} serverError={reviewMsg ?? deniedMsg} serverKind={reviewNeeded ? "review" : "deny"} onAckReview={() => void submit(true)} busy={busy} />
+        <TextRejectNotice result={null} serverError={reviewMsg ?? deniedMsg} serverKind={reviewNeeded ? "review" : "deny"} onAckReview={() => void submit(true, formRef.current)} busy={busy} />
         <Card withBorder padding="md">
           <Stack gap="sm">
             <Title order={3} size="h4">基本</Title>
@@ -108,8 +117,8 @@ export function GroupForm({ mode, campaign, groupId, initial, onSubmit, onDone }
         <Card withBorder padding="md">
           <Stack gap="sm">
             <Title order={3} size="h4">日程</Title>
-            <TextInput type="date" label="開始日" required value={v.startDate ?? ""} onChange={(e) => set("startDate", e.currentTarget.value || null)} error={fe("trip.startDate")} />
-            <TextInput type="date" label="終了日" required value={v.endDate ?? ""} onChange={(e) => set("endDate", e.currentTarget.value || null)} error={fe("trip.endDate")} />
+            <TextInput type="date" name="startDate" label="開始日" required value={v.startDate ?? ""} onChange={(e) => set("startDate", e.currentTarget.value || null)} onInput={(e) => set("startDate", e.currentTarget.value || null)} error={fe("trip.startDate")} />
+            <TextInput type="date" name="endDate" label="終了日" required value={v.endDate ?? ""} onChange={(e) => set("endDate", e.currentTarget.value || null)} onInput={(e) => set("endDate", e.currentTarget.value || null)} error={fe("trip.endDate")} />
             <TextInput label="日程のメモ" maxLength={LIMITS.DATE_NOTE.max} description={`${LIMITS.DATE_NOTE.max} 文字まで(任意)`}
               value={v.dateNote} onChange={(e) => set("dateNote", e.currentTarget.value)} error={fe("trip.dateNote")} />
           </Stack>
@@ -122,7 +131,7 @@ export function GroupForm({ mode, campaign, groupId, initial, onSubmit, onDone }
               value={v.capacity} onChange={(x) => set("capacity", Number(x) || 0)} error={fe("capacity")} />
             <NumberInput label="最少人数" min={LIMITS.MIN_MEMBERS.min} max={LIMITS.MIN_MEMBERS.max} allowDecimal={false} disabled={isEdit}
               value={v.minMembers} onChange={(x) => set("minMembers", Number(x) || 0)} error={fe("minMembers")} />
-            <TextInput type="date" label="締切日" required disabled={isEdit} value={v.deadlineDate ?? ""} onChange={(e) => set("deadlineDate", e.currentTarget.value || null)} error={fe("deadlineDate")} />
+            <TextInput type="date" name="deadlineDate" label="締切日" required disabled={isEdit} value={v.deadlineDate ?? ""} onChange={(e) => set("deadlineDate", e.currentTarget.value || null)} onInput={(e) => set("deadlineDate", e.currentTarget.value || null)} error={fe("deadlineDate")} />
             {isEdit && <Text size="xs" c="dimmed">最少人数と締切は、グループ詳細の「条件の変更」から変更します。</Text>}
           </Stack>
         </Card>
