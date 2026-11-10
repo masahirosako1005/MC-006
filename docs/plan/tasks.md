@@ -396,7 +396,7 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: `NotificationBell`(未読数、`ntf:refresh`)、一覧、開いたときの既読化。設計: 10 NTF-TASK-11・12
   - 画面: `safety/notifications.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-13 11 着地ページ・外部リンク集・公式バッジ(S)
+- [*] P-3-13 11 着地ページ・外部リンク集・公式バッジ(S)
   - ブランチ: `agent/w3-ui-entry` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/entry/components/*`、`F/official/components/*`、`A/[campaign]/entry/page.tsx`、`A/[campaign]/external-links/page.tsx`
   - 内容: 無視した項目があるときだけ着地ページ、それ以外は一覧へ遷移。ダミー外部リンク集。`OfficialBadge`・`OfficialNotice`。設計: 11 ENT-TASK-10〜12

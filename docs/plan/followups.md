@@ -79,3 +79,5 @@
 - [ ] F-140 ラリー/振り返り UI は Mantine 標準部品のみ。モックのスポットマップ・CSS(trv16/trv17)は未再現。ブラウザ描画は未確認(API と HTTP 200 のみ確認) / P-3-10 / 低
 - [ ] F-141 g-101 等の募集中グループでは /review は API が unavailable_state を返し、ErrorNotice のみ表示(読み取り専用の振り返りは出ない)。実施中(in_progress)のみ全機能 / P-3-10 / 低
 - [ ] F-142 スタンプ POST は /api/groups/{id}/stamps(設計書の rally/stamps ではない)。UI は実在パスに合わせた / P-3-10 / 低
+- [ ] F-160 着地ページ・外部リンク集・公式バッジは素の HTML+インラインスタイルで Mantine 未使用(モックの部品との見た目の統一は未調整)。一覧(discovery/ui)への OfficialBadge/OfficialNotice の組み込みは未実施(一覧は変更しない指示) / P-3-13 / 低
+- [ ] F-161 `/<不正な campaign>/entry` が 200 を返した(layout 側の挙動の可能性。resolveEntry は not_found を投げ notFound() 化済み)。ブラウザ目視は未実施、curl の HTTP 確認のみ / P-3-13 / 低
