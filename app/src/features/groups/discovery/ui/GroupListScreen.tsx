@@ -138,7 +138,7 @@ export function GroupListScreen({ campaign }: GroupListScreenProps) {
                     ) : mode === "map" ? (
                       <GroupListMap groups={data?.items ?? []} campaign={campaign} />
                     ) : (
-                      <SimpleGrid component="ul" cols={{ base: 1, sm: 2, lg: 3 }} spacing="sm" p={0} m={0} style={{ listStyle: "none", opacity: loading ? 0.6 : 1 }}>
+                      <SimpleGrid component="ul" cols={2} spacing="xs" p={0} m={0} style={{ listStyle: "none", opacity: loading ? 0.6 : 1 }}>
                         {data?.items.map((g) => <li key={g.id}><GroupCard group={g} campaign={campaign} /></li>)}
                       </SimpleGrid>
                     )}
