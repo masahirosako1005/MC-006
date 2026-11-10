@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Badge, Card, Group, SegmentedControl, Stack, Switch, Text } from "@mantine/core";
 import { Spot, useApi } from "@/lib/api";
+import { DummyJapanMap } from "@/components/DummyJapanMap";
 
 const WANT_KEY = "raund-mirror-want-";
 
@@ -34,6 +35,8 @@ export default function Spots() {
       {loading && <Text c="dimmed">読み込み中…</Text>}
       {error && <Text c="red">読み込みに失敗しました</Text>}
       {view === "map" ? (
+        <>
+        <DummyJapanMap height={200} highlightRegions={["r-mizukoto", "r-suzukaze", "r-hoshinagi", "r-nijiho"]} caption="スポットのある地方" />
         <div className="map" role="group" aria-label="イラストマップ">
           {list.map((s) => (
             <Link key={s.id} href={`/${slug}/spots/detail?id=${s.id}`} data-on={s.acquired} style={{ left: `${s.map.x}%`, top: `${s.map.y}%` }}>
@@ -41,6 +44,7 @@ export default function Spots() {
             </Link>
           ))}
         </div>
+        </>
       ) : (
         list.map((s) => (
           <Card key={s.id} withBorder radius="md" padding="sm">

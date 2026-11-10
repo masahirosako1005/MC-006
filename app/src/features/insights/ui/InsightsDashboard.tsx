@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Badge, Card, SimpleGrid, Stack, Table, Text, Title } from "@mantine/core";
 import type { Id } from "@/lib/groups-types";
 import { LoadingBlock } from "@/components/groups/common/LoadingBlock";
+import { DummyJapanMap } from "@/components/DummyJapanMap";
 import { ErrorNotice } from "@/components/groups/common/ErrorNotice";
 import { AreaSelect } from "./AreaSelect";
 import { InsightForbidden } from "./InsightForbidden";
@@ -35,6 +36,7 @@ export function InsightsDashboard() {
       <Card withBorder>
         <Title order={4} mb="sm">表示の条件</Title>
         <AreaSelect regions={meta.regions} value={region} onChange={setRegion} />
+        <div style={{ marginTop: 12 }}><DummyJapanMap height={220} highlightRegions={region ? [region] : meta.regions.map((r) => r.id)} onSelectRegion={setRegion} caption="対象エリア" /></div>
       </Card>
 
       <Card withBorder>

@@ -5,6 +5,7 @@ import type { Id } from "@/lib/groups-types";
 import { ApiError, gpatch, gpost, useGroupsApi } from "@/lib/groups-api";
 import { LIMITS } from "@/lib/limits";
 import { useFormErrors } from "@/components/groups/common/useFormErrors";
+import { DummyJapanMap } from "@/components/DummyJapanMap";
 import { ErrorNotice } from "@/components/groups/common/ErrorNotice";
 import { TextRejectNotice } from "@/features/safety/components/TextRejectNotice";
 import type { GroupFormValues } from "./formValues";
@@ -99,6 +100,7 @@ export function GroupForm({ mode, campaign, groupId, initial, onSubmit, onDone }
             <TextInput label="名称" required maxLength={LIMITS.GROUP_NAME.max} description={`${LIMITS.GROUP_NAME.max} 文字まで(${[...v.name].length} / ${LIMITS.GROUP_NAME.max})`}
               value={v.name} onChange={(e) => set("name", e.currentTarget.value)} error={fe("name")} />
             <Select label="地方" required data={regions} value={v.region || null} onChange={(x) => set("region", x ?? "")} error={fe("region")} allowDeselect={false} />
+            <DummyJapanMap height={200} highlightRegions={v.region ? [v.region] : []} onSelectRegion={(id) => set("region", id)} caption="選んだ地方を表示" />
             <TextInput label="行き先" required maxLength={LIMITS.DESTINATION.max} description={`${LIMITS.DESTINATION.max} 文字まで。スポットや地区の名前など。`}
               value={v.destination} onChange={(e) => set("destination", e.currentTarget.value)} error={fe("trip.destination")} />
           </Stack>
