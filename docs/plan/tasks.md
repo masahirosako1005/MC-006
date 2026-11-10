@@ -354,7 +354,7 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: `JoinRequestPanel`・申請ダイアログ(最少人数への同意)・申請状況、承認・見送り。設計: 03 JOIN-TASK-13・14
   - 画面: `traveler/join-request-dialog.html`、`organizer-requests.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-6 04 状態表示・辞退・中止・再企画(M)
+- [*] P-3-6 04 状態表示・辞退・中止・再企画(M)
   - ブランチ: `agent/w3-ui-lifecycle` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/lifecycle/ui/*`、`A/[campaign]/groups/[groupId]/replan/page.tsx`
   - 内容: `GroupStatusBadge`・メーター、`LifecyclePanel`、`WithdrawButton`(差額は `GET G/expense-summary`)、`OrganizerActions`(中止・条件変更)、`ReplanPage`(`GroupForm` を利用)。設計: 04 LCY-TASK-14〜16
@@ -390,7 +390,7 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: `ProfileForm`(公開範囲)、ブロック一覧、本人確認(モック)、`ReportDialog`(3 種)、`BlockMenuItem`、`TextRejectNotice`・`useTextCheck`。設計: 09 SAF-TASK-15〜18(部品のみ)
   - 画面: `safety/profile-visibility.html`、`block-list.html`、`verification.html`、`report-dialog.html`、`prohibited-text.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-12 10 通知画面・ベル(S)
+- [*] P-3-12 10 通知画面・ベル(S)
   - ブランチ: `agent/w3-ui-notify` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/notify/ui/*`、`A/[campaign]/notifications/page.tsx`
   - 内容: `NotificationBell`(未読数、`ntf:refresh`)、一覧、開いたときの既読化。設計: 10 NTF-TASK-11・12
@@ -402,13 +402,13 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: 無視した項目があるときだけ着地ページ、それ以外は一覧へ遷移。ダミー外部リンク集。`OfficialBadge`・`OfficialNotice`。設計: 11 ENT-TASK-10〜12
   - 画面: モックなし(01 の一覧のモックの部品に合わせる)
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-14 12 自治体向け集計(M)
+- [*] P-3-14 12 自治体向け集計(M)
   - ブランチ: `agent/w3-ui-stats` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/stats/ui/*`、`A/[campaign]/admin/stats/page.tsx`
   - 内容: `CellText`・`ChartTableToggle`・`MetricCard`・`FilterBar`・`RegionTable`・`BarList`、カード 6 枚・地方別表・流入元。時系列グラフ・ファネル・アンケートは余力。設計: 12 MUN-TASK-10〜12
   - 画面: `municipal/stats-dashboard.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-15 13 需要見込みと提案(M)
+- [*] P-3-15 13 需要見込みと提案(M)
   - ブランチ: `agent/w3-ui-insights` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/insights/ui/*`、`A/[campaign]/business/insights/page.tsx`
   - 内容: エリアの選択、提案カード、週別の見込み(表)。グラフ・年代別・エリア別の表は余力。設計: 13 INS-TASK-11・12
