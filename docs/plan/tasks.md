@@ -330,7 +330,7 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: 共通部品と `GroupForm`(作成・編集・再企画で共用)、`TextRejectNotice` の表示、review の再送(`ackReview`)。設計: 01 GRP-TASK-14・15
   - 画面: `traveler/group-form.html`、`safety/prohibited-text.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-2 01 詳細シェル・メンバー一覧・招待コード表示(M)
+- [*] P-3-2 01 詳細シェル・メンバー一覧・招待コード表示(M)
   - ブランチ: `agent/w3-ui-group-shell` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/core/components/`(`GroupDetailShell`、`MemberList`、`InviteCodePanel`)、`A/[campaign]/groups/[groupId]/page.tsx`、`.../members/page.tsx`
   - 内容: `kind` による出し分け、`?tab=` のタブ(05〜08 の部品を配置)、04 の `LifecyclePanel`・`WithdrawButton` の配置、`NotificationBell` の配置、元メンバーの表示。設計: 01 GRP-TASK-16・17
@@ -342,7 +342,7 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: カード、地方・日程・空き・公式・タグ・キーワードの絞り込み、URL 状態、空状態。年代・提案・ページネーションは余力。設計: 02 DSC-TASK-13〜15
   - 画面: `traveler/group-list.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-4 02 参加前詳細・招待コード入力(M)
+- [*] P-3-4 02 参加前詳細・招待コード入力(M)
   - ブランチ: `agent/w3-ui-group-public` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/discovery/ui/PublicGroupDetailScreen.tsx`・`InviteCodeScreen` ほか、`A/[campaign]/invite/page.tsx`
   - 内容: 参加前詳細(`JoinRequestPanel` を配置)、コード入力 → プレビュー → 申請(コードは state のみ。契約 7.2)。設計: 02 DSC-TASK-16・17

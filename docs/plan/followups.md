@@ -59,3 +59,6 @@
 - [ ] F-040 元メンバー(辞退・退会者)の一覧が API に無く、MemberList は注記のみ表示 / P-3-2 / 低
 - [ ] F-041 PublicGroupDetailScreen の onApply 遷移先 /apply は仮(P-3-4 で確認) / P-3-2 / 中
 - [ ] F-042 notify.test.ts「confirmed は summaryText を付ける」が失敗(P-3-2 無関係) / P-3-2 / 中
+- [ ] F-050 参加前詳細: モックの席(seat)表示・ヘッダー用パンくず・通報ボタン・申請済み/参加済みの見本バリアントは未実装。参加中(kind=member)は暫定の1行表示で、参加後ハブ(TRV-12)で置換が必要 / P-3-4 / 低
+- [ ] F-051 `app/src/features/notify/notify.test.ts` の「confirmed は summaryText を付ける」が失敗(memberSummary の文言期待値の不一致)。P-3-4 の変更とは無関係 / P-3-4 / 中
+- [ ] F-052 `groups/[groupId]/page.tsx` を P-3-4 が新設(参加前詳細のみ)。ハブ担当のタスクと同じパスで衝突する場合は kind で出し分けて統合 / P-3-4 / 中
