@@ -69,3 +69,6 @@
 - [ ] F-092 /admin/stats は自治体ユーザー以外だと 403 の ForbiddenNotice のみ(ロール切替導線なし) / P-3-14 / 低
 - [ ] F-100 insights UI は週別の表・提案カード・エリア選択のみ。グラフ(WeeklyForecastChart)・年代別・エリア別・過去プロフィールはスタブのまま。画面は Mantine の標準部品で、モックの CSS(biz01-*)は未再現 / P-3-15 / 低
 - [ ] F-101 insights UI の見込み概要は表示期間の週合計から算出(モックの「実行確定/募集中の内訳」「最も多い年代帯」は未表示)。ブラウザでの描画確認は未実施(HTTP 200 と API 応答のみ確認) / P-3-15 / 低
+- [ ] F-140 ラリー/振り返り UI は Mantine 標準部品のみ。モックのスポットマップ・CSS(trv16/trv17)は未再現。ブラウザ描画は未確認(API と HTTP 200 のみ確認) / P-3-10 / 低
+- [ ] F-141 g-101 等の募集中グループでは /review は API が unavailable_state を返し、ErrorNotice のみ表示(読み取り専用の振り返りは出ない)。実施中(in_progress)のみ全機能 / P-3-10 / 低
+- [ ] F-142 スタンプ POST は /api/groups/{id}/stamps(設計書の rally/stamps ではない)。UI は実在パスに合わせた / P-3-10 / 低
