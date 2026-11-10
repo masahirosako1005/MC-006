@@ -360,7 +360,7 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: `GroupStatusBadge`・メーター、`LifecyclePanel`、`WithdrawButton`(差額は `GET G/expense-summary`)、`OrganizerActions`(中止・条件変更)、`ReplanPage`(`GroupForm` を利用)。設計: 04 LCY-TASK-14〜16
   - 画面: `traveler/group-states.html`、`withdraw-dialog.html`、`group-cancelled.html`、`group-replan.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-7 05 旅程タブ(M)
+- [*] P-3-7 05 旅程タブ(M)
   - ブランチ: `agent/w3-ui-plan` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/plan/ui/*`
   - 内容: 表示と編集(集合場所・日程メモ・項目の追加・削除)、読み取り専用、409 の後の再取得。並び替え UI・競合ダイアログは余力。設計: 05 PLN-TASK-09〜12
@@ -372,7 +372,7 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: `useChat`(固定間隔のポーリング)、一覧・投稿・定型文、システムメッセージ、通報(`ReportDialog`)、読み取り専用。設計: 06 CHT-TASK-08・09
   - 画面: `traveler/group-chat.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-9 07 費用タブ(M)
+- [*] P-3-9 07 費用タブ(M)
   - ブランチ: `agent/w3-ui-expense` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/expense/ui/*`
   - 内容: 一覧・追加・編集・削除、分担のまとめ(目安)、元メンバーの表示。設計: 07 EXP-TASK-13〜16
