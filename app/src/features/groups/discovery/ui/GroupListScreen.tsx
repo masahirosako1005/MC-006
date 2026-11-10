@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Alert, Badge, Box, Button, Drawer, Group, Select, SimpleGrid, Skeleton, Stack, Text, TextInput, Title } from "@mantine/core";
+import { Alert, Badge, Box, Button, Drawer, Group, SegmentedControl, Select, SimpleGrid, Skeleton, Stack, Text, TextInput, Title } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useGroupsApi } from "@/lib/groups-api";
 import { DummyJapanMap } from "@/components/DummyJapanMap";
@@ -14,6 +14,7 @@ import { DEFAULT_LIST_STATUSES, SORT_OPTIONS } from "../types";
 import type { GroupListFilter, Region, RelaxSuggestion, SortOption } from "../types";
 import { ActiveFilterChips } from "./ActiveFilterChips";
 import { FilterPanel } from "./FilterPanel";
+import { GroupListMap } from "./GroupListMap";
 import { GroupCard } from "./GroupCard";
 import { ListEmptyState } from "./ListEmptyState";
 import { ListErrorState } from "./ListErrorState";
@@ -57,6 +58,7 @@ export function GroupListScreen({ campaign }: GroupListScreenProps) {
   const { data, loading, error, reload } = useGroupList(filter, page);
   const wide = useMediaQuery("(min-width: 48em)");
   const [drawer, setDrawer] = useState(false);
+  const [mode, setMode] = useState<"list" | "map">("list");
   const [qDraft, setQDraft] = useState<string | null>(null);
 
   const urlQ = filter?.q ?? "";
@@ -121,7 +123,9 @@ export function GroupListScreen({ campaign }: GroupListScreenProps) {
                       data={SORT_OPTIONS.map((o) => ({ value: o, label: SORT_LABEL[o] }))}
                       onChange={(v) => v && update({ sort: v as SortOption })} />
                   </Group>
-                  <DummyJapanMap height={180} highlightRegions={filter.region ? [filter.region] : (regions ?? []).map((r) => r.id)} onSelectRegion={(id) => update({ region: id })} caption="地方で絞り込み" />
+                  <SegmentedControl size="xs" value={mode} onChange={(v) => setMode(v as "list" | "map")} aria-label="表示切替"
+                    data={[{ label: "リスト", value: "list" }, { label: "地図で見る", value: "map" }]} />
+                  {mode === "list" && <DummyJapanMap height={180} highlightRegions={filter.region ? [filter.region] : (regions ?? []).map((r) => r.id)} onSelectRegion={(id) => update({ region: id })} caption="地方で絞り込み" />}
                   <Text size="sm" role="status" aria-live="polite">
                     {loading ? "検索中" : data ? `${data.total} 件のグループが見つかりました` : ""}
                   </Text>
@@ -131,6 +135,8 @@ export function GroupListScreen({ campaign }: GroupListScreenProps) {
                     ) : data && data.items.length === 0 ? (
                       <ListEmptyState filter={filter} suggestions={data.suggestions} campaign={campaign}
                         onApplySuggestion={(s) => update(suggestionPatch(s))} />
+                    ) : mode === "map" ? (
+                      <GroupListMap groups={data?.items ?? []} campaign={campaign} />
                     ) : (
                       <SimpleGrid component="ul" cols={{ base: 1, sm: 2, lg: 3 }} spacing="sm" p={0} m={0} style={{ listStyle: "none", opacity: loading ? 0.6 : 1 }}>
                         {data?.items.map((g) => <li key={g.id}><GroupCard group={g} campaign={campaign} /></li>)}

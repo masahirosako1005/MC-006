@@ -17,6 +17,8 @@ import { PlanTab } from "@/features/groups/plan/ui/PlanTab";
 import { ChatPanel } from "@/features/groups/chat/ui/ChatPanel";
 import { ExpenseTab } from "@/features/groups/expense/ui/ExpenseTab";
 import { RallyTab } from "@/features/groups/rally/ui/RallyTab";
+import { GroupTripMap } from "@/features/groups/discovery/ui/GroupTripMap";
+import type { PlanView } from "@/features/groups/plan/types";
 import { MemberList } from "./MemberList";
 import { InviteCodePanel } from "./InviteCodePanel";
 
@@ -112,6 +114,7 @@ export function GroupDetailShell({ groupId, fixedTab }: { groupId: Id; fixedTab?
               <Text size="sm">説明: {g.description || "なし"}</Text>
             </Stack>
           </Card>
+          <TripMapCard groupId={groupId} regionId={g.region} destination={g.trip.destination} />
           <MemberList groupId={groupId} compact />
           <Anchor component={Link} href={`${base}/members`} size="sm">メンバー一覧へ</Anchor>
         </Stack>
@@ -132,4 +135,11 @@ export function GroupDetailShell({ groupId, fixedTab }: { groupId: Id; fixedTab?
       )}
     </Stack>
   );
+}
+
+/** 概要タブの旅行先地図。旅程(訪問先スポット・集合場所)があれば、それもピンにする。旅程の取得に失敗しても行き先のピンは出す。 */
+function TripMapCard({ groupId, regionId, destination }: { groupId: Id; regionId: Id; destination: string }) {
+  const plan = useGroupsApi<PlanView>(`/api/groups/${encodeURIComponent(groupId)}/plan`);
+  const ids = [...(plan.data?.items ?? []).map((i) => i.spot?.id), plan.data?.meeting.spot?.id].filter((x): x is number => typeof x === "number");
+  return <GroupTripMap groupId={groupId} regionId={regionId} destination={destination} visitSpotIds={[...new Set(ids)]} />;
 }
