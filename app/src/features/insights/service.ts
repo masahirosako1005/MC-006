@@ -9,6 +9,7 @@ import { collectPlanned } from "./facts";
 import { buildPastProfile, computeForecast } from "./forecast";
 import { CATEGORY_LABELS, LIMITATIONS } from "./messages";
 import { evaluateRules } from "./rules";
+import { buildTrend } from "./trend";
 import type {
   BusinessScope, InsightForecastResponse, InsightMeta, InsightQuery, InsightSuggestionsResponse,
 } from "./types";
@@ -50,6 +51,7 @@ export function getInsightForecast(user: DemoUser, query: InsightQuery): Insight
     weeks: c.forecast.weeks,
     areaTable: c.forecast.areaTable,
     pastProfile: buildPastProfile(c.agg),
+    trend: buildTrend(c.agg, c.regions.map((r) => r.id), c.forecast.weeks),
     limitations: LIMITATIONS,
   };
 }
