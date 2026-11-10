@@ -74,6 +74,7 @@ export function ProfileForm() {
   const nameCheck = useTextCheck("profile_display_name");
   const bioCheck = useTextCheck("profile_bio");
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- 取得結果をフォームに反映
   useEffect(() => { if (data) setP(data.profile); }, [data]);
 
   if (loading) return <LoadingBlock />;

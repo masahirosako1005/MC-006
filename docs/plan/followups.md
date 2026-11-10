@@ -13,17 +13,17 @@
 
 ### 高(主ルートの体験に影響)
 
-- [ ] F-001 通し試験の skip を有効化する: 中止 → 再企画 → 再申請、lifecycle の GET、通知 API 経由の確認。04 の handlers・view・replan と 11 の getOfficialBadges は、P-3-16 の実行後にマージ済みなので、skip を外して実物で通す / P-3-16 / 高
+- [x] F-001 通し試験の skip を有効化する: 中止 → 再企画 → 再申請、lifecycle の GET、通知 API 経由の確認。04 の handlers・view・replan と 11 の getOfficialBadges は、P-3-16 の実行後にマージ済みなので、skip を外して実物で通す / P-3-16 / 高
 - [x] F-002 `replan` が呼ぶ `recordCreated` と、01 の `createGroupInternal` が内部で呼ぶ `recordCreated` が二重になる可能性。通し試験で確認 / P-2-12 / 高
 - [x] F-003 04 の `register.ts` が `beforeRequest` で `evaluateAll` を実行する。本体が揃った統合状態で、route() 経由の全試験が通るか確認(LCY-T-73: seed が評価で変わらない) / P-2-10 / 高
-- [ ] F-004 統合後の全体試験(`npm test`)と G-B を 1 回通す。各タスクは他モジュールを `vi.mock` で代替して試験したため、実物同士の結合は未確認 / 全体 / 高
-- [ ] F-005 画面は未実装(Wave 3 の P-3-2、3-4〜3-15 が未着手。P-3-1、P-3-3 は実行中または未マージ)。`/groups`、`/new-group`、`/notifications` は 404 のまま / Wave 3 / 高
+- [x] F-004 統合後の全体試験(`npm test`)と G-B を 1 回通す。各タスクは他モジュールを `vi.mock` で代替して試験したため、実物同士の結合は未確認 / 全体 / 高
+- [x] F-005 画面は未実装(Wave 3 の P-3-2、3-4〜3-15 が未着手。P-3-1、P-3-3 は実行中または未マージ)。`/groups`、`/new-group`、`/notifications` は 404 のまま / Wave 3 / 高
 
 - [x] F-028 `GET /api/groups` が `internal` を返した(P-3-3 の確認時。マージ前の古い状態での結果の可能性)。再開時に最初に再確認し、一覧画面(`/nttw-demo/groups`)に実データが出ることを確認 / P-3-3 / 高
 
 ### 中
 
-- [ ] F-006 `service.ts`(notify)に残るスタブは publish.ts の再エクスポートに置換済み(P-3-16)。P-2-14 のマージ内容と矛盾がないか確認 / P-2-13・P-2-14 / 中
+- [x] F-006 `service.ts`(notify)に残るスタブは publish.ts の再エクスポートに置換済み(P-3-16)。P-2-14 のマージ内容と矛盾がないか確認 / P-2-13・P-2-14 / 中
 - [ ] F-007 `visibleProfile` は P-2-2 のマージで本体が入った。05・06・07・08 の自前の表示名取得(db().profiles / users を直接引く)を `visibleProfile` に統一 / P-2-15・17・18・19・21 / 中
 - [ ] F-008 `GET /api/stats` の合成履歴は規模・分布が概算(約 150/190 グループに未調整)。`F/stats/messages.ts`(指標名・区分表示名・検証メッセージ)が不足 / P-2-24・P-1-6 / 中
 - [ ] F-009 要望テーマの辞書が分析値と不一致(案内 58/目標 33、交通 39/48、特典 58/42、スポット説明 33/10、なし 96/112)。CSV を見ずに調整できなかった / P-0-4 / 中
@@ -45,11 +45,11 @@
 - [ ] F-022 `npm ci` の並行実行が競合する(ENOTEMPTY)。各 worktree に、他 worktree の `node_modules` のコピーまたは junction がある。junction は元の worktree を削除すると壊れる。`app/node_modules_bad` が 1 つの worktree に残っている / 環境 / 中
 - [ ] F-023 提出物に Chrome DevTools MCP の設定を含めない(local スコープ `C:\Users\Jisui_share006\.claude.json`)。OSS ライセンス一覧に vitest、chrome-devtools-mcp の扱いを追記 / 環境 / 低
 - [ ] F-024 `vitest.config.ts` が CommonJS として読まれる警告 / P-1-9 ほか / 低
-- [ ] F-025 lint 警告 約 90〜120 件(未使用引数など) / 全体 / 低
+- [x] F-025 lint 警告 約 90〜120 件(未使用引数など) / 全体 / 低
 - [ ] F-026 seed 再生成で `src/data/*.json` に差分(改行コードの可能性)。`.gitattributes` の LF 固定を検討 / W1-gate / 低
 - [ ] F-027 `docs/plan/tasks.md` の件数表記: 作成済みモックは 25 画面 + BIZ-02 で、依頼文の「22 画面」と合わない / P-0-8 / 低
 
-- [ ] F-030 lint 警告 6 件(未使用 eslint-disable 5 件、forecast.ts:112 の未使用 `ri`)。エラーは 0 / F-004 全体確認 / 低
+- [x] F-030 lint 警告 6 件(未使用 eslint-disable 5 件、forecast.ts:112 の未使用 `ri`)。エラーは 0 / F-004 全体確認 / 低
 - [ ] F-060 見送り理由 UI がモックの却下ダイアログと文言未照合 / P-3-5 / 低
 - [ ] F-061 モックの「通報・ブロック」ボタン・「N 日経過」・本人確認済みバッジ未実装 / P-3-5 / 低
 - [ ] F-062 申請が多い場合のページング未対応 / P-3-5 / 低
@@ -57,9 +57,9 @@
 - [ ] F-064 幹事以外が /requests を開いたときの 403 説明が汎用文のまま / P-3-5 / 低
 - [ ] F-040 元メンバー(辞退・退会者)の一覧が API に無く、MemberList は注記のみ表示 / P-3-2 / 低
 - [ ] F-041 PublicGroupDetailScreen の onApply 遷移先 /apply は仮(P-3-4 で確認) / P-3-2 / 中
-- [ ] F-042 notify.test.ts「confirmed は summaryText を付ける」が失敗(P-3-2 無関係) / P-3-2 / 中
+- [x] F-042 notify.test.ts「confirmed は summaryText を付ける」が失敗(P-3-2 無関係) / P-3-2 / 中
 - [ ] F-050 参加前詳細: モックの席(seat)表示・ヘッダー用パンくず・通報ボタン・申請済み/参加済みの見本バリアントは未実装。参加中(kind=member)は暫定の1行表示で、参加後ハブ(TRV-12)で置換が必要 / P-3-4 / 低
-- [ ] F-051 `app/src/features/notify/notify.test.ts` の「confirmed は summaryText を付ける」が失敗(memberSummary の文言期待値の不一致)。P-3-4 の変更とは無関係 / P-3-4 / 中
+- [x] F-051 `app/src/features/notify/notify.test.ts` の「confirmed は summaryText を付ける」が失敗(memberSummary の文言期待値の不一致)。P-3-4 の変更とは無関係 / P-3-4 / 中
 - [ ] F-052 `groups/[groupId]/page.tsx` を P-3-4 が新設(参加前詳細のみ)。ハブ担当のタスクと同じパスで衝突する場合は kind で出し分けて統合 / P-3-4 / 中
 - [x] F-029 notify.test の confirmed 期待値を修正(3 人は 4 人未満のため年代を出さないのが契約どおり) / P-3-16 / 低
 - [x] F-031 seed の confirmed 通知(n-001)が summaryText を持たず GET /api/me/notifications が 500 になった。render.ts で補完して修正 / P-3-16 / 高
@@ -84,7 +84,7 @@
 - [ ] F-150 ブロック/通報の導線(BlockMenuItem・ReportDialog)を呼び出し元(メンバー一覧・チャット・グループ詳細)へ配線していない。部品のみ。ブロック一覧の「きっかけ」グループ名は未表示 / P-3-11 / 中
 - [ ] F-151 VerificationGate はスタブのまま。ブロック追加・通報・本人確認の操作(POST)はブラウザで未確認(API と画面表示のみ確認)。モックの「状態ごとの表示」見本は未実装 / P-3-11 / 低
 - [ ] F-152 プロフィールの2カラム・モバイル表示の見た目は未調整 / P-3-11 / 低
-- [ ] F-170 lint が 2 件のエラー(react-hooks/set-state-in-effect): features/groups/plan/ui/PlanTab.tsx:39、features/safety/components/ProfileForm.tsx:77。動作は問題なし / P-4-1 / 低
+- [x] F-170 lint が 2 件のエラー(react-hooks/set-state-in-effect): features/groups/plan/ui/PlanTab.tsx:39、features/safety/components/ProfileForm.tsx:77。動作は問題なし / P-4-1 / 低
 - [ ] F-171 /new-group の日付欄(年月日スピンボタン)は、ブラウザ自動操作(CDP の type_text)では入力できず、フォーム経由の作成は未確認(グループ作成は API で代替)。手入力での動作確認が必要 / P-4-1 / 中
 - [ ] F-172 AppShell の通知アイコンは従来 /news(お知らせ)へ。/notifications(グループ通知)へ変更した。お知らせ(/news)へのメニュー導線が無くなった / P-4-1 / 低
 - [ ] F-173 DemoBar の +N日 ボタンはページを再読込する。締切日当日(11/12)は min_reached のまま、+3日で confirmed まで進む(仕様どおりか未確認) / P-4-1 / 低
