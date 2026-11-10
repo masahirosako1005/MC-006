@@ -60,7 +60,7 @@ async () => { for (let i=0;i<60 && !document.body.innerText.includes('目印');i
 | 項目 | 内容 |
 | --- | --- |
 | 呼び出し | `powershell -NoProfile -File docs/demo/speak.ps1 -Id N1`(台詞は narration.md の `[N1]`)。`-Text "..."` で任意の文も可 |
-| 声 | 日本語の声を自動選択。この PC では **Microsoft Haruka Desktop(ja-JP)**。英語の Zira も入っている。`-ListVoices` で一覧、`-Voice Haruka` で指定 |
+| 声 | 既定は **VOICEVOX ずんだもん ノーマル(style id 3)**(エンジン `127.0.0.1:50021` が応答するとき)。`-Speaker "春日部つむぎ"` や `-Speaker 8` で変更、`-ListSpeakers` で一覧。応答しなければ Haruka(SAPI)にフォールバック。`-Engine auto|voicevox|sapi`(既定 auto)。`-Speed`(既定 1.2)、`-Pitch`、`-Intonation`、`-VvUrl`。`-Voice`/`-Rate` は SAPI 用。**クレジット**: 画面の隅かスライド末尾に「音声: VOICEVOX:ずんだもん」を表示する |
 | 速さ | `-Rate 1`(既定)。-10〜10 |
 | 音なし | `-Mute`(台詞を画面に出すだけ。すぐ終わる)。`/demo mute` は全台詞に `-Mute` を付ける |
 | 完了 | **読み上げが終わるまで戻らない**。終了コード 0 = 完了、3 = 前の発話が終わらずスキップ、2 = 台詞なし |
@@ -71,17 +71,17 @@ async () => { for (let i=0;i<60 && !document.body.innerText.includes('目印');i
 
 ## 4. 3 分版の手順(台詞と操作のタイミング表)
 
-台詞は約 5〜6 字/秒。`S` = speak.ps1 を背景で起動、`→` は同じ応答にまとめて並べる呼び出し。所要は実測の目安(台詞のみ N0 9.8s, N1 12.9, N2 7.5, N3 13.4, N4 11.0, N5 12.2, N6 14.9, N7 10.0, N8 14.3, N9 8.4。計 114.3 秒)。
+台詞は VOICEVOX ずんだもん(`-Speed 1.2`)。`S` = speak.ps1 を背景で起動、`→` は同じ応答にまとめて並べる呼び出し。所要は実測の目安(`-Speed 1.15` で呼び出し込み N0 12.7s, N1 14.7, N2 11.4, N3 14.3, N4 12.8, N5 12.9, N6 13.6, N7 12.8, N8 14.9, N9 12.2。計 132 秒。`-Speed 1.2` では約 125 秒)。1 呼び出しごとに約 2〜3 秒の合成待ちが先頭に入る。
 
 ### 部 1: グループの作成と参加(目安 0:00〜1:05)
 
 | # | 台詞 | 操作(順に) | 待ち・期待される表示 | 秒 |
 | --- | --- | --- | --- | --- |
-| 1-1 | S: N0 → N1(連続) | `fill_form(pageId=P, elements=[名称="鈴風高原 ゆっくり散策", 行き先="雪雫の音楽堂", 開始日="2026-12-10", 終了日="2026-12-11", 最少人数="3", 締切日="2026-12-01"])` → `click(地方 combobox)` → `press_key ArrowDown` ×2 → `press_key Enter` | 入力済みフォーム、地方=鈴風高原、日本地図の中部がオレンジ(N1 の間) | 約 10(N0+N1 で約 23 秒話す) |
+| 1-1 | S: N0 → N1(連続) | `fill_form(pageId=P, elements=[名称="鈴風高原 ゆっくり散策", 行き先="雪雫の音楽堂", 開始日="2026-12-10", 終了日="2026-12-11", 最少人数="3", 締切日="2026-12-01"])` → `click(地方 combobox)` → `press_key ArrowDown` ×2 → `press_key Enter` | 入力済みフォーム、地方=鈴風高原、日本地図の中部がオレンジ(N1 の間) | 約 10(N0+N1 で約 25 秒話す) |
 | 1-2 | S: N2 → N3(連続) | `evaluate_script`(「グループを作る」ボタンを `scrollIntoView`)→ `click(グループを作る)` | `/groups/g-201` に遷移、「募集中」、最少人数 3、メンバー 1 人 | 約 5 |
 | 1-3 | (N2 の間) | `evaluate_script`: **`sleep` 約 4 秒**(作成直後の画面を見せる)→ 申請の仕込み: u-002、u-003 の順に Cookie 切替 → `POST /api/groups/g-201/join-requests`(`{note, consentMinMembers:true, consentedMinMembers:3}`)→ u-001 に戻す → `location.href=…/requests` | 「参加申請の承認」画面に申請 2 件(「3 人でも参加してよい」の同意つき) | 約 6 |
 | 1-4 | (N3 の間) | `evaluate_script`: `承認する` が出るまで待つ → 約 2.5 秒見せる → 文言「承認する」のボタンを 1 つずつ、1.5 秒おきに `click` ×2 → `location.href=グループ詳細` | 「最少人数到達」(緑)、現在 3 人 / 最少 3 人 | 約 10 |
-| 1-5 | S: N4 | `take_screenshot`(任意)。N4 が終わるまでこの画面 | | 約 11(台詞) |
+| 1-5 | S: N4 | `take_screenshot`(任意)。N4 が終わるまでこの画面 | | 約 12(台詞) |
 
 ### 部 2: 観光事業オーナー u-013(目安 1:05〜1:40)
 
@@ -98,7 +98,7 @@ async () => { for (let i=0;i<60 && !document.body.innerText.includes('目印');i
 | --- | --- | --- | --- | --- |
 | 3-1 | S: N7 → N8 → N9(連続) | `evaluate_script`: u-009 に切替 → `location.href={base}/admin/stats` | | 2 |
 | 3-2 | | `evaluate_script`: 「主な指標」が出るまで待つ。トップの指標を見せる(約 5 秒) | グループ作成数・申請数・承認率・実行確定率 | 約 6 |
-| 3-3 | (N8 の間) | `evaluate_script`: 末尾が「地方別」の要素を `scrollIntoView({block:'start'})` | 地方別の表、流入元の棒、「少数」の表示 | 約 6 |
+| 3-3 | (N8 の間) | `evaluate_script`: `[...document.querySelectorAll('h1,h2,h3,h4,h5,caption,th,[role=heading]')].find(e => e.textContent.includes('地方'))?.scrollIntoView({block:'start'})` | 地方別の表、流入元の棒、「少数」の表示 | 約 6 |
 | 3-4 | | N9 が終わるまで待つ → `take_screenshot` | | 約 8 |
 
 終了処理: 台詞の終了コードを確認(0)。続けて「サーバーを止めてよいか」をプレゼンターに確認する(`/demo` の終了時)。
