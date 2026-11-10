@@ -29,7 +29,7 @@ export interface ParsedListQuery {
 
 const AGE_BUCKETS: AgeBucket[] = ["20s-", "30-40s", "50-60s", "70s+"];
 const MAX_DATE = "2100-12-31";
-const CTRL = /[\x00-\x1f\x7f]/; // eslint-disable-line no-control-regex
+const CTRL = /[\x00-\x1f\x7f]/;  
 const FILTER_KEYS = ["campaign", "region", "dateFrom", "dateTo", "vacancy", "tags", "q", "ageBuckets", "official", "status", "sort"];
 
 type Res<T> = { ok: true; value: T | undefined } | { ok: false; message: string };

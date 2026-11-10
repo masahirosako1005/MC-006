@@ -36,6 +36,7 @@ export function PlanTab({ groupId }: { groupId: string }) {
   const reload = useCallback(async () => {
     try { setPlan(await fetchPlan(groupId)); setLoadErr(null); } catch (e) { setLoadErr(e); }
   }, [groupId]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- 初回取得
   useEffect(() => { void reload(); }, [reload]);
 
   // 保存系の共通処理。409 は文言を出して最新を再取得する。
