@@ -41,7 +41,7 @@ export function GroupDetailShell({ groupId, fixedTab }: { groupId: Id; fixedTab?
   if (error) return <ErrorNotice error={error} />;
   if (!data) return null;
   if (data.kind === "public") {
-    return <PublicGroupDetailScreen campaign={campaign} group={data} onApply={() => router.push(`${base}/apply`)} />;
+    return <PublicGroupDetailScreen campaign={campaign} group={data} onApply={() => { void reload(); }} />;
   }
 
   const g = data.group;
