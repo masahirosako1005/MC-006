@@ -384,7 +384,7 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: 合言葉入力 → グループの進捗・個人特典、振り返り(メモ・アンケート 5 項目・ダミー写真)。設計: 08 RLY-TASK-11・12
   - 画面: `traveler/group-rally.html`、`group-review.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-11 09 プロフィール・ブロック・本人確認・通報(M)
+- [*] P-3-11 09 プロフィール・ブロック・本人確認・通報(M)
   - ブランチ: `agent/w3-ui-safety` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/safety/components/*`、`A/[campaign]/mypage/profile/`・`blocks/`・`verification/` の `page.tsx`
   - 内容: `ProfileForm`(公開範囲)、ブロック一覧、本人確認(モック)、`ReportDialog`(3 種)、`BlockMenuItem`、`TextRejectNotice`・`useTextCheck`。設計: 09 SAF-TASK-15〜18(部品のみ)

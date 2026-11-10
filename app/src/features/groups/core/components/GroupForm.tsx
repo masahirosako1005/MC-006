@@ -82,6 +82,7 @@ export function GroupForm({ mode, campaign, groupId, initial, onSubmit, onDone }
 
   const fe = (k: string) => fields[k];
   const reviewNeeded = reviewMsg !== null;
+  const deniedMsg = err instanceof ApiError && err.reason === "text_denied" ? err.message : undefined;
 
   return (
     <form noValidate onSubmit={(e) => { e.preventDefault(); void submit(false); }} aria-labelledby="form-title">
@@ -90,16 +91,8 @@ export function GroupForm({ mode, campaign, groupId, initial, onSubmit, onDone }
         {mode === "create" && (
           <Alert color="blue" variant="light">作成すると、あなたが幹事になります。参加の申請を承認するのは幹事です。氏名や連絡先を入力する欄はありません。</Alert>
         )}
-        {general && !reviewNeeded && <ErrorNotice error={err as Error} />}
-        <TextRejectNotice result={null} serverError={reviewMsg ?? (err instanceof ApiError && err.reason === "text_denied" ? err.message : undefined)} />
-        {reviewNeeded && (
-          <Alert color="yellow" variant="light" title="内容の確認が必要です">
-            <Stack gap="xs">
-              <Text size="sm">{reviewMsg}</Text>
-              <Button size="xs" variant="light" loading={busy} onClick={() => void submit(true)} style={{ minHeight: 44 }}>内容を確認して送信する</Button>
-            </Stack>
-          </Alert>
-        )}
+        {general && !reviewNeeded && !deniedMsg && <ErrorNotice error={err as Error} />}
+        <TextRejectNotice result={null} serverError={reviewMsg ?? deniedMsg} serverKind={reviewNeeded ? "review" : "deny"} onAckReview={() => void submit(true)} busy={busy} />
         <Card withBorder padding="md">
           <Stack gap="sm">
             <Title order={3} size="h4">基本</Title>

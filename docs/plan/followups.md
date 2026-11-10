@@ -81,3 +81,6 @@
 - [ ] F-142 スタンプ POST は /api/groups/{id}/stamps(設計書の rally/stamps ではない)。UI は実在パスに合わせた / P-3-10 / 低
 - [ ] F-160 着地ページ・外部リンク集・公式バッジは素の HTML+インラインスタイルで Mantine 未使用(モックの部品との見た目の統一は未調整)。一覧(discovery/ui)への OfficialBadge/OfficialNotice の組み込みは未実施(一覧は変更しない指示) / P-3-13 / 低
 - [ ] F-161 `/<不正な campaign>/entry` が 200 を返した(layout 側の挙動の可能性。resolveEntry は not_found を投げ notFound() 化済み)。ブラウザ目視は未実施、curl の HTTP 確認のみ / P-3-13 / 低
+- [ ] F-150 ブロック/通報の導線(BlockMenuItem・ReportDialog)を呼び出し元(メンバー一覧・チャット・グループ詳細)へ配線していない。部品のみ。ブロック一覧の「きっかけ」グループ名は未表示 / P-3-11 / 中
+- [ ] F-151 VerificationGate はスタブのまま。ブロック追加・通報・本人確認の操作(POST)はブラウザで未確認(API と画面表示のみ確認)。モックの「状態ごとの表示」見本は未実装 / P-3-11 / 低
+- [ ] F-152 プロフィールの2カラム・モバイル表示の見た目は未調整 / P-3-11 / 低
