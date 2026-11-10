@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Alert, Badge, Button, Card, Group, NativeSelect, Stack, Text, TextInput, Textarea, Title } from "@mantine/core";
 import { ErrorNotice } from "@/components/groups/common/ErrorNotice";
+import { DummyJapanMap } from "@/components/DummyJapanMap";
 import {
   conflictCurrent, deleteItem, fetchPlan, patchItem, postItem, putMeeting, putMemo,
 } from "../client";
@@ -142,6 +143,7 @@ function MeetingCard({ plan, ro, busy, run, groupId }: Common) {
               </Text>
             )}
             {m.spot && <Text size="sm">場所: {m.spot.name}({m.spot.area})</Text>}
+            {m.spot && <DummyJapanMap height={200} markers={[{ label: m.spot.name }]} caption="集合場所のイメージ" />}
             {m.text && <Text size="sm" style={{ whiteSpace: "pre-wrap" }}>{m.text}</Text>}
             {m.updatedBy && <Text size="xs" c="dimmed">最終更新: {m.updatedBy.displayName}</Text>}
           </Stack>
