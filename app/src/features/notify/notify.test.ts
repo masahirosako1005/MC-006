@@ -57,8 +57,8 @@ describe("notify", () => {
       recipients: [{ type: "groupMembers" }],
     });
     const p = r.created[0].params as { summaryText?: string };
-    expect(p.summaryText).toBe("20代2人、30代1人");
-    expect(renderNotification(r.created[0]).body).toContain("参加者の概要: 20代2人、30代1人");
+    expect(p.summaryText).toBe("参加者 3 人(人数が少ないため年代は表示しません)"); // 4 人未満は年代を出さない(契約・09)
+    expect(renderNotification(r.created[0]).body).toContain("参加者の概要: 参加者 3 人");
   });
 
   it("不正な params と eventKey は invalid_input、存在しないグループは not_found", () => {

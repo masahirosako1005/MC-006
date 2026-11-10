@@ -1,12 +1,7 @@
 // P-3-16 API の通し試験(主ルート)。契約 16.1、JOIN-T-39、LCY-T-73、EXP-T-45。
 // 2A の範囲(作成・一覧・申請・承認・時計による遷移)は実物で通す。2B 未マージの API は skip。
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
-// 11 公式枠(P-2-14、Wave 2B)が未マージのため、バッジ取得だけ空で代替する。
-vi.mock("@/features/official/service", async (orig) => ({
-  ...(await orig<object>()),
-  getOfficialBadges: () => ({}),
-}));
 import { callRoute, resetForTest } from "../helpers";
 import { USER } from "../fixtures";
 import { db } from "@/lib/groups-store";
@@ -19,6 +14,18 @@ import { POST as cancel } from "@/app/api/groups/[groupId]/cancel/route";
 import { POST as replan } from "@/app/api/groups/[groupId]/replan/route";
 import { GET as listNotifications } from "@/app/api/me/notifications/route";
 import { POST as postClock } from "@/app/api/demo/clock/route";
+import { POST as postPlanItem } from "@/app/api/groups/[groupId]/plan/items/route";
+import { GET as getPlan } from "@/app/api/groups/[groupId]/plan/route";
+import { POST as postMessage, GET as listMessages } from "@/app/api/groups/[groupId]/messages/route";
+import { POST as addExpense } from "@/app/api/groups/[groupId]/expenses/route";
+import { GET as expenseSummary } from "@/app/api/groups/[groupId]/expense-summary/route";
+import { POST as postStamp } from "@/app/api/groups/[groupId]/stamps/route";
+import { PUT as putMemo } from "@/app/api/groups/[groupId]/review/memo/route";
+import { PUT as putSurvey } from "@/app/api/groups/[groupId]/review/survey/route";
+import { GET as getReview } from "@/app/api/groups/[groupId]/review/route";
+import { GET as getStats } from "@/app/api/stats/route";
+import { GET as getInsights } from "@/app/api/insights/route";
+import seed from "@/data/seed.json";
 
 const advanceTo = (at: string) => callRoute(postClock, "/api/demo/clock", { body: { action: "set", at } });
 const statusOf = (id: string) => db().groups.get(id)!.lifecycle.status;
@@ -86,12 +93,89 @@ describe("主ルート(2A の範囲)", () => {
     expect(statusOf(gid)).toBe("cancelled");
   });
 
-  // 以下は 2B(または P-2-11 の lifecycle ハンドラ・通知生成)のマージ後に有効化する。
-  it.skip("GET lifecycle / 幹事の中止 / 再企画 / 再申請(04 ハンドラ・replan 未実装)", async () => {
-    void getLifecycle; void cancel; void replan;
+  it("GET lifecycle / 幹事の中止 / 再企画 / 再申請", async () => {
+    const gid = await createAndFill();
+    await joinAndApprove(gid, USER.kenta);
+    const lc = await callRoute(getLifecycle, `/api/groups/${gid}/lifecycle`, { user: USER.misaki, params: { groupId: gid } });
+    expect(lc.status, JSON.stringify(lc.body)).toBe(200);
+    const c = await callRoute(cancel, `/api/groups/${gid}/cancel`, {
+      user: USER.misaki, body: { reason: "schedule_conflict" }, params: { groupId: gid },
+    });
+    expect(c.status, JSON.stringify(c.body)).toBe(200);
+    expect(statusOf(gid)).toBe("cancelled");
+    const before = db().groups.count(() => true);
+    const r = await callRoute(replan, `/api/groups/${gid}/replan`, {
+      user: USER.misaki, params: { groupId: gid },
+      body: { startDate: "2026-11-28", endDate: "2026-11-29", deadlineDate: "2026-11-20" },
+    });
+    expect(r.status, JSON.stringify(r.body)).toBe(201);
+    const newId: string = r.body.groupId;
+    expect(newId).toBeTruthy();
+    expect(db().groups.count(() => true)).toBe(before + 1);
+    expect(statusOf(newId)).toBe("recruiting");
+    // F-002: recordCreated が二重にならない
+    const logs = db().groupStatusLogs.filter((l) => l.groupId === newId);
+    expect(logs.length, JSON.stringify(logs)).toBe(1);
+    await joinAndApprove(newId, USER.kenta);
+    expect(statusOf(newId)).toBe("min_reached");
   });
-  it.skip("主な通知の発生(notify() 未実装)", async () => {
-    void listNotifications;
+
+  it("主な通知が通知 API から見える", async () => {
+    const gid = await createAndFill();
+    await joinAndApprove(gid, USER.kenta);
+    const org = await callRoute(listNotifications, "/api/me/notifications", { user: USER.misaki });
+    expect(org.status, JSON.stringify(org.body)).toBe(200);
+    expect(JSON.stringify(org.body)).toContain("join_requested");
+    const mem = await callRoute(listNotifications, "/api/me/notifications", { user: USER.kenta });
+    expect(JSON.stringify(mem.body)).toContain("join_approved");
   });
-  it.todo("旅程メモ・チャット・費用メモ・スタンプ・振り返り(05〜08 のマージ後)");
+
+  it("実施中の 旅程・チャット・費用・スタンプ・振り返り → 完了 → stats / insights", async () => {
+    const gid = await createAndFill();
+    await joinAndApprove(gid, USER.kenta);
+    await advanceTo("2026-11-20T09:00:00+09:00");
+    expect(statusOf(gid)).toBe("in_progress");
+    const p = { groupId: gid };
+    const base = `/api/groups/${gid}`;
+    const item = await callRoute(postPlanItem, `${base}/plan/items`, {
+      user: USER.misaki, params: p, body: { date: "2026-11-20", time: "10:00", title: "朝市へ行く" },
+    });
+    expect(item.status, JSON.stringify(item.body)).toBe(201);
+    const plan = await callRoute(getPlan, `${base}/plan`, { user: USER.kenta, params: p });
+    expect(plan.status, JSON.stringify(plan.body)).toBe(200);
+    expect(JSON.stringify(plan.body)).toContain("朝市へ行く");
+    const msg = await callRoute(postMessage, `${base}/messages`, {
+      user: USER.kenta, params: p, body: { kind: "normal", body: "よろしくお願いします" },
+    });
+    expect(msg.status, JSON.stringify(msg.body)).toBe(201);
+    const msgs = await callRoute(listMessages, `${base}/messages`, { user: USER.misaki, params: p });
+    expect(JSON.stringify(msgs.body)).toContain("よろしくお願いします");
+    const ex = await callRoute(addExpense, `${base}/expenses`, {
+      user: USER.misaki, params: p,
+      body: { title: "ランチ", amount: 3000, payerId: USER.misaki, targetIds: [USER.misaki, USER.kenta], spentOn: "2026-11-20" },
+    });
+    expect(ex.status, JSON.stringify(ex.body)).toBe(201);
+    const sum = await callRoute(expenseSummary, `${base}/expense-summary`, { user: USER.kenta, params: p });
+    expect(sum.status, JSON.stringify(sum.body)).toBe(200);
+    const kw = (seed.spots as unknown as { keyword: string }[])[0].keyword;
+    const st = await callRoute(postStamp, `${base}/stamps`, { user: USER.misaki, params: p, body: { keyword: kw } });
+    expect(st.status, JSON.stringify(st.body)).toBe(201);
+    const memo = await callRoute(putMemo, `${base}/review/memo`, {
+      user: USER.misaki, method: "PUT", params: p, body: { body: "楽しかった" },
+    });
+    expect(memo.status, JSON.stringify(memo.body)).toBe(200);
+    const survey = await callRoute(putSurvey, `${base}/review/survey`, {
+      user: USER.misaki, method: "PUT", params: p,
+      body: { satisfaction: 5, planClarity: 4, wantAgain: "yes", localInteraction: 4, localExploration: 5 },
+    });
+    expect(survey.status, JSON.stringify(survey.body)).toBe(200);
+    const rev = await callRoute(getReview, `${base}/review`, { user: USER.misaki, params: p });
+    expect(rev.status, JSON.stringify(rev.body)).toBe(200);
+    await advanceTo("2026-11-22T09:00:00+09:00");
+    expect(statusOf(gid)).toBe("completed");
+    const stats = await callRoute(getStats, "/api/stats", { user: USER.municipalA });
+    expect(stats.status, JSON.stringify(stats.body)).toBe(200);
+    const ins = await callRoute(getInsights, "/api/insights", { user: USER.businessOwner });
+    expect(ins.status, JSON.stringify(ins.body)).toBe(200);
+  });
 });

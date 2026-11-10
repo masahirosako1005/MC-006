@@ -14,12 +14,12 @@
 ### 高(主ルートの体験に影響)
 
 - [ ] F-001 通し試験の skip を有効化する: 中止 → 再企画 → 再申請、lifecycle の GET、通知 API 経由の確認。04 の handlers・view・replan と 11 の getOfficialBadges は、P-3-16 の実行後にマージ済みなので、skip を外して実物で通す / P-3-16 / 高
-- [ ] F-002 `replan` が呼ぶ `recordCreated` と、01 の `createGroupInternal` が内部で呼ぶ `recordCreated` が二重になる可能性。通し試験で確認 / P-2-12 / 高
-- [ ] F-003 04 の `register.ts` が `beforeRequest` で `evaluateAll` を実行する。本体が揃った統合状態で、route() 経由の全試験が通るか確認(LCY-T-73: seed が評価で変わらない) / P-2-10 / 高
+- [x] F-002 `replan` が呼ぶ `recordCreated` と、01 の `createGroupInternal` が内部で呼ぶ `recordCreated` が二重になる可能性。通し試験で確認 / P-2-12 / 高
+- [x] F-003 04 の `register.ts` が `beforeRequest` で `evaluateAll` を実行する。本体が揃った統合状態で、route() 経由の全試験が通るか確認(LCY-T-73: seed が評価で変わらない) / P-2-10 / 高
 - [ ] F-004 統合後の全体試験(`npm test`)と G-B を 1 回通す。各タスクは他モジュールを `vi.mock` で代替して試験したため、実物同士の結合は未確認 / 全体 / 高
 - [ ] F-005 画面は未実装(Wave 3 の P-3-2、3-4〜3-15 が未着手。P-3-1、P-3-3 は実行中または未マージ)。`/groups`、`/new-group`、`/notifications` は 404 のまま / Wave 3 / 高
 
-- [ ] F-028 `GET /api/groups` が `internal` を返した(P-3-3 の確認時。マージ前の古い状態での結果の可能性)。再開時に最初に再確認し、一覧画面(`/nttw-demo/groups`)に実データが出ることを確認 / P-3-3 / 高
+- [x] F-028 `GET /api/groups` が `internal` を返した(P-3-3 の確認時。マージ前の古い状態での結果の可能性)。再開時に最初に再確認し、一覧画面(`/nttw-demo/groups`)に実データが出ることを確認 / P-3-3 / 高
 
 ### 中
 
@@ -49,3 +49,6 @@
 - [ ] F-026 seed 再生成で `src/data/*.json` に差分(改行コードの可能性)。`.gitattributes` の LF 固定を検討 / W1-gate / 低
 - [ ] F-027 `docs/plan/tasks.md` の件数表記: 作成済みモックは 25 画面 + BIZ-02 で、依頼文の「22 画面」と合わない / P-0-8 / 低
 
+- [x] F-029 notify.test の confirmed 期待値を修正(3 人は 4 人未満のため年代を出さないのが契約どおり) / P-3-16 / 低
+- [x] F-031 seed の confirmed 通知(n-001)が summaryText を持たず GET /api/me/notifications が 500 になった。render.ts で補完して修正 / P-3-16 / 高
+- [ ] F-032 seed 通知の params を build 側で summaryText 付きに揃える(render の補完は暫定) / P-3-16 / 低
