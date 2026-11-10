@@ -9,6 +9,7 @@ import { ErrorNotice } from "@/components/groups/common/ErrorNotice";
 import { AreaSelect } from "./AreaSelect";
 import { InsightForbidden } from "./InsightForbidden";
 import { InsightNotice } from "./InsightNotice";
+import { TrendCharts } from "./TrendCharts";
 import { SuggestionList } from "./SuggestionList";
 import { cellNum, cellText } from "./cell";
 import { useInsightForecast, useInsightSuggestions } from "./use-insights";
@@ -47,6 +48,8 @@ export function InsightsDashboard() {
           <div><Text size="xs" c="dimmed">見込みの確度</Text><Badge color="gray" variant="light">参考値</Badge></div>
         </SimpleGrid>
       </Card>
+
+      <TrendCharts trend={f.data.trend} />
 
       <Card withBorder>
         <Title order={4} mb="sm">提案</Title>
