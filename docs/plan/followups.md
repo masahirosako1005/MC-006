@@ -64,3 +64,5 @@
 - [x] F-029 notify.test の confirmed 期待値を修正(3 人は 4 人未満のため年代を出さないのが契約どおり) / P-3-16 / 低
 - [x] F-031 seed の confirmed 通知(n-001)が summaryText を持たず GET /api/me/notifications が 500 になった。render.ts で補完して修正 / P-3-16 / 高
 - [ ] F-032 seed 通知の params を build 側で summaryText 付きに揃える(render の補完は暫定) / P-3-16 / 低
+- [ ] F-100 insights UI は週別の表・提案カード・エリア選択のみ。グラフ(WeeklyForecastChart)・年代別・エリア別・過去プロフィールはスタブのまま。画面は Mantine の標準部品で、モックの CSS(biz01-*)は未再現 / P-3-15 / 低
+- [ ] F-101 insights UI の見込み概要は表示期間の週合計から算出(モックの「実行確定/募集中の内訳」「最も多い年代帯」は未表示)。ブラウザでの描画確認は未実施(HTTP 200 と API 応答のみ確認) / P-3-15 / 低
