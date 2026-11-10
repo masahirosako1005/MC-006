@@ -336,7 +336,7 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: `kind` による出し分け、`?tab=` のタブ(05〜08 の部品を配置)、04 の `LifecyclePanel`・`WithdrawButton` の配置、`NotificationBell` の配置、元メンバーの表示。設計: 01 GRP-TASK-16・17
   - 画面: `traveler/group-hub.html`、`group-members.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-3 02 グループ一覧(M)
+- [*] P-3-3 02 グループ一覧(M)
   - ブランチ: `agent/w3-ui-group-list` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/discovery/ui/`(一覧・絞り込みの部品とフック)、`A/[campaign]/groups/page.tsx`
   - 内容: カード、地方・日程・空き・公式・タグ・キーワードの絞り込み、URL 状態、空状態。年代・提案・ページネーションは余力。設計: 02 DSC-TASK-13〜15
@@ -414,7 +414,7 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: エリアの選択、提案カード、週別の見込み(表)。グラフ・年代別・エリア別の表は余力。設計: 13 INS-TASK-11・12
   - 画面: `business/demand-forecast.html`、`proposal-detail.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-16 API の通し試験(主ルート)(M)
+- [*] P-3-16 API の通し試験(主ルート)(M)
   - ブランチ: `agent/w3-api-scenario` / 並行: 並行可 / 前提: Wave 2
   - 対象: `app/src/test/scenario/*.test.ts`(新規)
   - 内容: `callRoute` で主ルートを通す: 作成 → 一覧 → 申請 → 承認(最少人数到達)→ 時計を進めて辞退期間 → 実行確定 → 実施中(旅程・チャット・費用・スタンプ・振り返り)→ 完了 → `/api/stats`・`/api/insights`。中止 → 再企画 → 再申請も 1 本。主な通知の発生を確かめる。主ルートが止まる不具合だけを直し、他は FollowUp に記録する。設計: 契約 16.1、03 JOIN-T-39、04 LCY-T-73、07 EXP-T-45
