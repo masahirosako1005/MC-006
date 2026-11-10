@@ -64,3 +64,6 @@
 - [x] F-029 notify.test の confirmed 期待値を修正(3 人は 4 人未満のため年代を出さないのが契約どおり) / P-3-16 / 低
 - [x] F-031 seed の confirmed 通知(n-001)が summaryText を持たず GET /api/me/notifications が 500 になった。render.ts で補完して修正 / P-3-16 / 高
 - [ ] F-032 seed 通知の params を build 側で summaryText 付きに揃える(render の補完は暫定) / P-3-16 / 低
+- [ ] F-090 12 集計の時系列グラフ・ファネル・アンケート・流入(種別/入口)・スポット・年代・人数分布は未実装(余力)。ChartTableToggle は未使用 / P-3-14 / 低
+- [ ] F-091 12 集計の指標名・ヒント文言を messages.ts に未集約(直書き)。期間クイック切替(3/6/12か月)未実装 / P-3-14 / 低
+- [ ] F-092 /admin/stats は自治体ユーザー以外だと 403 の ForbiddenNotice のみ(ロール切替導線なし) / P-3-14 / 低
