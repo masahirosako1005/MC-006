@@ -56,3 +56,6 @@
 - [ ] F-062 申請が多い場合のページング未対応 / P-3-5 / 低
 - [ ] F-063 条件変更時の再同意フロー(condition_changed)未実装、エラー表示のみ / P-3-5 / 中
 - [ ] F-064 幹事以外が /requests を開いたときの 403 説明が汎用文のまま / P-3-5 / 低
+- [ ] F-040 元メンバー(辞退・退会者)の一覧が API に無く、MemberList は注記のみ表示 / P-3-2 / 低
+- [ ] F-041 PublicGroupDetailScreen の onApply 遷移先 /apply は仮(P-3-4 で確認) / P-3-2 / 中
+- [ ] F-042 notify.test.ts「confirmed は summaryText を付ける」が失敗(P-3-2 無関係) / P-3-2 / 中
