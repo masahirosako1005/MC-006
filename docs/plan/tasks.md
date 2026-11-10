@@ -348,7 +348,7 @@ P-0-1 → P-0-2 は直列(主経路)。P-0-3〜P-0-8 は P-0-1 と同時に起�
   - 内容: 参加前詳細(`JoinRequestPanel` を配置)、コード入力 → プレビュー → 申請(コードは state のみ。契約 7.2)。設計: 02 DSC-TASK-16・17
   - 画面: `traveler/group-detail-public.html`、`invite-code.html`
   - 完了条件: G-B。`npm run dev` でページが開き、モックの主要な要素と対応する
-- [ ] P-3-5 03 申請パネル・幹事の承認画面(M)
+- [*] P-3-5 03 申請パネル・幹事の承認画面(M)
   - ブランチ: `agent/w3-ui-join` / 並行: 並行可 / 前提: Wave 2
   - 対象: `F/groups/join/components/*`、`A/[campaign]/groups/[groupId]/requests/page.tsx`
   - 内容: `JoinRequestPanel`・申請ダイアログ(最少人数への同意)・申請状況、承認・見送り。設計: 03 JOIN-TASK-13・14
