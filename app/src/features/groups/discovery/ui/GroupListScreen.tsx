@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Alert, Badge, Box, Button, Drawer, Group, SegmentedControl, Select, SimpleGrid, Skeleton, Stack, Text, TextInput, Title } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useGroupsApi } from "@/lib/groups-api";
-import { DummyJapanMap } from "@/components/DummyJapanMap";
 import type { MeResponse } from "@/lib/groups-types";
 import { LoadingBlock } from "@/components/groups/common/LoadingBlock";
 import { ErrorNotice } from "@/components/groups/common/ErrorNotice";
@@ -125,7 +124,6 @@ export function GroupListScreen({ campaign }: GroupListScreenProps) {
                   </Group>
                   <SegmentedControl size="xs" value={mode} onChange={(v) => setMode(v as "list" | "map")} aria-label="表示切替"
                     data={[{ label: "リスト", value: "list" }, { label: "地図で見る", value: "map" }]} />
-                  {mode === "list" && <DummyJapanMap height={180} highlightRegions={filter.region ? [filter.region] : (regions ?? []).map((r) => r.id)} onSelectRegion={(id) => update({ region: id })} caption="地方で絞り込み" />}
                   <Text size="sm" role="status" aria-live="polite">
                     {loading ? "検索中" : data ? `${data.total} 件のグループが見つかりました` : ""}
                   </Text>
