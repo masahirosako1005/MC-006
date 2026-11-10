@@ -1,8 +1,8 @@
 ---
 name: demo
-description: プレゼン用の 3 分デモを、chrome-devtools で AI がブラウザ操作し、音声(日本語 TTS)で解説しながら実行する。/demo [start | prep | mute | reset | step | chapter N]
+description: プレゼン用の 3 分デモを、chrome-devtools で AI がブラウザ操作し、音声(日本語 TTS)で解説しながら実行する。/demo [start | prep | mute | reset | step | chapter N] [voice=sapi|voicevox]
 disable-model-invocation: true
-argument-hint: "[start | prep | mute | reset | step | chapter N]"
+argument-hint: "[start | prep | mute | reset | step | chapter N] [voice=sapi|voicevox]"
 ---
 
 # /demo(3 分デモの実行)
@@ -22,6 +22,7 @@ argument-hint: "[start | prep | mute | reset | step | chapter N]"
 | `reset` | データとユーザーの初期化のみ(operation.md 第1章のウォームアップ後半) |
 | `step` | 部 1・部 2・部 3 を 1 つずつ実行し、部ごとにプレゼンターの「次へ」を待つ |
 | `chapter N` | 第4章の部 N だけを実行(N = 1, 2, 3) |
+| `voice=sapi` / `voice=voicevox` | 音声エンジンを強制する。全ての `speak.ps1` に `-Engine sapi`(または `voicevox`)を付ける(例 `/demo start voice=sapi`)。省略時は auto(VOICEVOX が応答すれば VOICEVOX、無ければ SAPI)。声は `-Speaker`(既定 ずんだもん)。画面の隅かスライド末尾に「音声: VOICEVOX:ずんだもん」を表示する |
 
 ## 下準備(`start` / `prep`)
 
