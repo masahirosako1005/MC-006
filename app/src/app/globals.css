@@ -18,7 +18,3 @@ html, body { margin: 0; height: 100%; font-family: var(--mantine-font-family); b
 .stamp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .stamp { aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; text-align: center; font-size: 10px; line-height: 1.2; padding: 4px; border: 2px dashed #adadad; color: #757575; }
 .stamp[data-on="true"] { border: 2px solid var(--main-color); background: var(--sub-color); color: var(--on-sub-color); font-weight: 700; }
-.map { position: relative; width: 100%; aspect-ratio: 1; border-radius: 12px; background: linear-gradient(160deg, #cfe6f7, #e8f4ea); overflow: hidden; }
-.map a { position: absolute; transform: translate(-50%, -100%); font-size: 11px; text-decoration: none; color: #1a1a1a; text-align: center; }
-.map a b { display: block; width: 18px; height: 18px; margin: 0 auto 2px; border-radius: 50% 50% 50% 0; rotate: -45deg; background: var(--main-color); border: 2px solid #fff; }
-.map a[data-on="true"] b { background: #2fa36b; }

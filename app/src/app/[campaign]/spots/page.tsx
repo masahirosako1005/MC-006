@@ -56,13 +56,6 @@ export default function Spots() {
             <Badge key={s.id} component="button" type="button" variant={s.id === selId ? "filled" : "light"} color={s.acquired ? "green" : "orange"} style={{ cursor: "pointer" }} onClick={() => setSelId(s.id)}>{s.stampName}</Badge>
           ))}
         </Group>
-        <div className="map" role="group" aria-label="イラストマップ">
-          {list.map((s) => (
-            <Link key={s.id} href={`/${slug}/spots/detail?id=${s.id}`} data-on={s.acquired} style={{ left: `${s.map.x}%`, top: `${s.map.y}%` }}>
-              <b />{s.stampName}
-            </Link>
-          ))}
-        </div>
         </>
       ) : (
         list.map((s) => (
