@@ -1,6 +1,6 @@
 ---
 name: demo
-description: プレゼン用の 3 分デモを、chrome-devtools で AI がブラウザ操作し、音声(日本語 TTS)で解説しながら実行する。/demo [start | prep | mute | reset | step | chapter N] [voice=sapi|voicevox]
+description: プレゼン用の 3 分デモを、chrome-devtools でブラウザ内のランナーを呼び、音声(VOICEVOX)で解説しながら実行する。/demo [start | prep | mute | reset | step | chapter N] [voice=sapi|voicevox]
 disable-model-invocation: true
 argument-hint: "[start | prep | mute | reset | step | chapter N] [voice=sapi|voicevox]"
 ---
@@ -11,36 +11,39 @@ argument-hint: "[start | prep | mute | reset | step | chapter N] [voice=sapi|voi
 
 ## 最初にやること
 
-1. `docs/demo/operation.md`、`docs/demo/scenario.md`、`docs/demo/narration.md` を Read する(手順・台詞・待ちの詳細はここにある。ここには書き写さない)。
+1. `docs/demo/operation.md`、`docs/demo/scenario.md`、`docs/demo/narration.md` を Read する(手順・台詞・待ちの詳細はここにある。ここには書き写さない)。ランナーは `docs/demo/runner.js`。
 2. 引数を判定する(下表)。
 
 | 引数 | 動作 |
 | --- | --- |
-| なし / `start` | 下準備 → 音声テスト → プレゼンターの「開始」を待つ → 3 分デモをノンストップで実行 |
-| `prep` | 下準備のみ(サーバー、ブラウザ、ウォームアップ、初期化、音声テスト、待機画面) |
-| `mute` | 音声なし。全ての `speak.ps1` に `-Mute` を付ける(`start` と併用可: `/demo start mute`) |
-| `reset` | データとユーザーの初期化のみ(operation.md 第1章のウォームアップ後半) |
-| `step` | 部 1・部 2・部 3 を 1 つずつ実行し、部ごとにプレゼンターの「次へ」を待つ |
-| `chapter N` | 第4章の部 N だけを実行(N = 1, 2, 3) |
-| `voice=sapi` / `voice=voicevox` | 音声エンジンを強制する。全ての `speak.ps1` に `-Engine sapi`(または `voicevox`)を付ける(例 `/demo start voice=sapi`)。省略時は auto(VOICEVOX が応答すれば VOICEVOX、無ければ SAPI)。声は `-Speaker`(既定 ずんだもん)。画面の隅かスライド末尾に「音声: VOICEVOX:ずんだもん」を表示する |
+| なし / `start` | 下準備 → プレゼンターの「開始」を待つ → ランナーを部ごとに呼んで、3 分デモをノンストップで実行 |
+| `prep` | 下準備のみ(サーバー、ブラウザ、ウォームアップ、初期化、待機画面、ランナー注入、台詞の先読み) |
+| `mute` | 音声なし。先読みを `{mute:true}` で呼ぶ(台詞の長さ ÷ 6 秒だけ待つ)。`start` と併用可: `/demo start mute` |
+| `reset` | データとユーザーの初期化のみ(operation.md 第1章のウォームアップ後半)→ `/new-group` へ戻る |
+| `step` | 部 1・部 2・部 3 の `run(N)` を 1 つずつ実行し、部ごとにプレゼンターの「次へ」を待つ |
+| `chapter N` | `run(N)` だけを実行(N = 1, 2, 3) |
+| `voice=sapi` | ブラウザ再生を使わず、**付録 A のフォールバック手順**(操作ごとの呼び出し + `speak.ps1 -Engine sapi`)で実行する。`voice=voicevox` は通常のランナー方式(既定) |
 
 ## 下準備(`start` / `prep`)
 
 - デモ用ポート(既定 6231)に接続できるか確認する(`curl`)。未起動なら、operation.md 第1章に従い `app/` で `NEXT_TELEMETRY_DISABLED=1 mise exec -- npm run build` → `npx next start -p 6231` を**バックグラウンド起動**し、PID を控える。build 済みなら起動のみ。
 - ToolSearch で chrome-devtools の各ツールを読み込む。**共有ブラウザなので、デモ専用の新しいページ**(`new_page`、`isolatedContext="demo"`)を開き、`pageId` を固定する。他のページは触らない。
-- `resize_page`(430×860)、ウォームアップ、**初期化**、`/new-group` で待機、uid の取得、音声テスト(`speak.ps1 -Text "音声のテストです。"`。終了コード 0 を確認)。
+- `resize_page`(430×860)、ウォームアップ、**初期化**、`/new-group` で待機。
+- **ランナーの注入と先読み**(operation.md 第1章 #8〜#9): `evaluate_script(format="script", sourcePath=<docs/demo/runner.js の絶対パス>)` → `evaluate_script(function="async () => await window.__demo.prefetch({mute:false})")`。戻り値で `ctx:"running"`、`fail:[]`、`total`(全台詞の秒数)を確認する。**再読み込みしない**(ランナーと先読みが消える。消えたら注入と先読みをやり直す)。
 - 準備ができたら「準備完了です。『開始』と言ってください」と短く伝えて待つ。
 
-## 実行ルール
+## 実行ルール(ランナー方式)
 
-- 3 分版は**ノンストップ**(`step` を除く)。プレゼンターの「開始」を受けたら、operation.md 第4章の手順表(4.1)を #1 から、上から順に実行する。
-- **台詞駆動(直列)**: 「操作(O)→ 画面が安定するまで待つ(間)→ 台詞(S)を**同期(フォアグラウンド)**で再生 → 次の操作」。台詞は `run_in_background` で起動しない(`speak.ps1` は再生が終わるまで戻る)。台詞の再生中は画面を動かさない。台詞が説明する画面の変化は、その台詞を言い始める前に起こす。O と S は、**同じ応答に並べず、1 呼び出しずつ**(戻ってから次を呼ぶ)。台詞の前に 0.8〜1 秒の間(`Start-Sleep`)を入れる。台詞と画面の対応は 4.2 の対応表。
-- 操作スクリプトは operation.md 4.3 のものをそのまま使う(uid が要るのはフォーム入力だけ。下準備の `take_snapshot` で取る)。
-- 総時間の目標は 180 秒。直列方式は、現状、約 265 秒(operation.md の検証メモ。短縮案あり)。超過は隠さず報告する。
-- サービス名は **Kopa**(台詞では「こぱあ」)。テーマは「地方都市と人、そして人と人をつなぐ」(N0 で説明)。
-- 失敗したら operation.md 第6章に従い、**デモを止めない**(1 回だけ再試行 → だめなら飛ばして台詞を続ける。代替はスクリーンショット)。
-- 「止めて」と言われたら、新しい操作と台詞の起動をやめる。
-- 終了後、台詞の終了コードを確認し、所要時間を報告する。**起動したサーバーを PID 指定で停止してよいか確認**してから止める(全 node の一括終了は禁止)。
+- プレゼンターの「開始」を受けたら、`evaluate_script(function="async () => await window.__demo.run(1)")` → 戻ったらすぐ `run(2)` → `run(3)`(部ごとに 1 回、計 3 回)。各呼び出しは、その部の「操作 → 間 → 台詞(再生が終わるまで待つ)→ 次の操作」を、ページ内で直列に進める。**台詞の最中は画面を動かさない**(ランナーが await で保証)。MCP の往復は部の間だけ。
+- 3 回の呼び出しの間に、余計な応答(説明の文章、確認)を挟まない。`step` のときだけ、部ごとにプレゼンターの「次へ」を待つ。
+- `chapter 2` / `chapter 3` は、部の先頭でユーザー切替を行うので、単独でも動く(部 1 を通していないと、部 1 のグループは予定に載らないだけ)。
+- `reset`: ウォームアップ後半(`/api/demo/reset` と `setU('u-001')`)→ `router.push('/nttw-demo/new-group')`(ランナーは残る)。
+- 音声が出ない・`prefetch` が失敗する・`ctx` が `running` にならない場合は、`voice=sapi` と同じく付録 A のフォールバック手順に切り替える。
+- 完了後、`run` の戻り値の `log` から総時間(開始〜最後の台詞の終了)を報告する。目標は 180 秒以内。超過は隠さず報告する。最後に `evaluate_script("() => window.__demo.finish()")` でクレジット表示を消す。
+- サービス名は **Kopa**(台詞では「こぱあ」)。テーマは「地方都市と人、そして人と人をつなぐ」(N0 で説明)。クレジット「音声: VOICEVOX:ずんだもん」はランナーが画面の隅に出す。
+- 失敗しても**デモを止めない**(ランナーは操作の失敗を `log` の `err` に残して次へ進む)。`err` があれば報告する。
+- 「止めて」と言われたら、次の部の `run` を呼ばない(実行中の部は、ページ内で終わるまで進む)。
+- 終了後、**起動したサーバーを PID 指定で停止してよいか確認**してから止める(全 node の一括終了は禁止)。
 
 ## 禁止事項
 
