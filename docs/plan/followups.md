@@ -49,3 +49,6 @@
 - [ ] F-026 seed 再生成で `src/data/*.json` に差分(改行コードの可能性)。`.gitattributes` の LF 固定を検討 / W1-gate / 低
 - [ ] F-027 `docs/plan/tasks.md` の件数表記: 作成済みモックは 25 画面 + BIZ-02 で、依頼文の「22 画面」と合わない / P-0-8 / 低
 
+- [ ] F-050 参加前詳細: モックの席(seat)表示・ヘッダー用パンくず・通報ボタン・申請済み/参加済みの見本バリアントは未実装。参加中(kind=member)は暫定の1行表示で、参加後ハブ(TRV-12)で置換が必要 / P-3-4 / 低
+- [ ] F-051 `app/src/features/notify/notify.test.ts` の「confirmed は summaryText を付ける」が失敗(memberSummary の文言期待値の不一致)。P-3-4 の変更とは無関係 / P-3-4 / 中
+- [ ] F-052 `groups/[groupId]/page.tsx` を P-3-4 が新設(参加前詳細のみ)。ハブ担当のタスクと同じパスで衝突する場合は kind で出し分けて統合 / P-3-4 / 中
