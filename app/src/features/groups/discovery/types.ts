@@ -49,6 +49,7 @@ export type ViewerRelation = "organizer" | "member" | "requested" | "none";
 export interface GroupSummary {
   id: Id;
   name: string;
+  description: string;
   campaign: string;
   region: { id: Id; name: string };
   trip: Trip;
